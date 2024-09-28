@@ -148,10 +148,10 @@
 
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
-                                                <span class="prod-info__price">@Model.FormattedPrice(true)<sup>₫</sup></span>
+                                                <span class="prod-info__price">@Model.FormattedPrice(true)</span>
                                                 <span class="prod-info__tax">@Model.DiscountPercentage()%</span>
                                             </div>
-                                            <span class="prod-info__totle-price">@Model.FormattedPrice()<sup>₫</sup></span>
+                                            <span class="prod-info__totle-price">@Model.FormattedPrice()</span>
                                             <div class="prod-info__row">
                                                 <input type="hidden" name="product" value="@Model.ProductId" />
                                                 <button class="btn btn--primary prod-info__add-to-cart" type="submit">

@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -44,17 +45,20 @@ namespace Store_EF.Models.Extensions
                 return 0;
         }
 
-        public static string FormattedPrice(this Product p, bool original = false)
+        public static string FormattedPrice(this Product p, bool original = false, int quantity = 1)
         {
-            if (original)
-            {
-                return p.Price.ToString("N0", System.Globalization.CultureInfo.InvariantCulture).Replace(",", ".");
-            }
-
-            if (p.PromoPrice.HasValue)
-                return p.PromoPrice.Value.ToString("N0", System.Globalization.CultureInfo.InvariantCulture).Replace(",", ".");
+            NumberFormatInfo nfi = new CultureInfo("vi-VN", false).NumberFormat;
+            if (original || !p.PromoPrice.HasValue)
+                return (p.Price * quantity).ToString("C0", nfi).Replace(",", ".");
             else
-                return p.Price.ToString("N0", System.Globalization.CultureInfo.InvariantCulture).Replace(",", ".");
+                return (p.PromoPrice.Value * quantity).ToString("C0", nfi).Replace(",", ".");
+        }
+
+        public static int AutoPrice(this Product p, int quantity = 1) { 
+            if (p.PromoPrice.HasValue)
+                return p.PromoPrice.Value * quantity;
+            else
+                return p.Price * quantity;
         }
 
         public static bool AddToDb(this Product p, StoreEntities store, out int productId)

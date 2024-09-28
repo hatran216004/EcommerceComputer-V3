@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using Store_EF.Models;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Store_EF.Controllers
@@ -13,7 +14,8 @@ namespace Store_EF.Controllers
         {
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
-            return View(store.Carts);
+            int userId = int.Parse(Session["UserId"].ToString());
+            return View(store.Carts.Where(x => x.UserId == userId));
 
         }
 
@@ -27,12 +29,20 @@ namespace Store_EF.Controllers
             else
             {
                 int userId = int.Parse(Session["UserId"].ToString());
-                store.Carts.Add(new Cart()
+                if (store.Carts.Where(x => x.UserId == userId && x.ProductId == product.Value).Count() == 0)
                 {
-                    UserId = userId,
-                    ProductId = product.Value,
-                    Quantity = 1
-                });
+                    store.Carts.Add(new Cart()
+                    {
+                        UserId = userId,
+                        ProductId = product.Value,
+                        Quantity = 1
+                    });
+                }
+                else
+                {
+                    Cart cart = store.Carts.Where(x => x.UserId == userId && x.ProductId == product.Value).First();
+                    cart.Quantity += 1;
+                }
                 try
                 {
                     store.SaveChanges();
