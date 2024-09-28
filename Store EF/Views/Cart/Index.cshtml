@@ -1,14 +1,9 @@
 ﻿@using Store_EF.Models
+@using Store_EF.Models.Extensions;
 @model IEnumerable<Cart>
 @{
     ViewBag.Title = "Cart";
 }
-
-@*@foreach (Cart c in Model)
-    {
-        <p>@c.ProductId | @c.Quantity</p>
-
-    }*@
 
 <link href="~/Public/css/cart.css" rel="stylesheet" />
 <div class="cart container">
@@ -38,56 +33,56 @@
             <div class="cart__main-title-item">Tổng cộng</div>
         </div>
         <div class="cart__main-listitem">
-            <div class="cart__main-items">
-                <!-- Sản phẩm -->
-                <div class="cart__main-item">
-                    <div class="cart__main-product">
-                        <img class="cart__main-product-thumbnail"
-                             src="~/Public/Imgs/product-1.svg"
-                             alt="Product Image" />
-                        <p class="cart__main-product-name">
-                            LCD Monitor Monitor ...
-                        </p>
-                    </div>
-                </div>
-                <!-- Giá sản phẩm -->
-                <div class="cart__main-item">
-                    <div class="cart__main-price">
-                        <span class="cart__price-product">5000000</span>
-                        <span>VND</span>
-                    </div>
-                </div>
-                <!-- Số lượng -->
-                <div class="cart__main-item">
-                    <div class="cart__main-quantity-warp">
-                        <div class="cart__main-quantity">
-                            <input class="cart__main-quantity-input"
-                                   type="number"
-                                   value="10"
-                                   min="1" />
-                            <div class="cart__main-quantity-btn">
-                                <button class="cart-btn-up">
-                                    <img src="~/Public/icons/Drop-Up-Small.svg"
-                                         alt="Increase quantity" />
+            @foreach (Cart cart in Model) {
 
-                                </button>
-                                <button class="cart-btn-down">
-                                    <img src="~/Public/icons/Drop-Down-Small.svg"
-                                         alt="Decrease quantity" />
-                                </button>
+                <div class="cart__main-items">
+                    <!-- Sản phẩm -->
+                    <div class="cart__main-item">
+                        <div class="cart__main-product">
+                            <img class="cart__main-product-thumbnail"
+                                 src="~/Public/Imgs/Products/@cart.Product.Thumbnail()"
+                                 alt="Product Image" />
+                            <p class="cart__main-product-name">
+                                @cart.Product.Title
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Giá sản phẩm -->
+                    <div class="cart__main-item">
+                        <div class="cart__main-price">
+                            <span class="cart__price-product">@cart.Product.FormattedPrice()</span>
+                        </div>
+                    </div>
+                    <!-- Số lượng -->
+                    <div class="cart__main-item">
+                        <div class="cart__main-quantity-warp">
+                            <div class="cart__main-quantity">
+                                <input class="cart__main-quantity-input"
+                                       type="number"
+                                       value="@cart.Quantity"
+                                       min="1" />
+                                <div class="cart__main-quantity-btn">
+                                    <button class="cart-btn-up">
+                                        <img src="~/Public/icons/Drop-Up-Small.svg"
+                                             alt="Increase quantity" />
+
+                                    </button>
+                                    <button class="cart-btn-down">
+                                        <img src="~/Public/icons/Drop-Down-Small.svg"
+                                             alt="Decrease quantity" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Tổng giá trị của sản phẩm -->
-                <div class="cart__main-item">
-                    <div class="cart__main-subtotal">
-                        <span class="cart__total-product">0</span>
-                        <span>VND</span>
+                    <!-- Tổng giá trị của sản phẩm -->
+                    <div class="cart__main-item">
+                        <div class="cart__main-subtotal">
+                            <span class="cart__total-product">@cart.Product.FormattedPrice(quantity: cart.Quantity)</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            }                    
         </div>
     </div>
     <div class="cart__action">
