@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -13,7 +14,7 @@ namespace Store_EF.Models.Extensions
         {
             try
             {
-                var primaryGallery = store.Galleries.FirstOrDefault(x => x.IsPrimary == true);
+                var primaryGallery = store.Galleries.FirstOrDefault(x => x.IsPrimary == true && x.ProductId == p.ProductId);
 
                 // Kiểm tra nếu primaryGallery không phải là null
                 if (primaryGallery != null)
@@ -54,6 +55,29 @@ namespace Store_EF.Models.Extensions
                 return p.PromoPrice.Value.ToString("N0", System.Globalization.CultureInfo.InvariantCulture).Replace(",", ".");
             else
                 return p.Price.ToString("N0", System.Globalization.CultureInfo.InvariantCulture).Replace(",", ".");
+        }
+
+        public static bool AddToDb(this Product p, StoreEntities store, out int productId)
+        {
+            if (p == null)
+            {
+                productId = 0;
+                return false;
+            }
+            store.Products.Add(p);
+            try
+            {
+                store.SaveChanges();
+                productId = store.Entry(p).GetDatabaseValues().GetValue<int>("ProductId");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                store.Products.Remove(p);
+                Log.Error(ex.ToString());
+                productId = 0;
+                return false;
+            }
         }
     }
 }

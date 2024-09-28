@@ -88,32 +88,69 @@ namespace Store_EF.Controllers
             }
         }
 
+        //[HttpPost]
+        //public ActionResult Add(Product p, HttpPostedFileBase file)
+        //{
+        //    if (ModelState.IsValid && Helpers.IsValidImage(file.InputStream))
+        //    {
+        //        p = store.Products.Add(p);
+        //        Gallery g = new Gallery
+        //        {
+        //            ProductId = p.ProductId,
+        //            IsPrimary = true
+        //        };
+        //        try
+        //        {
+        //            store.SaveChanges();
+        //            g = store.Galleries.Add(g);
+        //            store.SaveChanges();
+        //            int galleryId = store.Entry(g).GetDatabaseValues().GetValue<int>("GalleryId");
+        //            string fName = $"{galleryId}{Path.GetExtension(file.FileName)}";
+        //            string path = Path.Combine(Server.MapPath("~"), $"Public\\Imgs\\Products\\{fName}");
+        //            if (!Directory.GetParent(path).Exists)
+        //                Directory.GetParent(path).Create();
+        //            file.SaveAs(path);
+        //            g.Thumbnail = fName;
+        //            store.SaveChanges();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            store.Galleries.Remove(g);
+        //            store.Products.Remove(p);
+        //            Log.Error(ex.ToString());
+        //            return HttpNotFound();
+        //        }
+        //        return RedirectToAction("Add");
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError("Err", "Thêm sản phẩm thất bại");
+        //        return Add();
+        //    }
+        //}
+
         [HttpPost]
         public ActionResult Add(Product p, HttpPostedFileBase file)
         {
             if (ModelState.IsValid && Helpers.IsValidImage(file.InputStream))
             {
-                p = store.Products.Add(p);
-                Gallery g = store.Galleries.Add(new Gallery
-                {
-                    ProductId = p.ProductId,
-                    IsPrimary = true
-                });
+                int productId;
+                if (!p.AddToDb(store, out productId))
+                    return HttpNotFound();
+
                 try
                 {
+                    Gallery g = store.Galleries.Where(x => x.ProductId == productId && x.IsPrimary == true).First();
+                    string fName = $"{g.GalleryId}{Path.GetExtension(file.FileName)}";
+                    g.Thumbnail = fName;
                     store.SaveChanges();
-                    int galleryId = store.Entry(g).GetDatabaseValues().GetValue<int>("GalleryId");
-                    string fName = $"{galleryId}{Path.GetExtension(file.FileName)}";
                     string path = Path.Combine(Server.MapPath("~"), $"Public\\Imgs\\Products\\{fName}");
                     if (!Directory.GetParent(path).Exists)
                         Directory.GetParent(path).Create();
                     file.SaveAs(path);
-                    g.Thumbnail = fName;
-                    store.SaveChanges();
                 }
                 catch (Exception ex)
                 {
-                    store.Galleries.Remove(g);
                     store.Products.Remove(p);
                     Log.Error(ex.ToString());
                     return HttpNotFound();
