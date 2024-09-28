@@ -32,8 +32,11 @@
         }
     </select>
     <br />
-    @Html.Label("file")
-    <input type="file" name="file" />
+    <label for="thumbnail">Thumbnail</label>
+    <input type="file" name="thumbnail" />
+    <br />
+    <label for="galleries">Galleries</label>
+    <input type="file" name="galleries" multiple="multiple" />
     <br />
     @Html.LabelFor(x => x.Stock)
     @Html.TextBoxFor(x => x.Stock, new { @type = "number" })
