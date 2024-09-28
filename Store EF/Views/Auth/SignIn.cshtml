@@ -1,0 +1,41 @@
+﻿@using Store_EF.Models
+@model User_
+
+@{
+    ViewBag.title = "Sign In";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="signup-in">
+    <div class="signup-in__sideimg">
+        <img src="~/Public/imgs/banner-sign.png" alt="" />
+    </div>
+    <div class="signup-in__form">
+        <h2 class="signup-in__form-title">Đăng nhập tài khoản</h2>
+        <p class="signup-in__form-desc">
+            Nhập thông tin chi tiết bên dưới
+        </p>
+        @using (Html.BeginForm("SignIn", "Auth", FormMethod.Post, new { @class = "signup-in__form-group" }))
+        {
+            <div class="signup-in__form-item">
+                @Html.LabelFor(m => m.Email, new { @class = "signup-in__form-item-label", @for = "email" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "signup-in__form-item-input", id = "email", type = "text" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="signup-in__form-item">
+                @Html.LabelFor(m => m.Password, new { @class = "signup-in__form-item-label", @for = "password" })
+                @Html.PasswordFor(m => m.Password, new { @class = "signup-in__form-item-input", id = "password" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="signup-in__form-redirect mt-40">
+                <button class="btn btn--signin" type="submit">Đăng nhập</button>
+                <div class="signup-in__form-forget">
+                    <a href="#">Quên mật khẩu</a>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

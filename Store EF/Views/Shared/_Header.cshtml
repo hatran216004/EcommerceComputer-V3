@@ -1,0 +1,77 @@
+﻿@using Store_EF.Models;
+@{ 
+    var userId = Session["UserId"];
+}
+
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <a href="/">
+                <img src="~/Public/imgs/logo.svg" alt="" class="logo" />
+            </a>
+            <nav class="navbar">
+                <ul>
+                    <li class="navbar__item">
+                        <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="@Url.Action("Index", "Products")">Sản Phẩm</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="#1">Về chúng tôi</a>
+                    </li>
+                </ul>
+            </nav>
+            <div>
+                @using(Html.BeginForm("Search", "Products", FormMethod.Get)) {
+                    <div class="search">
+                        <input type="text"
+                               class="search__input"
+                               placeholder="Tìm kiếm..."
+                               name="product" />
+                        <img src="~/Public/imgs/search-icon.svg" alt="" class="search__icon" />
+                    </div>
+                }
+            </div>
+            <div class="header__action">
+                @{
+                    if (userId != null)
+                    {
+                        <div class="header__action-wrapper">
+                            <a class="header__cart" href="@Url.Action("Index", "Cart")">
+                                <img src="~/Public/imgs/cart.svg" alt="" />
+                                @{
+                                    StoreEntities store = new StoreEntities();
+                                    int id = int.Parse(userId.ToString());
+                                    var items = store.Carts.Where(x => x.UserId == id).ToList();
+                                    <span>@items.Sum(x => x.Quantity)</span>
+                                }
+                            </a>
+                            <div class="user">
+                                <img src="~/Public/imgs/avatar.svg" alt="" />
+                                <div class="user__action">
+                                    <div class="user__action-item">
+                                        <img src="~/Public/imgs/profile.svg" alt="" />Quản lí hồ sơ
+                                    </div>
+                                    <div class="user__action-item">
+                                        <img src="~/Public/imgs/my-order.svg" alt="" />Đơn hàng
+                                    </div>
+                                    <a href="@Url.Action("Logout", "Auth")" class="user__action-item">
+                                            <img src="~/Public/imgs/logout.svg" alt="" />Đăng xuất
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="header__action-wrapper">
+                            <a class="btn header__action-btn" href="/Auth/SignUp">Đăng ký</a>
+                            <a class="btn header__action-btn" href="/Auth/SignIn">Đăng nhập</a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,47 @@
+﻿@using Store_EF.Models;
+@using Store_EF;
+@model Product
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+@using (Html.BeginForm("Add", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.LabelFor(x => x.Title)
+    @Html.TextBoxFor(x => x.Title)
+    <br />
+    @Html.Label(nameof(Model.CategoryId))
+    <select name="@nameof(Model.CategoryId)">
+        @{
+            foreach (Category c in ViewBag.Categories)
+            {
+                <option value="@c.CategoryId">@c.Name</option>
+            }
+        }
+    </select>
+    <br />
+    @Html.Label(nameof(Model.BrandId))
+    <select name="@nameof(Model.BrandId)">
+        @{
+            foreach (Brand c in ViewBag.Brands)
+            {
+                <option value="@c.BrandId">@c.Name</option>
+            }
+        }
+    </select>
+    <br />
+    @Html.Label("file")
+    <input type="file" name="file" />
+    <br />
+    @Html.LabelFor(x => x.Stock)
+    @Html.TextBoxFor(x => x.Stock, new { @type = "number" })
+    <br />
+    @Html.LabelFor(x => x.Price)
+    @Html.TextBoxFor(x => x.Price, new { @type = "number", @min = 1000 })
+    <br />
+    @Html.LabelFor(x => x.Description)
+    @Html.TextBoxFor(x => x.Description)
+    <button type="submit">Thêm</button>
+}

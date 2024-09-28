@@ -1,0 +1,62 @@
+﻿@using Store_EF.Models
+@model PagedList.IPagedList<Product>
+@using PagedList.Mvc;
+@using PagedList;
+@using Store_EF.Models.Extensions;
+
+@{
+    ViewBag.title = "Home page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.MaxPage == null)
+    {
+        ViewBag.MaxPage = 1;
+    }
+}
+
+<div class="container">
+    <main>
+        @Html.Partial("_Hero")
+        <section class="product">
+            <div class="product__list">
+                @if (Model != null)
+                {
+                    foreach (Product p in Model)
+                    {
+                        <a class="product__item" href="@Url.Action("Detail", "Products", new { Id = p.ProductId })">
+                            <div class="product__img">
+                                <img src="~/Public/Imgs/Products/@p.Thumbnail()" alt="" />
+                                @{
+                                    double result = p.DiscountPercentage();
+                                    if (result != 0)
+                                    {
+                                        <div class="product__sale">-@result%</div>
+                                    }
+                                }
+                            </div>
+                            <div class="product__info">
+                                <h3 class="product__name">@p.Title</h3>
+                                <div class="products__price">Giá: @p.FormattedPrice()<sup>₫</sup></div>
+                            </div>
+                        </a>
+                    }
+                }
+            </div>
+        </section>
+        <div class="pagination">
+            @{
+                string action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+                string product = Request.QueryString.Get("product");
+            }
+            @Html.PagedListPager(
+                Model,
+                page => Url.Action(action, new { product, page }),
+                new PagedListRenderOptions
+                {
+                    LiElementClasses = new[] { "" },
+                    MaximumPageNumbersToDisplay = ViewBag.MaxPage,
+                }
+            )
+        </div>
+    </main>
+</div>
+

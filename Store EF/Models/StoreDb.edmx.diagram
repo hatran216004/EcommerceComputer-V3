@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f8d03cc238cd469194303bb4bea416ad" Name="Diagram1">
+        <EntityTypeShape EntityType="StoreModel.Brand" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Cart" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Category" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Gallery" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Order_" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.OrderDetail" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Product" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Review" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.User_" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.UserDetail" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
+        <AssociationConnector Association="StoreModel.FK__Product__BrandId__7E37BEF6" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__Cart__ProductId__06CD04F7" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__Cart__UserId__05D8E0BE" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__Product__Categor__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__Gallery__Product__02084FDA" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__Order___UserId__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__OrderDeta__Order__10566F31" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__OrderDeta__Produ__114A936A" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__Review__ProductI__151B244E" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__Review__UserId__14270015" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK__UserDetai__UserI__75A278F5" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
