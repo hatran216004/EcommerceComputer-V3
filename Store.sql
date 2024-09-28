@@ -131,7 +131,6 @@ BEGIN
 		COMMIT TRAN
 END
 
-
 -- Thêm tài khoản người dùng
 INSERT INTO User@ (RoleName, Email, Password)
 VALUES 
@@ -223,3 +222,10 @@ BEGIN
 	END
 END
 -- Data Source=LAPTOP-97V7GE72\SQLEXPRESS;Initial Catalog=Store;Integrated Security=True
+
+select * from [dbo].[UserDetail]
+
+select * from User@
+
+
+delete User@
