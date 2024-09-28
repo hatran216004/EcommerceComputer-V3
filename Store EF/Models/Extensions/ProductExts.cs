@@ -11,6 +11,13 @@ namespace Store_EF.Models.Extensions
     {
         static StoreEntities store = new StoreEntities();
 
+        public static bool IsValid(this Product p)
+        {
+            if (p.Title.Length >= 3 && p.Price >= 1000 && p.Stock != 0)
+                return true;
+            else return false;
+        }
+
         public static string Thumbnail(this Product p)
         {
             try
