@@ -17,7 +17,7 @@ CREATE TABLE User@ (
 )
 
 CREATE TABLE UserDetail (
-    UserId INT PRIMARY KEY FOREIGN KEY REFERENCES User@(UserId),
+    UserId INT PRIMARY KEY FOREIGN KEY REFERENCES User@(UserId) ON DELETE CASCADE,
     Name NVARCHAR(50) NOT NULL,
 	Gender BIT, -- 1: Nam | 0: Nữ
     Phone VARCHAR(11),
@@ -85,8 +85,8 @@ CREATE TABLE OrderDetail (
 )
 
 CREATE TABLE Review (
-    UserId INT NOT NULL FOREIGN KEY REFERENCES User@(UserId),
-    ProductId INT NOT NULL FOREIGN KEY REFERENCES Product(ProductId),
+    UserId INT NOT NULL FOREIGN KEY REFERENCES User@(UserId) ON DELETE CASCADE,
+    ProductId INT NOT NULL FOREIGN KEY REFERENCES Product(ProductId) ON DELETE CASCADE,
     Rating INT NOT NULL,
     Comment NVARCHAR(MAX),
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
@@ -94,14 +94,12 @@ CREATE TABLE Review (
 )
 
 GO
-CREATE TRIGGER Tri_AddBrand ON Brand
-FOR INSERT
+CREATE TRIGGER Tri_AddProduct ON Product
+AFTER INSERT
 AS
-BEGIN 
-	IF (SELECT COUNT(*) FROM Brand WHERE Name IN (SELECT Name FROM inserted)) > 0
-		ROLLBACK TRAN
-	ELSE
-		COMMIT TRAN
+BEGIN
+	DECLARE @Id INT = (SELECT ProductId from inserted)
+	INSERT INTO Gallery (ProductId, IsPrimary) VALUES (@Id, 1)
 END
 
 GO
@@ -113,24 +111,7 @@ BEGIN
 	DECLARE @Email VARCHAR(320) = (SELECT Email FROM User@ WHERE UserId = @Id)
 	INSERT INTO UserDetail (UserId, Name) VALUES (@Id, SUBSTRING(@Email, 1, CHARINDEX('@', @Email) - 1))
 END
-
 GO
-CREATE TRIGGER Tri_AddGallery ON Gallery
-FOR INSERT
-AS
-BEGIN
-	DECLARE @ProductId INT = (SELECT ProductId FROM inserted)
-	IF EXISTS(SELECT * FROM inserted WHERE IsPrimary = 1)
-	BEGIN
-		IF (SELECT COUNT(*) FROM Gallery WHERE IsPrimary = 1 AND ProductId = @ProductId) = 0
-			COMMIT TRAN
-		ELSE
-			ROLLBACK TRAN
-	END
-	ELSE
-		COMMIT TRAN
-END
-
 
 -- Thêm tài khoản người dùng
 INSERT INTO User@ (RoleName, Email, Password)
@@ -162,7 +143,7 @@ VALUES
 -- Thêm sản phẩm
 INSERT INTO Product (Title, Stock, Price, PromoPrice, Description, BrandId, CategoryId)
 VALUES 
-(N'Dell XPS 13', 10, 20000000, 18000000, N'Laptop Dell XPS 13 với thiết kế mỏng nhẹ', 1, 1),
+(N'Dell XPS 13', 10, 20000000, 18000000, N'Laptop Dell XPS 13 với thiết kế mỏng nhẹ', NULL, NULL),
 (N'HP Pavilion', 15, 15000000, 14000000, N'Laptop HP Pavilion với hiệu năng cao', 2, 1),
 (N'Asus ZenBook', 8, 18000000, 17000000, N'Laptop Asus ZenBook với hiệu suất mạnh mẽ', 3, 1),
 (N'Lenovo ThinkPad', 12, 16000000, 15000000, N'Laptop Lenovo ThinkPad bền bỉ và hiệu quả', 4, 1),
@@ -222,4 +203,3 @@ BEGIN
 		RETURN 1
 	END
 END
--- Data Source=LAPTOP-97V7GE72\SQLEXPRESS;Initial Catalog=Store;Integrated Security=True
