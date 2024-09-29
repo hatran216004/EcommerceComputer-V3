@@ -35,7 +35,7 @@
         <div class="cart__main-listitem">
             @foreach (Cart cart in Model) {
 
-                <div class="cart__main-items">
+                <div class="cart__main-items" id="@cart.ProductId">
                     <!-- Sản phẩm -->
                     <div class="cart__main-item">
                         <div class="cart__main-product">
@@ -50,6 +50,7 @@
                     <!-- Giá sản phẩm -->
                     <div class="cart__main-item">
                         <div class="cart__main-price">
+                            <input type="hidden" name="price" value="@cart.Product.AutoPrice()" />
                             <span class="cart__price-product">@cart.Product.FormattedPrice()</span>
                         </div>
                     </div>
@@ -87,7 +88,7 @@
     </div>
     <div class="cart__action">
         <div class="cart__action-item">
-            <a href="#" class="cart__action-item-text">Về trang chủ</a>
+            <a href="@Url.Action("Index", "Home")" class="cart__action-item-text">Về trang chủ</a>
         </div>
         <div class="cart__action-item">
             <a href="#" class="cart__action-item-text">Cập nhật giỏ hàng</a>
