@@ -112,6 +112,24 @@ BEGIN
 	INSERT INTO UserDetail (UserId, Name) VALUES (@Id, SUBSTRING(@Email, 1, CHARINDEX('@', @Email) - 1))
 END
 GO
+<<<<<<< HEAD
+CREATE TRIGGER Tri_AddGallery ON Gallery
+FOR INSERT
+AS
+BEGIN
+	DECLARE @ProductId INT = (SELECT ProductId FROM inserted)
+	IF EXISTS(SELECT * FROM inserted WHERE IsPrimary = 1)
+	BEGIN
+		IF (SELECT COUNT(*) FROM Gallery WHERE IsPrimary = 1 AND ProductId = @ProductId) = 0
+			COMMIT TRAN
+		ELSE
+			ROLLBACK TRAN
+	END
+	ELSE
+		COMMIT TRAN
+END
+=======
+>>>>>>> 4da009f3cabc0dcca124f97ac2bbb7f0dafe7065
 
 -- Thêm tài khoản người dùng
 INSERT INTO User@ (RoleName, Email, Password)
@@ -202,4 +220,16 @@ BEGIN
 		WHERE UserId = @userId AND ProductId = @productId
 		RETURN 1
 	END
+<<<<<<< HEAD
 END
+-- Data Source=LAPTOP-97V7GE72\SQLEXPRESS;Initial Catalog=Store;Integrated Security=True
+
+select * from [dbo].[UserDetail]
+
+select * from User@
+
+
+delete User@
+=======
+END
+>>>>>>> 4da009f3cabc0dcca124f97ac2bbb7f0dafe7065

@@ -23,7 +23,7 @@
                 </ul>
             </nav>
             <div>
-                @using(Html.BeginForm("Search", "Products", FormMethod.Get)) {
+                @using (Html.BeginForm("Search", "Products", FormMethod.Get)) {
                     <div class="search">
                         <input type="text"
                                class="search__input"
@@ -50,9 +50,9 @@
                             <div class="user">
                                 <img src="~/Public/imgs/avatar.svg" alt="" />
                                 <div class="user__action">
-                                    <div class="user__action-item">
-                                        <img src="~/Public/imgs/profile.svg" alt="" />Quản lí hồ sơ
-                                    </div>
+                                    <a href="@Url.Action("Profile", "UserAccount", new { userId = userId})" class="user__action-item">
+                                         <img src="~/Public/imgs/profile.svg" alt="" />Quản lí hồ sơ
+                                    </a>
                                     <div class="user__action-item">
                                         <img src="~/Public/imgs/my-order.svg" alt="" />Đơn hàng
                                     </div>

@@ -7,11 +7,16 @@
     @Scripts.Render("~/bundles/modernizr")
     @*@Scripts.Render("~/Content/css");*@
     <link href="~/Public/css/reset.css" rel="stylesheet" />
+    <link href="~/Public/css/grid.css" rel="stylesheet" />
     <link href="~/Public/css/main.css" rel="stylesheet" />
+    <link href="~/Public/css/profile.css" rel="stylesheet" />
+    <link href="~/Public/css/cart.css" rel="stylesheet" />
 </head>
 <body>
     @Html.Partial("_Header")
-    @RenderBody()
+    <div class="container">
+        @RenderBody()
+    </div>
     @Html.Partial("_Footer")
 
     @Scripts.Render("~/bundles/jquery")

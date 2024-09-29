@@ -182,6 +182,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -268,7 +269,9 @@
       <LastGenOutput>StoreDb.cs</LastGenOutput>
     </Content>
     <Content Include="Public\css\cart.css" />
+    <Content Include="Public\css\grid.css" />
     <Content Include="Public\css\main.css" />
+    <Content Include="Public\css\profile.css" />
     <Content Include="Public\css\reset.css" />
     <Content Include="Public\icons\Drop-Down-Small.svg" />
     <Content Include="Public\icons\Drop-Up-Small.svg" />
@@ -357,6 +360,7 @@
     <Content Include="Views\Products\Add.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Brands\Index.cshtml" />
+    <Content Include="Views\UserAccount\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
