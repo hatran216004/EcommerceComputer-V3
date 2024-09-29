@@ -5,9 +5,9 @@
     ViewBag.Title = "Add";
 }
 
-<h2>Add</h2>
+@*<h2>Add</h2>*@
 
-@using (Html.BeginForm("Add", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@*@using (Html.BeginForm("Add", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.LabelFor(x => x.Title)
     @Html.TextBoxFor(x => x.Title)
@@ -47,4 +47,116 @@
     @Html.LabelFor(x => x.Description)
     @Html.TextBoxFor(x => x.Description)
     <button type="submit">Thêm</button>
-}
+}*@
+<div class="add-product container">
+    <div class="add-product__header">
+        <div class="add-product__title">Thêm mới sản phẩm</div>
+
+    </div>
+    @using (Html.BeginForm("Add", "Products", FormMethod.Post, new { enctype = "multipart/form-data", @class = "add-product__form" }))
+    {
+        <div class="add-product__form-info">
+            <div class="add-product__form-info-title">
+                Thông tin cơ bản
+            </div>
+            <div class="add-product__form-info-base">
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label"
+                           for="productName">Tên sản phẩm</label>
+                    @Html.TextBoxFor(m => m.Title, new {@class = "add-product__form-text" })
+                </div>
+                <div class="add-product__form-group">
+                    <label for="description">Mô tả sản phẩm</label>
+                    @Html.TextAreaFor(m => m.Description, new { @class = "add-product__form-area" })
+                </div>
+            </div>
+
+            <div class="add-product__form-info-title">
+                Thông tin chi tiết
+            </div>
+            <div class="add-product__form-info-detail">
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label" for="price">Giá sản phẩm</label>
+                    @Html.TextBoxFor(x => x.Price, new { @type = "number", @min = 1000, @class = "add-product__form-text" })
+                </div>
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label" for="price">Số lượng</label>
+                    @Html.TextBoxFor(x => x.Stock, new { @type = "number", @min = 0, @class = "add-product__form-text" })
+                </div>
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label"
+                           for="category">Danh mục</label>
+                    <select name="@nameof(Model.CategoryId)" , class="add-product__form-text">
+                        @{
+                            foreach (Category c in ViewBag.Categories)
+                            {
+                                <option value="@c.CategoryId">@c.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label"
+                           for="category">Thương hiệu</label>
+                    <select name="@nameof(Model.BrandId)" , class="add-product__form-text">
+                        @{
+                            foreach (Brand c in ViewBag.Brands)
+                            {
+                                <option value="@c.BrandId">@c.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-product__form-picture">
+            <div class="add-product__form-info-title">Hình ảnh</div>
+
+            <!-- Khung ảnh thumbnail lớn chính giữa -->
+            <div class="add-product__form-picture-thumbnail" onclick="document.getElementById('picture1').click()">
+                <img id="preview1" src="default-thumbnail.jpg" alt="Click to select image" />
+                <input type="file" name="thumbnail" id="picture1" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+            </div>
+
+            <!-- Các khung ảnh nhỏ bên dưới -->
+            <div class="add-product__form-picture-warp">
+                <div class="add-product__form-picture-item" onclick="document.getElementById('picture2').click()">
+                    <img id="preview2" src="default-image.jpg" alt="Click to select image" />
+                    <input type="file" name="galleries" id="picture2" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                </div>
+                <!-- Các khung ảnh nhỏ khác tương tự -->
+                <div class="add-product__form-picture-item" onclick="document.getElementById('picture3').click()">
+                    <img id="preview3" src="default-image.jpg" alt="Click to select image" />
+                    <input type="file" name="galleries" id="picture3" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                </div>
+                <div class="add-product__form-picture-item" onclick="document.getElementById('picture4').click()">
+                    <img id="preview4" src="default-image.jpg" alt="Click to select image" />
+                    <input type="file" name="galleries" id="picture4" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                </div>
+                <div class="add-product__form-picture-item" onclick="document.getElementById('picture5').click()">
+                    <img id="preview5" src="default-image.jpg" alt="Click to select image" />
+                    <input type="file" name="galleries" id="picture5" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                </div>
+            </div>
+            <div class="add-product__action">
+                <button type="submit">Thêm Sản phẩm</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var previewId = 'preview' + input.id.replace('picture', '');
+                var imgPreview = document.getElementById(previewId);
+                imgPreview.src = e.target.result; // Cập nhật src của ảnh preview
+            }
+            reader.readAsDataURL(input.files[0]); // Đọc file hình ảnh
+        }
+    }
+</script>
+

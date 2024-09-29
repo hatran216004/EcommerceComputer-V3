@@ -1,0 +1,75 @@
+﻿@using Store_EF.Models
+@model PagedList.IPagedList<Product>
+@using PagedList.Mvc;
+@using PagedList;
+@using Store_EF.Models.Extensions;
+@{
+    ViewBag.Title = "ProductManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.MaxPage == null)
+    {
+        ViewBag.MaxPage = 1;
+    }
+}
+
+<div class="pm container">
+    <div class="pm__title">Quản lý sản phẩm</div>
+    <div class="pm__btn-add-warp">
+        <div class="pm__btn-add">
+            <img class="" src="~/Public/icons/plus.svg" alt="" />
+            <a href="@Url.Action("Add", "Products")">Thêm sản phẩm mới</a>
+        </div>
+    </div>
+    <table class="pm__table">
+        <thead>
+            <tr>
+                <th class="pm__table-title" scope="col">Mã sản phẩm</th>
+                <th class="pm__table-title" scope="col">Hình ảnh</th>
+                <th class="pm__table-title" scope="col">
+                    Tên sản phẩm
+                </th>
+                <th class="pm__table-title" scope="col">Số lượng</th>
+                <th class="pm__table-title" scope="col">Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (Product p in Model)
+                {
+                    <tr>
+                        <td class="pm__table-item" scope="row">@p.ProductId</td>
+                        <td class="pm__table-item">
+                            <img class="pm__table-item-img"
+                                 src="~/Public/Imgs/Products/@p.Thumbnail()"
+                                 alt="" />
+                        </td>
+                        <td class="pm__table-item">@p.Title</td>
+                        <td class="pm__table-item">@p.Stock</td>
+                        <td class="pm__table-item">
+                            <a href="#">Xem</a> |
+                            <a href="@Url.Action("Delete", "Products", new { id = p.ProductId})">Xóa</a> |
+                            <a href="@Url.Action("Update", "Products", new { id = p.ProductId})">Sửa</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="pagination">
+        @{
+            string action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+            string product = Request.QueryString.Get("product");
+        }
+        @Html.PagedListPager(
+            Model,
+            page => Url.Action(action, new { product, page }),
+            new PagedListRenderOptions
+            {
+                LiElementClasses = new[] { "" },
+                MaximumPageNumbersToDisplay = ViewBag.MaxPage,
+            }
+        )
+    </div>
+</div>
+
