@@ -59,3 +59,5 @@ document.querySelectorAll('.cart-btn-down').forEach((button) => {
 
 // Cập nhật tổng giỏ hàng khi tải trang
 updateCartTotals();
+
+
