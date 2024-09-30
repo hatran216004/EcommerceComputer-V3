@@ -11,16 +11,19 @@
     <link href="~/Public/css/main.css" rel="stylesheet" />
     <link href="~/Public/css/profile.css" rel="stylesheet" />
     <link href="~/Public/css/cart.css" rel="stylesheet" />
+    <link href="~/Public/css/admin.css" rel="stylesheet" />
 </head>
 <body>
     @Html.Partial("_Header")
     <div class="container">
         @RenderBody()
     </div>
-    @Html.Partial("_Footer")
 
+    @Html.Partial("_Footer")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Public/js/index.js"></script>
+   
 </body>
 </html>

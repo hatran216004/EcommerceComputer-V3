@@ -90,5 +90,50 @@ namespace Store_EF.Models.Extensions
                 return false;
             }
         }
+
+        public static bool UpdateInDb(this Product productUpdated, StoreEntities store, out int productId)
+        {
+            
+            if (productUpdated == null || store == null)
+            {
+                productId = 0;
+                return false;
+            }
+
+            
+            var product = store.Products.FirstOrDefault(p => p.ProductId == productUpdated.ProductId);
+            if (product == null)
+            {
+                productId = 0;
+                return false;
+            }
+
+           
+            product.Title = productUpdated.Title;
+            product.Stock = productUpdated.Stock;
+            product.Price = productUpdated.Price;
+            product.PromoPrice = productUpdated.PromoPrice;
+            product.Description = productUpdated.Description;
+            product.UpdatedAt = DateTime.Now;
+            product.BrandId = productUpdated.BrandId;
+            product.CategoryId = productUpdated.CategoryId;
+
+            try
+            {
+                store.SaveChanges();
+                productId = product.ProductId; 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString()); 
+                productId = 0;
+                return false;
+            }
+        }
+
+
+
+
     }
 }
