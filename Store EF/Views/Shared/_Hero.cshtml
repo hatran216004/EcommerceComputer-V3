@@ -1,10 +1,15 @@
-﻿<section class="hero">
+﻿@using Store_EF.Models;
+@{ 
+    StoreEntities store = new Store_EF.Models.StoreEntities();
+}
+
+<section class="hero">
     <div class="hero__inner">
         <div class="hero__left">
             <ul>
-                <li><a href="">Laptop Gaming</a></li>
-                <li><a href="">Laptop Văn Phòng</a></li>
-                <li><a href="">Macbook</a></li>
+                @foreach(Category c in store.Categories) { 
+                    <li><a href="@Url.Action("Index", "Products", new { category = c.Name })">@c.Name</a></li>
+                }
             </ul>
         </div>
         <div class="hero__right">

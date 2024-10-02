@@ -10,6 +10,8 @@
     {
         ViewBag.MaxPage = 1;
     }
+
+    StoreEntities store = new StoreEntities();
 }
 
 <div class="pm container">
@@ -41,7 +43,7 @@
                         <td class="pm__table-item" scope="row">@p.ProductId</td>
                         <td class="pm__table-item">
                             <img class="pm__table-item-img"
-                                 src="~/Public/Imgs/Products/@p.Thumbnail()"
+                                 src="~/Public/Imgs/Products/@p.Thumbnail(store)"
                                  alt="" />
                         </td>
                         <td class="pm__table-item">@p.Title</td>
