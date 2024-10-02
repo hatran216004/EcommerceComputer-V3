@@ -9,8 +9,6 @@ namespace Store_EF.Models.Extensions
 {
     public static class ProductExts
     {
-        static StoreEntities store = new StoreEntities();
-
         public static bool IsValid(this Product p)
         {
             if (p.Title.Length >= 3 && p.Price >= 1000 && p.Stock != 0)
@@ -18,7 +16,7 @@ namespace Store_EF.Models.Extensions
             else return false;
         }
 
-        public static string Thumbnail(this Product p)
+        public static string Thumbnail(this Product p, StoreEntities store)
         {
             try
             {
@@ -61,7 +59,8 @@ namespace Store_EF.Models.Extensions
                 return (p.PromoPrice.Value * quantity).ToString("C0", nfi).Replace(",", ".");
         }
 
-        public static int AutoPrice(this Product p, int quantity = 1) { 
+        public static int AutoPrice(this Product p, int quantity = 1)
+        {
             if (p.PromoPrice.HasValue)
                 return p.PromoPrice.Value * quantity;
             else
@@ -70,6 +69,7 @@ namespace Store_EF.Models.Extensions
 
         public static bool AddToDb(this Product p, StoreEntities store, out int productId)
         {
+            p.CreatedAt = p.UpdatedAt = DateTime.Now;
             if (p == null)
             {
                 productId = 0;
@@ -93,14 +93,14 @@ namespace Store_EF.Models.Extensions
 
         public static bool UpdateInDb(this Product productUpdated, StoreEntities store, out int productId)
         {
-            
+
             if (productUpdated == null || store == null)
             {
                 productId = 0;
                 return false;
             }
 
-            
+
             var product = store.Products.FirstOrDefault(p => p.ProductId == productUpdated.ProductId);
             if (product == null)
             {
@@ -108,7 +108,7 @@ namespace Store_EF.Models.Extensions
                 return false;
             }
 
-           
+
             product.Title = productUpdated.Title;
             product.Stock = productUpdated.Stock;
             product.Price = productUpdated.Price;
@@ -121,19 +121,15 @@ namespace Store_EF.Models.Extensions
             try
             {
                 store.SaveChanges();
-                productId = product.ProductId; 
+                productId = product.ProductId;
                 return true;
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString()); 
+                Log.Error(ex.ToString());
                 productId = 0;
                 return false;
             }
         }
-
-
-
-
     }
 }

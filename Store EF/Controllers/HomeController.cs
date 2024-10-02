@@ -9,12 +9,12 @@ namespace Store_EF.Controllers
 {
     public class HomeController : Controller
     {
-        static StoreEntities store = new StoreEntities();
+        StoreEntities store = new StoreEntities();
         public ActionResult Index()
         {
             try
             {
-                return View(store.Products.Where(x => x.Stock != 0).OrderByDescending(x => x.CreatedAt).Take(12).ToList());
+                return View(store.Products.Where(x => x.Stock != 0 && x.PromoPrice != null).OrderByDescending(x => x.CreatedAt).Take(12).ToList());
             }
             catch (Exception ex)
             {

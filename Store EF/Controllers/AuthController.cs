@@ -8,7 +8,7 @@ namespace Store_EF.Controllers
 {
     public class AuthController : Controller
     {
-        static StoreEntities store = new StoreEntities();
+        StoreEntities store = new StoreEntities();
 
         public ActionResult SignUp()
         {

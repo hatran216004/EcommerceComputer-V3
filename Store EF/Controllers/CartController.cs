@@ -8,7 +8,7 @@ namespace Store_EF.Controllers
 {
     public class CartController : Controller
     {
-        static StoreEntities store = new StoreEntities();
+        StoreEntities store = new StoreEntities();
 
         public ActionResult Index()
         {
@@ -60,13 +60,16 @@ namespace Store_EF.Controllers
         }
 
         [HttpPost]
-        public ActionResult Remove(int? product, bool confirm = false) {
+        public ActionResult Remove(int? product, bool confirm = false)
+        {
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             if (!product.HasValue)
                 return HttpNotFound();
-            else {
-                try { 
+            else
+            {
+                try
+                {
                     Product p = store.Products.Where(x => x.ProductId == product).First();
                     if (confirm)
                     {
@@ -74,7 +77,9 @@ namespace Store_EF.Controllers
                         store.SaveChanges();
                     }
                     return RedirectToAction("Index", "Products");
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     Log.Error(ex.ToString());
                     return HttpNotFound();
                 }

@@ -2,6 +2,7 @@
 @using Store_EF.Models.Extensions;
 @model IEnumerable<Cart>
 @{
+    StoreEntities store = new StoreEntities();
     ViewBag.Title = "Cart";
 }
 
@@ -40,7 +41,7 @@
                     <div class="cart__main-item">
                         <div class="cart__main-product">
                             <img class="cart__main-product-thumbnail"
-                                 src="~/Public/Imgs/Products/@cart.Product.Thumbnail()"
+                                 src="~/Public/Imgs/Products/@cart.Product.Thumbnail(store)"
                                  alt="Product Image" />
                             <p class="cart__main-product-name">
                                 @cart.Product.Title

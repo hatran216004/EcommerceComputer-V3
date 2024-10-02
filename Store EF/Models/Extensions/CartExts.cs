@@ -2,6 +2,5 @@
 {
     public static class CartExts
     {
-        static StoreEntities store = new StoreEntities();
     }
 }
