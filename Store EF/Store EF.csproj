@@ -365,6 +365,7 @@
     <Content Include="Views\UserAccount\Profile.cshtml" />
     <Content Include="Views\Products\ProductManagement.cshtml" />
     <Content Include="Views\Products\Update.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

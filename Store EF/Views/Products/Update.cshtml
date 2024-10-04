@@ -3,139 +3,12 @@
 
 @{
     ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
     var galleries = ViewBag.Galleries as IEnumerable<Gallery>;
 }
 
-@*<style>
-        .image-preview {
-            width: 200px;
-            height: 200px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            object-fit: cover;
-        }
-    </style>
 
-    <h2>Cập nhật sản phẩm</h2>
-
-    @if (TempData["UpdateError"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["UpdateError"]
-        </div>
-    }
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
-        </div>
-    }
-
-    @using (Html.BeginForm("Update", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.HiddenFor(model => model.ProductId)
-
-        @Html.LabelFor(x => x.Title)
-        @Html.TextBoxFor(x => x.Title)
-        <br />
-
-        @Html.Label(nameof(Model.CategoryId))
-        <select name="@nameof(Model.CategoryId)">
-            @{
-                foreach (Category c in ViewBag.Categories)
-                {
-                    <option value="@c.CategoryId" @(c.CategoryId == Model.CategoryId ? "selected" : "")>@c.Name</option>
-                }
-            }
-        </select>
-        <br />
-
-        @Html.Label(nameof(Model.BrandId))
-        <select name="@nameof(Model.BrandId)">
-            @{
-                foreach (Brand b in ViewBag.Brands)
-                {
-                    <option value="@b.BrandId" @(b.BrandId == Model.BrandId ? "selected" : "")>@b.Name</option>
-                }
-            }
-        </select>
-        <br />
-
-        @Html.LabelFor(x => x.Stock)
-        @Html.TextBoxFor(x => x.Stock, new { @type = "number" })
-        <br />
-
-        @Html.LabelFor(x => x.Price)
-        @Html.TextBoxFor(x => x.Price, new { @type = "number", @min = 1000 })
-        <br />
-
-        @Html.LabelFor(x => x.Description)
-        @Html.TextBoxFor(x => x.Description)
-        <br />
-
-        <label for="thumbnail">Thumbnail</label>
-        <input type="file" name="thumbnailFile" />
-        <br />
-
-        <h3>Gallery</h3>
-        <div class="gallery-container">
-            @if (galleries != null && galleries.Any())
-            {
-                foreach (var gallery in galleries.Where(g => !g.IsPrimary))
-                {
-                    <div class="gallery-item">
-                        <img id="image-preview-@gallery.GalleryId" class="image-preview" src="~/public/imgs/products/@gallery.Thumbnail" alt="Click to upload an image" data-gallery-id="@gallery.GalleryId">
-                        <input type="file" name="galleries" class="file-input" data-gallery-id="@gallery.GalleryId" style="display: none;" accept="image/*">
-                        <input type="hidden" name="galleryIds" value="@gallery.GalleryId" />
-                    </div>
-                }
-            }
-            else
-            {
-                <p>Chưa có hình ảnh nào cho sản phẩm này.</p>
-            }
-        </div>
-        <br />
-
-        <button type="submit">Lưu thay đổi</button>
-        <a href="@Url.Action("ProductManagement")" class="btn btn-secondary">Hủy bỏ</a>
-    }
-
-    <script>
-        const fileInputs = document.querySelectorAll('.file-input');
-
-        fileInputs.forEach(input => {
-            input.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                const galleryId = event.target.getAttribute('data-gallery-id');
-                const imagePreview = document.getElementById(`image-preview-${galleryId}`);
-
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        imagePreview.src = e.target.result; // Cập nhật src của ảnh
-                    };
-                    reader.readAsDataURL(file); // Đọc file dưới dạng URL
-                }
-            });
-        });
-
-        const images = document.querySelectorAll('.gallery-item img');
-        images.forEach(image => {
-            image.addEventListener('click', () => {
-                const galleryId = image.getAttribute('data-gallery-id');
-                const input = document.querySelector(`input[data-gallery-id="${galleryId}"]`);
-                input.click();
-            });
-        });
-    </script>*@
-
-
-
-
-
-<div class="add-product container">
+<div class="add-product__main">
     <div class="add-product__header">
         <div class="add-product__title">Thông tin sản phẩm</div>
 
@@ -150,7 +23,7 @@
             <div class="add-product__form-info-base">
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                           for="productName">Tên sản phẩm</label>
+                            for="productName">Tên sản phẩm</label>
                     @Html.TextBoxFor(m => m.Title, new { @class = "add-product__form-text" })
                 </div>
                 <div class="add-product__form-group">
@@ -173,7 +46,7 @@
                 </div>
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                           for="category">Danh mục</label>
+                            for="category">Danh mục</label>
                     <select name="@nameof(Model.CategoryId)" , class="add-product__form-text">
                         @{
                             foreach (Category c in ViewBag.Categories)
@@ -185,7 +58,7 @@
                 </div>
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                           for="category">Thương hiệu</label>
+                            for="category">Thương hiệu</label>
                     <select name="@nameof(Model.BrandId)" , class="add-product__form-text">
                         @{
                             foreach (Brand c in ViewBag.Brands)
@@ -198,6 +71,7 @@
             </div>
         </div>
 
+
         <div class="add-product__form-picture">
             <div class="add-product__form-info-title">Hình ảnh</div>
 
@@ -207,16 +81,19 @@
                     var primaryGallery = galleries.FirstOrDefault(g => g.IsPrimary);
                 }
                 <img id="preview1"
-                     src="~/public/imgs/products/@(primaryGallery != null ? primaryGallery.Thumbnail : "default-thumbnail.png")"
-                     alt="Click to select image" />
+                        src="~/public/imgs/products/@(primaryGallery != null ? primaryGallery.Thumbnail : "default-thumbnail.png")"
+                        alt="Click to select image" />
                 <input type="file" name="thumbnailFile" id="picture1" accept="image/*" onchange="previewImage(this, 'preview1')" style="display: none;" />
             </div>
-
 
             <!-- Các khung ảnh nhỏ bên dưới -->
             <div class="add-product__form-picture-warp">
                 @if (galleries != null && galleries.Any())
                 {
+                    var existingImagesCount = galleries.Count(g => !g.IsPrimary);
+
+
+                    // Hiển thị các ảnh đã có
                     foreach (var gallery in galleries.Where(g => !g.IsPrimary))
                     {
                         <div class="add-product__form-picture-item-container" onclick="document.getElementById('file-input-@gallery.GalleryId').click()">
@@ -225,33 +102,75 @@
                             <input type="hidden" name="galleryIds" value="@gallery.GalleryId" />
                         </div>
                     }
+
+                    // Tạo khung "Thêm ảnh" nếu tổng số ảnh nhỏ hơn 4
+                    for (var i = existingImagesCount; i < 4; i++)
+                    {
+                        <div class="add-product__form-picture-item" onclick="document.getElementById('new-image-input-@i').click()">
+                            <img id="new-image-preview-@i" src="~/public/imgs/products/default-image.jpg" alt="Click to select image" />
+                            <input type="file" name="newGalleries" id="new-image-input-@i" accept="image/*" onchange="previewNewImage(this, 'new-image-preview-@i')" style="display: none;" />
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    // Nếu không có ảnh nào trong galleries, hiển thị tối đa 3 khung thêm ảnh
+                    for (var i = 0; i < 4; i++)
+                    {
+                        <div class="add-product__form-picture-item" onclick="document.getElementById('new-image-input-@i').click()">
+                            <img id="new-image-preview-@i" src="~/public/imgs/products/default-image.jpg" alt="Click to select image" />
+                            <input type="file" name="newGalleries" id="new-image-input-@i" accept="image/*" onchange="previewNewImage(this, 'new-image-preview-@i')" style="display: none;" />
+                        </div>
+
+                    }
                 }
             </div>
+
             <div class="add-product__action">
                 <button type="submit">Lưu thay đổi</button>
             </div>
         </div>
     }
 </div>
+
+
 <script>
+    // Hàm để xem trước ảnh được chọn
     function previewImage(input, imgElementId) {
         const file = input.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = (e) => {
-                document.getElementById(imgElementId).src = e.target.result; // Cập nhật src của ảnh
+            reader.onload = function (e) {
+                // Cập nhật src của ảnh theo ID ảnh preview
+                document.getElementById(imgElementId).src = e.target.result;
             };
-            reader.readAsDataURL(file); // Đọc file dưới dạng URL
+            reader.readAsDataURL(file); // Đọc file và lấy URL
         }
     }
 
-    const fileInputs = document.querySelectorAll('.file-input');
+    // Hàm cho việc thêm ảnh mới
+    function previewNewImage(input, imgElementId) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById(imgElementId).src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
 
-    fileInputs.forEach(input => {
-        input.addEventListener('change', (event) => {
-            const galleryId = event.target.getAttribute('data-gallery-id');
-            previewImage(event.target, `image-preview-${galleryId}`);
+    // Bạn có thể thêm đoạn sau nếu cần hỗ trợ xử lý các input file khác
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInputs = document.querySelectorAll('.file-input');
+        fileInputs.forEach(input => {
+            input.addEventListener('change', (event) => {
+                const galleryId = event.target.getAttribute('data-gallery-id');
+                previewImage(event.target, `image-preview-${galleryId}`);
+            });
         });
     });
 </script>
+
 

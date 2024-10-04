@@ -5,14 +5,15 @@
 @using Store_EF.Models.Extensions;
 @{
     ViewBag.Title = "ProductManagement";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
     if (ViewBag.MaxPage == null)
     {
         ViewBag.MaxPage = 1;
     }
 }
 
-<div class="pm container">
+
+<div class="pm__main">
     <div class="pm__title">Quản lý sản phẩm</div>
     <div class="pm__btn-add-warp">
         <div class="pm__btn-add">
@@ -47,29 +48,72 @@
                         <td class="pm__table-item">@p.Title</td>
                         <td class="pm__table-item">@p.Stock</td>
                         <td class="pm__table-item">
-                            <a href="#">Xem</a> |
-                            <a href="@Url.Action("Delete", "Products", new { id = p.ProductId})">Xóa</a> |
+                            <a href="@Url.Action("Delete", "Products", new { id = p.ProductId})" class="delete-link">Xóa</a> |
                             <a href="@Url.Action("Update", "Products", new { id = p.ProductId})">Sửa</a>
                         </td>
                     </tr>
                 }
             }
         </tbody>
+
+        <!-- Modal comfrim -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <span class="model__btn-close">&times;</span>
+                <h2>Xác nhận xóa</h2>
+                <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
+                <div class="modal-actions">
+                    <button id="cancelBtn" class="model__btn-cancel">Hủy</button>
+                    <a id="confirmDeleteBtn" href="#" class="model__btn-delete">Xóa</a>
+                </div>
+            </div>
+        </div>
+
     </table>
-    <div class="pagination">
-        @{
-            string action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
-            string product = Request.QueryString.Get("product");
-        }
-        @Html.PagedListPager(
-            Model,
-            page => Url.Action(action, new { product, page }),
-            new PagedListRenderOptions
-            {
-                LiElementClasses = new[] { "" },
-                MaximumPageNumbersToDisplay = ViewBag.MaxPage,
-            }
-        )
-    </div>
 </div>
 
+<div class="pagination", style="width: 100%">
+    @{
+        string action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+        string product = Request.QueryString.Get("product");
+    }
+    @Html.PagedListPager(
+        Model,
+        page => Url.Action(action, new { product, page }),
+        new PagedListRenderOptions
+        {
+            LiElementClasses = new[] { "" },
+            MaximumPageNumbersToDisplay = ViewBag.MaxPage,
+        }
+    )
+</div>
+
+<script>
+    var modal = document.getElementById("deleteModal");
+    var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+    var cancelBtn = document.getElementById("cancelBtn");
+    var closeBtn = document.getElementsByClassName("model__btn-close")[0];
+
+    // sự kiện xuất hiện modal, và xóa sản phẩm
+    document.querySelectorAll('.delete-link').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault(); 
+            var deleteUrl = this.getAttribute('href'); 
+            confirmDeleteBtn.setAttribute('href', deleteUrl); 
+            modal.style.display = "flex"; 
+        });
+    });
+
+    // Sự kiện đóng modal khi nhấn x hoặc hủy, hoặc nhấn ra ngoài
+    cancelBtn.onclick = function () {
+        modal.style.display = "none";
+    }
+    closeBtn.onclick = function () {
+        modal.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

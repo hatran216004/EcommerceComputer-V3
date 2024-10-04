@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Public/css/reset.css" rel="stylesheet" />
+    <link href="~/Public/css/grid.css" rel="stylesheet" />
+    <link href="~/Public/css/main.css" rel="stylesheet" />
+    <link href="~/Public/css/profile.css" rel="stylesheet" />
+    <link href="~/Public/css/cart.css" rel="stylesheet" />
+    <link href="~/Public/css/admin.css" rel="stylesheet" />
+    <style>
+        .main {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+    @Html.Partial("_Header")
+    <div class="container" >
+        <div class="main">
+            <nav class="user-view__menu">
+                <ul class="side-nav">
+                    <li class="side-nav--active">
+                        <a href="#">
+                            <svg>
+                                <use xlink:href="img/icons.svg#icon-settings"></use>
+                            </svg>
+                            Cài đặt
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="admin-nav">
+                    <h5 class="admin-nav__heading">Admin</h5>
+                    <ul class="side-nav">
+                        <li>
+                            <a href="@Url.Action("ProductManagement", "Products")">
+                                <svg>
+                                    <use xlink:href="img/icons.svg#icon-map"></use>
+                                </svg>
+                                Quản lý sản phẩm
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <svg>
+                                    <use xlink:href="img/icons.svg#icon-users"></use>
+                                </svg>
+                                Quản lý người dùng
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            @RenderBody()
+        </div>
+        
+    </div>
+
+    @Html.Partial("_Footer")
+</body>
+</html>

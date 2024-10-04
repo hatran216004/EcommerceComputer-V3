@@ -3,128 +3,93 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
     var Email = Session["Email"];
     var RoleName = Session["RoleName"];
+
 }
 
-<main class="main">
-    <div class="user-view">
-        <nav class="user-view__menu">
-            <ul class="side-nav">
-                <li class="side-nav--active">
-                    <a href="#">
-                        <svg>
-                            <use xlink:href="img/icons.svg#icon-settings"></use>
-                        </svg>
-                        Cài đặt
-                    </a>
-                </li>
-            </ul>
 
-            <div class="admin-nav">
-                <h5 class="admin-nav__heading">Admin</h5>
-                <ul class="side-nav">
-                    <li>
-                        <a href="@Url.Action("ProductManagement", "Products")">
-                            <svg>
-                                <use xlink:href="img/icons.svg#icon-map"></use>
-                            </svg>
-                            Quản lý sản phẩm
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <svg>
-                                <use xlink:href="img/icons.svg#icon-users"></use>
-                            </svg>
-                            Quản lý người dùng
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
 
-        <div class="user-view__content">
-            <div class="user-view__form-container">
-                <h2 class="heading-secondary ma-bt-md">Hồ sơ</h2>
-                @using (Html.BeginForm("UpdateProfile", "UserAccount", FormMethod.Post, new { @class = "form form-user-data" }))
-                {
-                    @Html.HiddenFor(m => m.UserId)
-                    <div class="form__group">
-                        <label class="form__label" for="name">Họ tên</label>
-                        @Html.TextBoxFor(m => m.Name, new { @id = "name", @class = "form__input", required = "required" })
-                    </div>
-
-                    <div class="form__group ma-bt-md">
-                        <label class="form__label" for="email">Email:</label>
-                        @Html.TextBox("Email", Email, new { @class = "form__input", @disabled = "disabled" })
-                    </div>
-
-                    <div class="form__group ma-bt-md">
-                        <label class="form__label" for="phone">Điện thoại:</label>
-                        @Html.TextBoxFor(m => m.Phone, new { @id = "phone", @class = "form__input", required = "required" })
-                    </div>
-
-                    <div class="form__group ma-bt-md">
-                        <label class="form__label" for="address">Địa chỉ:</label>
-                        @Html.TextBoxFor(m => m.Address, new { @id = "address", @class = "form__input", required = "required" })
-                    </div>
-
-                    <div class="form__group ma-bt-md">
-                        <label class="form__label" for="dateOfBirth">Ngày sinh:</label>
-                        @Html.TextBoxFor(m => m.DateOfBirth,
-                            new
-                            {
-                                @id = "dateOfBirth",
-                                @class = "form__input",
-                                type = "date",
-                                required = "required",
-                        })
-                    </div>
-
-                    <div class="form__group ma-bt-md">
-                        <label class="form__label" for="gender">Giới tính:</label>
-                        @Html.DropDownListFor(m => m.Gender,
-                            new SelectList(new List<SelectListItem>
-                            {
-                                new SelectListItem { Value = "true", Text = "Nam" },
-                                new SelectListItem { Value = "false", Text = "Nữ" }
-                            }, "Value", "Text"),
-                            new { @id = "gender", @class = "form__input", required = "required" })
-                    </div>
-
-                    <div class="form__group right">
-                        <button type="submit" class="btn btn--small btn--green">Lưu</button>
-                    </div>
-                }
+<div class="user-view__content">
+    <div class="user-view__form-container">
+        <h2 class="heading-secondary ma-bt-md">Hồ sơ</h2>
+        @using (Html.BeginForm("UpdateProfile", "UserAccount", FormMethod.Post, new { @class = "form form-user-data" }))
+        {
+            @Html.HiddenFor(m => m.UserId)
+            <div class="form__group">
+                <label class="form__label" for="name">Họ tên</label>
+                @Html.TextBoxFor(m => m.Name, new { @id = "name", @class = "form__input", required = "required" })
             </div>
 
-            <div class="line">&nbsp;</div>
-
-            <div class="user-view__form-container">
-                <h2 class="heading-secondary ma-bt-md">Password change</h2>
-                @using (Html.BeginForm("UpdatePassword", "UserAccount", FormMethod.Post, new { @class = "form form-user-settings" }))
-                {
-                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
-                    <input type="hidden" name="userId" value="@Model.UserId" />
-
-                    <div class="form__group">
-                        <label class="form__label" for="password-current">Current password</label>
-                        <input id="password-current" class="form__input" type="password" placeholder="••••••••" required minlength="8" name="currPassword" />
-                    </div>
-                    <div class="form__group">
-                        <label class="form__label" for="password">New password</label>
-                        <input id="password" class="form__input" type="password" placeholder="••••••••" required minlength="8" name="newPassword" />
-                    </div>
-                    <div class="form__group ma-bt-lg">
-                        <label class="form__label" for="password-confirm">Confirm password</label>
-                        <input id="password-confirm" class="form__input" type="password" placeholder="••••••••" required minlength="8" name="passwordConfirm" />
-                    </div>
-                    <div class="form__group right">
-                        <button class="btn btn--small btn--green">Cập nhật</button>
-                    </div>
-                }
+            <div class="form__group ma-bt-md">
+                <label class="form__label" for="email">Email:</label>
+                @Html.TextBox("Email", Email, new { @class = "form__input", @disabled = "disabled" })
             </div>
-        </div>
+
+            <div class="form__group ma-bt-md">
+                <label class="form__label" for="phone">Điện thoại:</label>
+                @Html.TextBoxFor(m => m.Phone, new { @id = "phone", @class = "form__input", required = "required" })
+            </div>
+
+            <div class="form__group ma-bt-md">
+                <label class="form__label" for="address">Địa chỉ:</label>
+                @Html.TextBoxFor(m => m.Address, new { @id = "address", @class = "form__input", required = "required" })
+            </div>
+
+            <div class="form__group ma-bt-md">
+                <label class="form__label" for="dateOfBirth">Ngày sinh:</label>
+                @Html.TextBoxFor(m => m.DateOfBirth,
+                    new
+                    {
+                        @id = "dateOfBirth",
+                        @class = "form__input",
+                        type = "date",
+                        required = "required",
+                })
+            </div>
+
+            <div class="form__group ma-bt-md">
+                <label class="form__label" for="gender">Giới tính:</label>
+                @Html.DropDownListFor(m => m.Gender,
+                    new SelectList(new List<SelectListItem>
+                    {
+                        new SelectListItem { Value = "true", Text = "Nam" },
+                        new SelectListItem { Value = "false", Text = "Nữ" }
+                    }, "Value", "Text"),
+                    new { @id = "gender", @class = "form__input", required = "required" })
+            </div>
+
+            <div class="form__group right">
+                <button type="submit" class="btn btn--small btn--green">Lưu</button>
+            </div>
+        }
     </div>
-</main>
+
+    <div class="line">&nbsp;</div>
+
+    <div class="user-view__form-container">
+        <h2 class="heading-secondary ma-bt-md">Password change</h2>
+        @using (Html.BeginForm("UpdatePassword", "UserAccount", FormMethod.Post, new { @class = "form form-user-settings" }))
+        {
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            <input type="hidden" name="userId" value="@Model.UserId" />
+
+            <div class="form__group">
+                <label class="form__label" for="password-current">Current password</label>
+                <input id="password-current" class="form__input" type="password" placeholder="••••••••" required minlength="8" name="currPassword" />
+            </div>
+            <div class="form__group">
+                <label class="form__label" for="password">New password</label>
+                <input id="password" class="form__input" type="password" placeholder="••••••••" required minlength="8" name="newPassword" />
+            </div>
+            <div class="form__group ma-bt-lg">
+                <label class="form__label" for="password-confirm">Confirm password</label>
+                <input id="password-confirm" class="form__input" type="password" placeholder="••••••••" required minlength="8" name="passwordConfirm" />
+            </div>
+            <div class="form__group right">
+                <button class="btn btn--small btn--green">Cập nhật</button>
+            </div>
+        }
+    </div>
+</div>
