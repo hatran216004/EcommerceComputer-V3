@@ -59,7 +59,7 @@
                     {
                         <a class="product__item" href="@Url.Action("Detail", "Products", new { Id = p.ProductId })">
                             <div class="product__img">
-                                <img src="~/Public/Imgs/Products/@p.Thumbnail(store)" alt="" />
+                                <img src="~/Public/imgs/Products/@p.Thumbnail(store)" alt="" />
                                 @{
                                     double result = p.DiscountPercentage();
                                     if (result != 0)
