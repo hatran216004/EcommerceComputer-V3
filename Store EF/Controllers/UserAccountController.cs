@@ -1,20 +1,18 @@
 ﻿using Serilog;
 using Store_EF.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Store_EF.Controllers
 {
     public class UserAccountController : Controller
     {
-        static StoreEntities store = new StoreEntities();
+        StoreEntities store = new StoreEntities();
 
         public ActionResult Profile(int userId)
         {
-            var userDetails= store.UserDetails.FirstOrDefault(x => x.UserId == userId);
+            var userDetails = store.UserDetails.FirstOrDefault(x => x.UserId == userId);
             return View(userDetails);
         }
 
@@ -30,7 +28,7 @@ namespace Store_EF.Controllers
                     if (existingUserDetail != null)
                     {
                         existingUserDetail.Name = user.Name;
-                        existingUserDetail.Gender = user.Gender; 
+                        existingUserDetail.Gender = user.Gender;
                         existingUserDetail.Phone = user.Phone;
                         existingUserDetail.Address = user.Address;
                         existingUserDetail.DateOfBirth = user.DateOfBirth;
@@ -68,9 +66,9 @@ namespace Store_EF.Controllers
                 {
                     if (BCrypt.Net.BCrypt.Verify(currPassword, user.Password))
                     {
-                       user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
-                       user.PasswordChangedAt = DateTime.Now;
-                       store.SaveChanges();
+                        user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                        user.PasswordChangedAt = DateTime.Now;
+                        store.SaveChanges();
                     }
                 }
                 catch (Exception ex)

@@ -4,21 +4,19 @@ using Store_EF.Models;
 using Store_EF.Models.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
 
 namespace Store_EF.Controllers
 {
     public class ProductsController : Controller
     {
-        static StoreEntities store = new StoreEntities();
+        StoreEntities store = new StoreEntities();
 
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(int page = 1, string category = "", string brand = "")
         {
             int pageSize = 8;
             if (page < 1)
@@ -26,6 +24,10 @@ namespace Store_EF.Controllers
             try
             {
                 var products = store.Products.Where(x => x.Stock != 0);
+                if (category.Length != 0)
+                    products = products.Where(x => x.Category.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
+                if (brand.Length != 0)
+                    products = products.Where(x => x.Brand.Name.Equals(brand, StringComparison.OrdinalIgnoreCase));
                 int maxPage = products.ToList().MaxPage(pageSize);
                 if (page > maxPage)
                     page = maxPage;
@@ -92,51 +94,7 @@ namespace Store_EF.Controllers
             }
         }
 
-        // Updated upstream
-        //[HttpPost]
-        //public ActionResult Add(Product p, HttpPostedFileBase file)
-        //{
-        //    if (ModelState.IsValid && Helpers.IsValidImage(file.InputStream))
-        //    {
-        //        p = store.Products.Add(p);
-        //        Gallery g = new Gallery
-        //        {
-        //            ProductId = p.ProductId,
-        //            IsPrimary = true
-        //        };
-        //        try
-        //        {
-        //            store.SaveChanges();
-        //            g = store.Galleries.Add(g);
-        //            store.SaveChanges();
-        //            int galleryId = store.Entry(g).GetDatabaseValues().GetValue<int>("GalleryId");
-        //            string fName = $"{galleryId}{Path.GetExtension(file.FileName)}";
-        //            string path = Path.Combine(Server.MapPath("~"), $"Public\\Imgs\\Products\\{fName}");
-        //            if (!Directory.GetParent(path).Exists)
-        //                Directory.GetParent(path).Create();
-        //            file.SaveAs(path);
-        //            g.Thumbnail = fName;
-        //            store.SaveChanges();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            store.Galleries.Remove(g);
-        //            store.Products.Remove(p);
-        //            Log.Error(ex.ToString());
-        //            return HttpNotFound();
-        //        }
-        //        return RedirectToAction("Add");
-        //    }
-        //    else
-        //    {
-        //        ModelState.AddModelError("Err", "Thêm sản phẩm thất bại");
-        //        return Add();
-        //    }
-        //}
-
-
-
-// Stashed changes
+        // Stashed changes
         [HttpPost]
         public ActionResult Add(Product p, HttpPostedFileBase thumbnail, IEnumerable<HttpPostedFileBase> galleries = null)
         {
@@ -155,17 +113,18 @@ namespace Store_EF.Controllers
                     if (!Directory.GetParent(path).Exists)
                         Directory.GetParent(path).Create();
                     thumbnail.SaveAs(path);
-                    foreach (var item in galleries) {
+                    foreach (var item in galleries)
+                    {
                         if (item == null) continue;
                         fName = $"{Guid.NewGuid()}{Path.GetExtension(item.FileName)}";
-                        Gallery gallery = new Gallery() { 
+                        Gallery gallery = new Gallery()
+                        {
                             ProductId = productId,
                             Thumbnail = fName
                         };
                         store.Galleries.Add(gallery);
                         item.SaveAs(Path.Combine(Server.MapPath("~"), $"Public\\Imgs\\Products\\{fName}"));
                     }
-                    p.CreatedAt = DateTime.Now;
                     store.SaveChanges();
                 }
                 catch (Exception ex)
@@ -204,7 +163,7 @@ namespace Store_EF.Controllers
             }
         }
 
-        public ActionResult Delete (int id)
+        public ActionResult Delete(int id)
         {
             try
             {
@@ -227,13 +186,13 @@ namespace Store_EF.Controllers
             }
         }
 
-        public ActionResult Update (int id)
+        public ActionResult Update(int id)
         {
             ViewBag.Categories = store.Categories.ToList();
             ViewBag.Brands = store.Brands.ToList();
             ViewBag.Galleries = store.Galleries.Where(p => p.ProductId == id).ToList();
             var product = store.Products.FirstOrDefault(p => p.ProductId == id);
-            
+
             if (product == null)
             {
                 TempData["UpdateError"] = "Không tìm thấy sản phẩm để cập nhật.";
@@ -341,7 +300,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Lỗi khi lưu thay đổi vào cơ sở dữ liệu: " + ex.Message;
+                TempData["ErrorMessage"] = "Lỗi khi lưu thay đổi vào cơ sở dữ liệu: " + ex.Message;                   
                 return RedirectToAction("ProductManagement");
             }
 

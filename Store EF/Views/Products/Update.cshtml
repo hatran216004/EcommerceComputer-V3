@@ -1,4 +1,4 @@
-﻿@using Store_EF.Models
+@using Store_EF.Models
 @model Product
 
 @{
@@ -6,7 +6,6 @@
     Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
     var galleries = ViewBag.Galleries as IEnumerable<Gallery>;
 }
-
 
 <div class="add-product__main">
     <div class="add-product__header">
@@ -48,10 +47,18 @@
                     <label class="add-product__form-label"
                             for="category">Danh mục</label>
                     <select name="@nameof(Model.CategoryId)" , class="add-product__form-text">
+                        <option value="NULL">Rỗng</option>
                         @{
                             foreach (Category c in ViewBag.Categories)
                             {
-                                <option value="@c.CategoryId">@c.Name</option>
+                                if (Model.CategoryId == c.CategoryId)
+                                {
+                                    <option value="@c.CategoryId" selected>@c.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@c.CategoryId">@c.Name</option>
+                                }
                             }
                         }
                     </select>
@@ -60,10 +67,18 @@
                     <label class="add-product__form-label"
                             for="category">Thương hiệu</label>
                     <select name="@nameof(Model.BrandId)" , class="add-product__form-text">
+                        <option value="NULL">Rỗng</option>
                         @{
                             foreach (Brand c in ViewBag.Brands)
                             {
-                                <option value="@c.BrandId">@c.Name</option>
+                                if (Model.BrandId == c.BrandId)
+                                {
+                                    <option value="@c.BrandId" selected>@c.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@c.BrandId">@c.Name</option>
+                                }
                             }
                         }
                     </select>

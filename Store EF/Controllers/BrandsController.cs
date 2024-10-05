@@ -8,7 +8,7 @@ namespace Store_EF.Controllers
 {
     public class BrandsController : Controller
     {
-        static StoreEntities store = new StoreEntities();
+        StoreEntities store = new StoreEntities();
 
         public ActionResult Index()
         {
