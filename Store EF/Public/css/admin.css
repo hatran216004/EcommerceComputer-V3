@@ -179,8 +179,9 @@
 
 
 .add-product__form-picture-thumbnail {
-    width: 100%;
-    aspect-ratio: 1 / 1;
+    --square: 437px;
+    width: var(--square);
+    height: var(--square);
     margin-bottom: 20px;
     cursor: pointer;
     border: 2px dashed #ccc;
