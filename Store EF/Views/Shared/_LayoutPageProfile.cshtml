@@ -12,9 +12,14 @@
     <link href="~/Public/css/admin.css" rel="stylesheet" />
     <style>
         .main {
+            margin-top: 40px;
             display: flex;
             width: 100%;
             flex-wrap: wrap;
+        }
+        th, td {
+            text-align: center;
+          
         }
     </style>
 </head>
@@ -36,7 +41,7 @@
                 </ul>
 
                 <div class="admin-nav">
-                    <h5 class="admin-nav__heading">Admin</h5>
+                    <h5 class="admin-nav__heading">Quản trị viên</h5>
                     <ul class="side-nav">
                         <li>
                             <a href="@Url.Action("ProductManagement", "Products")">
@@ -47,7 +52,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="@Url.Action("UserManagement", "UserAccount")">
                                 <svg>
                                     <use xlink:href="img/icons.svg#icon-users"></use>
                                 </svg>
