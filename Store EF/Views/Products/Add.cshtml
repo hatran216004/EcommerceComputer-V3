@@ -3,52 +3,11 @@
 @model Product
 @{
     ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
 }
 
-@*<h2>Add</h2>*@
 
-@*@using (Html.BeginForm("Add", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.LabelFor(x => x.Title)
-    @Html.TextBoxFor(x => x.Title)
-    <br />
-    @Html.Label(nameof(Model.CategoryId))
-    <select name="@nameof(Model.CategoryId)">
-        @{
-            foreach (Category c in ViewBag.Categories)
-            {
-                <option value="@c.CategoryId">@c.Name</option>
-            }
-        }
-    </select>
-    <br />
-    @Html.Label(nameof(Model.BrandId))
-    <select name="@nameof(Model.BrandId)">
-        @{
-            foreach (Brand c in ViewBag.Brands)
-            {
-                <option value="@c.BrandId">@c.Name</option>
-            }
-        }
-    </select>
-    <br />
-    <label for="thumbnail">Thumbnail</label>
-    <input type="file" name="thumbnail" />
-    <br />
-    <label for="galleries">Galleries</label>
-    <input type="file" name="galleries" multiple="multiple" />
-    <br />
-    @Html.LabelFor(x => x.Stock)
-    @Html.TextBoxFor(x => x.Stock, new { @type = "number" })
-    <br />
-    @Html.LabelFor(x => x.Price)
-    @Html.TextBoxFor(x => x.Price, new { @type = "number", @min = 1000 })
-    <br />
-    @Html.LabelFor(x => x.Description)
-    @Html.TextBoxFor(x => x.Description)
-    <button type="submit">Thêm</button>
-}*@
-<div class="add-product container">
+<div class="add-product__main">
     <div class="add-product__header">
         <div class="add-product__title">Thêm mới sản phẩm</div>
 
@@ -62,8 +21,8 @@
             <div class="add-product__form-info-base">
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                           for="productName">Tên sản phẩm</label>
-                    @Html.TextBoxFor(m => m.Title, new {@class = "add-product__form-text" })
+                            for="productName">Tên sản phẩm</label>
+                    @Html.TextBoxFor(m => m.Title, new { @class = "add-product__form-text" })
                 </div>
                 <div class="add-product__form-group">
                     <label for="description">Mô tả sản phẩm</label>
@@ -85,7 +44,7 @@
                 </div>
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                           for="category">Danh mục</label>
+                            for="category">Danh mục</label>
                     <select name="@nameof(Model.CategoryId)" , class="add-product__form-text">
                         @{
                             foreach (Category c in ViewBag.Categories)
@@ -97,7 +56,7 @@
                 </div>
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                           for="category">Thương hiệu</label>
+                            for="category">Thương hiệu</label>
                     <select name="@nameof(Model.BrandId)" , class="add-product__form-text">
                         @{
                             foreach (Brand c in ViewBag.Brands)
@@ -145,6 +104,7 @@
         </div>
     }
 </div>
+
 
 <script>
     function previewImage(input) {

@@ -133,7 +133,7 @@ namespace Store_EF.Controllers
                     Log.Error(ex.ToString());
                     return HttpNotFound();
                 }
-                return RedirectToAction("Add");
+                return RedirectToAction("ProductManagement");
             }
             else
             {
@@ -154,7 +154,7 @@ namespace Store_EF.Controllers
                 if (page > maxPage)
                     page = maxPage;
                 ViewBag.MaxPage = maxPage;
-                return View(products.OrderByDescending(x => x.CreatedAt).ToPagedList(page, pageSize));
+                return View(products.OrderBy(x => x.CreatedAt).ToPagedList(page, pageSize));
             }
             catch (Exception ex)
             {
@@ -202,7 +202,7 @@ namespace Store_EF.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(Product product, HttpPostedFileBase thumbnailFile, IEnumerable<HttpPostedFileBase> galleries, int[] galleryIds)
+        public ActionResult Update(Product product, HttpPostedFileBase thumbnailFile, IEnumerable<HttpPostedFileBase> galleries, int[] galleryIds, IEnumerable<HttpPostedFileBase> newGalleries = null)
         {
             // Cập nhật thông tin sản phẩm trong cơ sở dữ liệu
             int productId;
@@ -231,7 +231,7 @@ namespace Store_EF.Controllers
                 }
             }
 
-            // Xử lý các ảnh gallery
+            // Xử lý các ảnh gallery đã có
             if (galleryIds != null && galleries != null)
             {
                 int galleryIndex = 0;
@@ -250,7 +250,6 @@ namespace Store_EF.Controllers
 
                                 file.SaveAs(path);
                                 galleryItem.Thumbnail = fileName;
-                                galleryItem.IsPrimary = false;
                             }
                             catch (Exception ex)
                             {
@@ -262,6 +261,39 @@ namespace Store_EF.Controllers
                     galleryIndex++;
                 }
             }
+
+            // Xử lý các ảnh mới
+            if (newGalleries != null)
+            {
+                foreach (var newGallery in newGalleries)
+                {
+                    if (newGallery != null && newGallery.ContentLength > 0)
+                    {
+                        try
+                        {
+                            string fileName = Path.GetFileName(newGallery.FileName);
+                            string path = Path.Combine(Server.MapPath("~\\public\\imgs\\products\\"), fileName);
+
+                            newGallery.SaveAs(path);
+
+                            // Tạo và thêm một gallery mới cho ảnh này
+                            var newGalleryItem = new Gallery
+                            {
+                                ProductId = productId,
+                                Thumbnail = fileName,
+                                IsPrimary = false // Đánh dấu là ảnh phụ
+                            };
+                            store.Galleries.Add(newGalleryItem);
+                        }
+                        catch (Exception ex)
+                        {
+                            TempData["ErrorMessage"] = "Lỗi khi lưu ảnh mới: " + ex.Message;
+                            return RedirectToAction("ProductManagement");
+                        }
+                    }
+                }
+            }
+
             try
             {
                 store.SaveChanges();
@@ -275,6 +307,7 @@ namespace Store_EF.Controllers
             TempData["SuccessMessage"] = "Cập nhật sản phẩm thành công!";
             return RedirectToAction("ProductManagement");
         }
+
 
 
     }
