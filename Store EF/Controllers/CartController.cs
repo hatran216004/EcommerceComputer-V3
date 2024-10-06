@@ -16,7 +16,6 @@ namespace Store_EF.Controllers
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
             return View(store.Carts.Where(x => x.UserId == userId));
-
         }
 
         [HttpPost]
@@ -35,7 +34,8 @@ namespace Store_EF.Controllers
                     {
                         UserId = userId,
                         ProductId = product.Value,
-                        Quantity = 1
+                        Quantity = 1,
+                        CreatedAt = DateTime.Now,
                     });
                 }
                 else
