@@ -1,29 +1,21 @@
-﻿
+﻿@using Store_EF.Models;
+@using Store_EF.Models.Extensions;
+@model IEnumerable<Cart>
 @{
     ViewBag.Title = "CheckOut";
+    StoreEntities store = new StoreEntities();
+    int userId = int.Parse(Session["UserId"].ToString());
+    User_ user = store.Users.First(x => x.UserId == userId);
+    UserDetail userDetail = user.UserDetail;
 }
-
-<h2>CheckOut</h2>
 
 <div class="product-container">
     <!-- Breakcrumbs -->
     <ul class="breakcrumbs">
         <li>
-            <a href="#!" class="breakcrumbs__link">
-                Departments
-                <img src="./assets/icons/arrow-right.svg" alt="" />
-            </a>
-        </li>
-        <li>
-            <a href="#!" class="breakcrumbs__link">
-                Coffee
-                <img src="./assets/icons/arrow-right.svg" alt="" />
-            </a>
-        </li>
-        <li>
-            <a href="#!" class="breakcrumbs__link">
-                Coffee Beans
-                <img src="./assets/icons/arrow-right.svg" alt="" />
+            <a href="@Url.Action("Index", "Home")"
+               class="breakcrumbs__link">
+                Trang chủ
             </a>
         </li>
         <li>
@@ -46,6 +38,7 @@
                 <input type="text"
                        id="fullname"
                        name="fullname"
+                       value="@userDetail.Name"
                        required />
             </div>
             <div class="checkout__form-group">
@@ -53,6 +46,8 @@
                 <input type="email"
                        id="email"
                        name="email"
+                       maxlength="320"
+                       value="@user.Email"
                        required />
             </div>
             <div class="checkout__form-group">
@@ -60,6 +55,8 @@
                 <input type="tel"
                        id="phone"
                        name="phone"
+                       maxlength="11"
+                       value="@userDetail.Phone"
                        required />
             </div>
             <div class="checkout__form-group">
@@ -67,16 +64,33 @@
                 <input type="text"
                        id="address"
                        name="address"
+                       value="@userDetail.Address"
                        required />
             </div>
             <div class="checkout__form-group">
                 <label for="note">Ghi chú</label>
-                <input type="text" id="note" name="bote" required />
+                <input type="text" id="note" name="note" />
             </div>
         </div>
 
         <div class="checkout__info">
-            <div class="checkout__info-products">
+            @{
+                foreach (Cart c in Model)
+                {
+                    <div class="checkout__info-products">
+                        <div class="checkout__info-product">
+                            <div class="checkout__info-product-item">
+                                <img src="~/Public/imgs/Products/@c.Product.Thumbnail(store)" alt="" />
+                                <span>@c.Product.Title</span>
+                            </div>
+                            <div class="checkout__info-product-price">
+                                @c.Product.FormattedPrice() x @c.Quantity
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            @*<div class="checkout__info-products">
                 <div class="checkout__info-product">
                     <div class="checkout__info-product-item">
                         <img src="~/Public/Imgs/product-1.svg" alt="" />
@@ -97,19 +111,23 @@
                         100.000
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div class="checkout__info-warp">
                 <div class="checkout__info-item">
+                    @{ 
+                        int totalPrice = Model.TotalPrice(store);
+                        int shippingPrice = 0;
+                    }
                     <span>Tạm tính: </span>
-                    <span class="checkout__info-item-price">200.000 đ</span>
+                    <span class="checkout__info-item-price">@Helpers.FormattedPrice(totalPrice)</span>
                 </div>
                 <div class="checkout__info-item">
                     <span>Vận chuyển: </span>
-                    <span class="checkout__info-item-price">0 đ</span>
+                    <span class="checkout__info-item-price">@Helpers.FormattedPrice(shippingPrice)</span>
                 </div>
                 <div class="checkout__info-item">
                     <span>Tổng cộng: </span>
-                    <span class="checkout__info-item-price">200.000 đ</span>
+                    <span class="checkout__info-item-price">@Helpers.FormattedPrice(totalPrice + shippingPrice)</span>
                 </div>
             </div>
             <div class="checkout__method">
@@ -120,26 +138,26 @@
                                id="checkout__method-bank" />
                         <label for="checkout__method-bank">Ngân hàng</label>
                     </div>
-                    <div class="checkout__method-imgs">
-                        <img src="~/Public/icons/visa-icon.png"
-                             alt=""
-                             class="checkout__method-img" />
-                        <img src="~/Public/icons/master-card-icon.png"
-                             alt=""
-                             class="checkout__method-img" />
-                    </div>
+                    @*<div class="checkout__method-imgs">
+                    <img src="~/Public/icons/visa-icon.png"
+                         alt=""
+                         class="checkout__method-img" />
+                    <img src="~/Public/icons/master-card-icon.png"
+                         alt=""
+                         class="checkout__method-img" />
+                </div>*@
                 </div>
                 <div class="checkout__method-item">
                     <div class="checkout__method-radio">
                         <input type="radio"
                                name="checkout__method"
                                id="checkout__method-transfer" />
-                        <label for="checkout__method-transfer">QR CODE</label>
+                        <label for="checkout__method-transfer">Tiền mặt</label>
                     </div>
                 </div>
-                <div class="checkout__method-qr">
-                    <img src="~/Public/icons/qr-code.png" alt="" />
-                </div>
+                @*<div class="checkout__method-qr">
+                <img src="~/Public/icons/qr-code.png" alt="" />
+            </div>*@
             </div>
             <div class="checkout__action">
                 <button class="btn btn--primary">
@@ -150,7 +168,7 @@
     </form>
 </div>
 
-<script>
+@*<script>
             // Lấy các phần tử radio button và vùng chứa QR code
             const bankRadio = document.getElementById('checkout__method-bank');
             const qrRadio = document.getElementById(
@@ -170,4 +188,4 @@
                     qrCodeDiv.style.display = 'block'; // Hiển thị QR code khi chọn "QR CODE"
                 }
             });
-</script>
+</script>*@

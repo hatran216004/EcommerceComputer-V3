@@ -14,7 +14,11 @@ namespace Store_EF.Controllers
         {
             try
             {
-                return View(store.Products.Where(x => x.Stock != 0 && x.PromoPrice != null).OrderByDescending(x => x.CreatedAt).Take(12).ToList());
+                IEnumerable<Product> promoProducts = store.Products.Where(x => x.Stock != 0 && x.PromoPrice != null);
+                if (promoProducts.Count() >= 12)
+                    return View(promoProducts.OrderByDescending(x => x.CreatedAt).Take(12));
+                else
+                    return View(store.Products.Where(x => x.Stock != 0).OrderByDescending(x => x.CreatedAt));
             }
             catch (Exception ex)
             {
