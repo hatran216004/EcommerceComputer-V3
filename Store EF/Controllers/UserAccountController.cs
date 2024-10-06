@@ -1,8 +1,12 @@
-﻿using Serilog;
+﻿using PagedList;
+using Serilog;
 using Store_EF.Models;
+using Store_EF.Models.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Store_EF.Controllers
 {
@@ -79,6 +83,112 @@ namespace Store_EF.Controllers
             }
 
             return RedirectToAction("Profile", new { userId = int.Parse(userId) });
+        }
+
+        public ActionResult UserManagement(int page = 1)
+        {
+            int pageSize = 8;
+            if (page < 1)
+                page = 1;
+            try
+            {
+                List<User_> listUsers = store.Users.ToList();
+                // Tính số trang dựa trên tổng số người dùng và kích thước trang
+                int maxPage = (int)Math.Ceiling((double)listUsers.Count / pageSize);
+                if (page > maxPage)
+                    page = maxPage;
+
+                ViewBag.MaxPage = maxPage;
+                if (TempData["SuccessMessage"] != null)
+                {
+                    ViewBag.Message = TempData["SuccessMessage"];
+                }
+
+                return View(listUsers.ToPagedList(page, pageSize));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                return View();
+            }
+        }
+
+        public ActionResult DeleteUser(int id)
+        {
+            try
+            {
+                User_ findUser = store.Users.Find(id);
+                UserDetail findUserDetail = store.UserDetails.Find(id);
+                if (findUser != null && findUserDetail != null)
+                {
+                    store.Users.Remove(findUser);
+                    store.UserDetails.Remove(findUserDetail);
+                    store.SaveChanges();
+                    TempData["SuccessMessage"] = "User deleted successfully!";
+                }
+                return RedirectToAction("UserManagement");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                return RedirectToAction("UserManagement");
+            }
+        }
+
+        public ActionResult AddUser(string email, string password, string role)
+        {
+            try
+            {
+                User_ newUser = new User_
+                {
+                    Email = email,
+                    Password = BCrypt.Net.BCrypt.HashPassword(password), // Bạn nên mã hóa mật khẩu trước khi lưu
+                    RoleName = role
+                };
+                store.Users.Add(newUser);
+                store.SaveChanges();
+                TempData["SuccessMessage"] = "User added successfully!";
+                return RedirectToAction("UserManagement");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                return RedirectToAction("UserManagement");
+            }
+        }
+
+        public ActionResult GetUser(int id)
+        {
+            try
+            {
+                User_ findUser = store.Users.Find(id);
+                return View(findUser);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                return RedirectToAction("UserManagement");
+            }
+        }
+
+        public ActionResult UpdateUser(User_ user,  int id)
+        {
+            try
+            {
+                User_ findUser = store.Users.Find(id);
+                findUser.Email = user.Email;
+                findUser.RoleName = user.RoleName;
+
+                TempData["SuccessMessage"] = "User updated successfully!";
+                store.SaveChanges();
+                return RedirectToAction("UserManagement");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                TempData["SuccessMessage"] = "Lỗi cmnr...";
+                return RedirectToAction("UserManagement");
+            }
         }
     }
 }

@@ -16,16 +16,22 @@
 
 .pm__btn-add-warp {
     padding: 4px;
-    background-color: #97b0fa;
     width: fit-content;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+.pm__btn-add-warp:hover {
+    opacity: 0.9;
 }
 
 .pm__btn-add {
     display: flex;
+    align-items: center;
+    gap: 8px;
     background-color: #285aeb;
     color: #fff;
-    padding: 8px;
+    padding: 12px;
     width: fit-content;
     border-radius: 10px;
     align-items: center;
@@ -242,44 +248,67 @@
 
 /*Modal*/
 .modal {
-    display: none; /* Ẩn modal mặc định */
     position: fixed;
     z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background-color: rgba(0, 0, 0, 0.5); /* Màn che mờ */
+
+    display: flex;
     justify-content: center;
     align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s, visibility 0.25s;
 }
+
+.display {
+    visibility: visible;
+    opacity: 1;
+}
+
 .modal-content {
     background-color: white;
-    padding: 50px;
-    border-radius: 16px;
-    width: 500px;
+    padding: 30px;
+    border-radius: 12px;
+    width: 340px;
     text-align: center;
     position: relative;
 }
 
+.modal-content p {
+    font-size: 18px;
+    line-height: 150%;
+    font-weight: 700;
+}
+
 .model__btn-close {
+    padding: 10px;
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 0;
+    right: 6px;
     font-size: 20px;
     cursor: pointer;
 }
 
 .modal-actions {
-    margin-top: 40px;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .model__btn-cancel,
 .model__btn-delete {
-    border-radius: 16px;
-    padding: 10px 20px;
+    padding: 0 20px;
+    border-radius: 6px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .model__btn-cancel {
@@ -292,3 +321,58 @@
     background-color: red;
     color: white;
 }
+
+.btn-delete-link {
+    margin-right: 12px;
+}
+
+.btn-edit-link,
+.btn-delete-link {
+    padding: 6px 12px;
+    background-color: #e1ecf4;
+    border-radius: 3px;
+    border: 1px solid #7aa7c7;
+    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    color: #39739d;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-add-user {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+    .form-add-user > div {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .form-add-user input {
+        padding: 0 12px;
+        width: 100%;
+        height: 30px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-add-user button {
+        padding: 0 20px;
+        margin-top: 12px;
+        margin-left: auto;
+        height: 36px;
+        background-color: deepskyblue;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .form-add-user button:hover {
+            opacity: 0.9
+        }

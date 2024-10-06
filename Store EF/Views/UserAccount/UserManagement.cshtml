@@ -1,0 +1,160 @@
+﻿@using Store_EF.Models
+@model PagedList.IPagedList<User_>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "UserManagement";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<div class="pm__main">
+    <div class="pm__title">Quản lý người dùng</div>
+
+    <div class="pm__btn-add-warp">
+        <div class="pm__btn-add">
+            <img class="" src="~/Public/icons/plus.svg" alt="" />
+            <span>Thêm người dùng</span>
+        </div>
+    </div>
+
+    <table class="pm__table">
+        <thead>
+            <tr>
+                <th class="pm__table-title" scope="col">Email</th>
+                <th class="pm__table-title" scope="col">Role</th>
+                <th class="pm__table-title" scope="col">Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (User_ p in Model)
+                {
+                    <tr>
+                        <td class="pm__table-item" scope="row">@p.Email</td>
+                        <td class="pm__table-item">@p.RoleName</td>
+                        <td class="pm__table-item">
+                            <button class="btn-delete-link" data-id="@p.UserId">Xóa</button>
+                            <a href="@Url.Action("GetUser", "UserAccount", new { id = p.UserId })" class="btn-edit-link">Sửa</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<!-- Phân trang -->
+<div class="pagination" style="width: 100%">
+    @{
+        string action = ViewContext.RouteData.Values["action"].ToString();
+    }
+    @Html.PagedListPager(
+        Model,
+        page => Url.Action(action, new { page }),
+        new PagedListRenderOptions
+        {
+            MaximumPageNumbersToDisplay = ViewBag.MaxPage,
+            LiElementClasses = new[] { "page-item" },
+            UlElementClasses = new[] { "pagination" }
+        }
+    )
+</div>
+
+<!-- Modal delete -->
+<div id="deleteUserModal" class="modal">
+    <div class="modal-content">
+        <span class="model__btn-close">&times;</span>
+        <p>Bạn có chắc chắn muốn xóa người dùng này không?</p>
+        <div class="modal-actions">
+            <button id="cancelBtn" class="model__btn-cancel">Hủy</button>
+            <a id="confirmDeleteBtn" href="#" class="model__btn-delete">Xóa</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal add -->
+<div id="addUserModal" class="modal">
+    <div class="modal-content">
+        <span class="model__btn-close">&times;</span>
+        <h2>Nhập thông tin</h2>
+        <form action="@Url.Action("AddUser", "UserAccount")" method="post" class="form-add-user">
+            <div>
+                <label>Email</label>
+                <input type="text" name="email" value="" required />
+            </div>
+            <div>
+                <label>Mật khẩu</label>
+                <input type="password" name="password" value="" required />
+            </div>
+            <div>
+                <label>Role</label>
+                <select name="role" required>
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                    <option value="Employee">Employee</option>
+                </select>
+            </div>
+            <button>Thêm người dùng</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const deleteBtns = document.querySelectorAll('.btn-delete-link')
+    const cancelBtn = document.getElementById('cancelBtn')
+    const btnAdd = document.querySelector('.pm__btn-add-warp')
+
+    // Delete
+    deleteBtns.forEach(deleteBtn => {
+        deleteBtn.addEventListener('click', () => {
+        const deleteUserModal = document.getElementById('deleteUserModal')
+        const userId = deleteBtn.getAttribute('data-id');
+        const closeBtn = document.querySelector('.model__btn-close')
+
+        // Close modal
+        closeBtn.addEventListener('click', () => {
+            deleteUserModal.classList.remove('display')
+        })
+
+        deleteUserModal.classList.add('display')
+
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            confirmDeleteBtn.setAttribute('href', `@Url.Action("DeleteUser", "UserAccount", new { id = "__USERID__" })`.replace('__USERID__', userId))
+
+        })
+    })
+
+    // Add
+    btnAdd.addEventListener('click', () => {
+        const addUserModal = document.getElementById('addUserModal')
+        addUserModal.classList.add('display')
+    })
+
+    cancelBtn.addEventListener('click', () => {
+        const deleteUserModal = document.getElementById('deleteUserModal')
+        deleteUserModal.classList.remove('display')
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        Toastify({
+            text: `@ViewBag.Message`,
+            duration: 3000,
+            gravity: "top", // "top" or "bottom"
+            position: "right", // "left", "center" or "right"
+            backgroundColor: "#4CAF50", // Màu nền
+            className: "info",
+        }).showToast();
+    </script>
+} else
+            {
+                <script>
+                    console.log('loi cmnr...')
+                </script>
+            }
+
