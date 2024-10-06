@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    var RoleName = Session["RoleName"];
+}
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -17,16 +22,16 @@
             width: 100%;
             flex-wrap: wrap;
         }
+
         th, td {
             text-align: center;
-          
         }
     </style>
 </head>
 <body>
 
     @Html.Partial("_Header")
-    <div class="container" >
+    <div class="container">
         <div class="main">
             <nav class="user-view__menu">
                 <ul class="side-nav">
@@ -39,32 +44,34 @@
                         </a>
                     </li>
                 </ul>
-
-                <div class="admin-nav">
-                    <h5 class="admin-nav__heading">Quản trị viên</h5>
-                    <ul class="side-nav">
-                        <li>
-                            <a href="@Url.Action("ProductManagement", "Products")">
-                                <svg>
-                                    <use xlink:href="img/icons.svg#icon-map"></use>
-                                </svg>
-                                Quản lý sản phẩm
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("UserManagement", "UserAccount")">
-                                <svg>
-                                    <use xlink:href="img/icons.svg#icon-users"></use>
-                                </svg>
-                                Quản lý người dùng
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                @if ((string)RoleName == "Admin")
+                {
+                    <div class="admin-nav">
+                        <h5 class="admin-nav__heading">Quản trị viên</h5>
+                        <ul class="side-nav">
+                            <li>
+                                <a href="@Url.Action("ProductManagement", "Products")">
+                                    <svg>
+                                        <use xlink:href="img/icons.svg#icon-map"></use>
+                                    </svg>
+                                    Quản lý sản phẩm
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("UserManagement", "UserAccount")">
+                                    <svg>
+                                        <use xlink:href="img/icons.svg#icon-users"></use>
+                                    </svg>
+                                    Quản lý người dùng
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
             </nav>
             @RenderBody()
         </div>
-        
+
     </div>
 
     @Html.Partial("_Footer")

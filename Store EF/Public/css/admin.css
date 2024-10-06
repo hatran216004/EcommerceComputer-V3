@@ -267,7 +267,7 @@
 }
 
 .modal-content {
-    background-color: white;
+    background-color: #fff;
     padding: 30px;
     border-radius: 12px;
     width: 340px;
@@ -282,12 +282,13 @@
 }
 
 .model__btn-close {
-    padding: 10px;
+    padding: 8px 10px;
     position: absolute;
     top: 0;
     right: 6px;
     font-size: 20px;
     cursor: pointer;
+    user-select: none;
 }
 
 .modal-actions {
