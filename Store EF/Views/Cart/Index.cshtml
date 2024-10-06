@@ -62,6 +62,7 @@
                                 <input class="cart__main-quantity-input"
                                        type="number"
                                        value="@cart.Quantity"
+                                       name="@cart.ProductId"
                                        min="1" />
                                 <div class="cart__main-quantity-btn">
                                     <button class="cart-btn-up">
@@ -80,21 +81,21 @@
                     <!-- Tổng giá trị của sản phẩm -->
                     <div class="cart__main-item">
                         <div class="cart__main-subtotal">
-                            <span class="cart__total-product">@cart.Product.FormattedPrice(quantity: cart.Quantity)</span>
+                            <span class="cart__total-product">0</span>
                         </div>
                     </div>
                 </div>
             }                    
         </div>
     </div>
-    <div class="cart__action">
+    @*<div class="cart__action">
         <div class="cart__action-item">
             <a href="@Url.Action("Index", "Home")" class="cart__action-item-text">Về trang chủ</a>
         </div>
         <div class="cart__action-item">
             <a href="#" class="cart__action-item-text">Cập nhật giỏ hàng</a>
         </div>
-    </div>
+    </div>*@
     <div class="cart__checkout">
         <div class="cart__total">
             <p class="cart__total-header">Tổng giỏ hàng</p>
@@ -102,16 +103,16 @@
                 <span class="cart__total-title">Tạm tính: </span>
                 <span id="cartSubtotal" class="cart__total-value">0</span>
             </div>
-            <div class="cart__total-item">
+            @*<div class="cart__total-item">
                 <span class="cart__total-title">Vận chuyển: </span>
                 <div>
                     <span id="shippingCost" class="cart__total-value">0 </span><span>VND</span>
                 </div>
-            </div>
-            <div class="cart__total-item">
+            </div>*@
+            @*<div class="cart__total-item">
                 <span class="cart__total-title">Tổng cộng: </span>
                 <span id="cartTotal" class="cart__total-value">0</span>
-            </div>
+            </div>*@
             <div class="cart__action-btn">
                 <a href="#" class=""> Tiến hành thanh toán </a>
             </div>
