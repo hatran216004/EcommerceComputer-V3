@@ -1,0 +1,138 @@
+﻿.checkout {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.checkout__title {
+    width: 100%;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px; /* 83.333% */
+    letter-spacing: 1.44px;
+    margin-bottom: 48px;
+}
+
+.checkout__form {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkout__form-input {
+    width: 470px;
+    height: 766px;
+}
+
+.checkout__form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+}
+
+    .checkout__form-group label {
+        margin-bottom: 8px;
+    }
+
+    .checkout__form-group input {
+        height: 50px;
+        padding: 4px 8px;
+        font-size: 16px;
+        outline: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+.checkout__form-required {
+    color: #db4444;
+}
+
+.checkout__info {
+    width: 527px;
+    height: 600px;
+}
+
+.checkout__info-product {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkout__info-product-item {
+    display: flex;
+    align-items: center;
+}
+
+    .checkout__info-product-item img {
+        width: 50px;
+        margin-right: 24px;
+    }
+
+    .checkout__info-product-item span {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+    }
+
+.checkout__info-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 16px;
+}
+
+    .checkout__info-item + .checkout__info-item {
+        border-top: 1px solid rgba(0, 0, 0, 0.4);
+        padding-top: 16px;
+    }
+
+.checkout__method-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.checkout__method-radio {
+    display: flex;
+    align-items: center;
+}
+
+    .checkout__method-radio input {
+        margin-right: 16px;
+    }
+
+    .checkout__method-radio label {
+        margin-bottom: -2px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+    }
+
+.checkout__method-imgs {
+    display: flex;
+    align-items: center;
+}
+
+.checkout__method-img {
+    margin-left: 8px;
+}
+
+.checkout__method-qr {
+    display: none;
+    width: 200px;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: opacity 1s ease-in;
+}
+
+    .checkout__method-qr img {
+        display: block;
+        width: 100%;
+    }

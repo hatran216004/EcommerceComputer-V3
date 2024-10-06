@@ -300,7 +300,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Lỗi khi lưu thay đổi vào cơ sở dữ liệu: " + ex.Message;                   
+                TempData["ErrorMessage"] = "Lỗi khi lưu thay đổi vào cơ sở dữ liệu: " + ex.Message;
                 return RedirectToAction("ProductManagement");
             }
 
