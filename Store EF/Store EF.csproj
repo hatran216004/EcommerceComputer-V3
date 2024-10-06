@@ -325,12 +325,11 @@
     <Content Include="Public\imgs\logo.svg" />
     <Content Include="Public\imgs\logout.svg" />
     <Content Include="Public\imgs\my-order.svg" />
-    <Content Include="Public\imgs\product-1.svg" />
+    <Content Include="Public\imgs\products\null.png" />
     <Content Include="Public\imgs\profile.svg" />
     <Content Include="Public\imgs\search-icon.svg" />
     <Content Include="Public\imgs\twitter.svg" />
     <Content Include="Public\imgs\youtube.svg" />
-    <Content Include="Public\js\index.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -388,7 +387,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Public\imgs\products\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
