@@ -1,0 +1,43 @@
+﻿@using Store_EF.Models
+@model User_
+
+@{
+    ViewBag.Title = "GetUser";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+}
+<style>
+    .form-update-wrapper {
+        padding: 60px;
+        flex: 1;
+    }
+
+        .form-update-wrapper h2 {
+            font-size: 30px;
+            text-align: center;
+        }
+</style>
+
+<div class="form-update-wrapper">
+    <h2>Sửa thông tin</h2>
+    <form action="@Url.Action("UpdateUser", "UserAccount", new { id = Model.UserId })" method="post" class="form-add-user">
+        <div>
+            <label for="email">Email</label>
+            @Html.TextBoxFor(m => m.Email, new { @required = "required", @class = "form-control" })
+        </div>
+        <div>
+            <label for="password">Mật khẩu</label>
+            <input type="password" name="" value="*********" disabled class="disabled" />
+        </div>
+        <div>
+            <label for="role">Role</label>
+            @Html.DropDownListFor(m => m.RoleName, new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Admin", Value = "Admin" },
+                new SelectListItem { Text = "User", Value = "User" },
+                new SelectListItem { Text = "Employee", Value = "Employee" }
+            }, "Value", "Text"), new { @required = "required", @class = "form-control" })
+        </div>
+        <button type="submit">Cập nhật người dùng</button>
+    </form>
+</div>
+

@@ -6,12 +6,15 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Scripts.Render("~/bundles/modernizr")
     @*@Scripts.Render("~/Content/css");*@
+
     <link href="~/Public/css/reset.css" rel="stylesheet" />
     <link href="~/Public/css/grid.css" rel="stylesheet" />
     <link href="~/Public/css/main.css" rel="stylesheet" />
     <link href="~/Public/css/profile.css" rel="stylesheet" />
     <link href="~/Public/css/cart.css" rel="stylesheet" />
     <link href="~/Public/css/admin.css" rel="stylesheet" />
+    <link href="~/Public/css/checkout.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/Toastify.min.css" />
 </head>
 <body>
     @Html.Partial("_Header")
@@ -24,6 +27,5 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script src="~/Public/js/index.js"></script>
-   
 </body>
 </html>

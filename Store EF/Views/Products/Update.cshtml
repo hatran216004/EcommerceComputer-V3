@@ -1,4 +1,4 @@
-@using Store_EF.Models
+﻿@using Store_EF.Models
 @model Product
 
 @{
@@ -22,7 +22,7 @@
             <div class="add-product__form-info-base">
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                            for="productName">Tên sản phẩm</label>
+                           for="productName">Tên sản phẩm</label>
                     @Html.TextBoxFor(m => m.Title, new { @class = "add-product__form-text" })
                 </div>
                 <div class="add-product__form-group">
@@ -45,7 +45,7 @@
                 </div>
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                            for="category">Danh mục</label>
+                           for="category">Danh mục</label>
                     <select name="@nameof(Model.CategoryId)" , class="add-product__form-text">
                         <option value="NULL">Rỗng</option>
                         @{
@@ -65,7 +65,7 @@
                 </div>
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                            for="category">Thương hiệu</label>
+                           for="category">Thương hiệu</label>
                     <select name="@nameof(Model.BrandId)" , class="add-product__form-text">
                         <option value="NULL">Rỗng</option>
                         @{
@@ -96,8 +96,8 @@
                     var primaryGallery = galleries.FirstOrDefault(g => g.IsPrimary);
                 }
                 <img id="preview1"
-                        src="~/public/imgs/products/@(primaryGallery != null ? primaryGallery.Thumbnail : "default-thumbnail.png")"
-                        alt="Click to select image" />
+                     src="~/public/imgs/products/@(primaryGallery != null ? primaryGallery.Thumbnail : "default-thumbnail.png")"
+                     alt="Click to select image" />
                 <input type="file" name="thumbnailFile" id="picture1" accept="image/*" onchange="previewImage(this, 'preview1')" style="display: none;" />
             </div>
 
