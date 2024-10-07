@@ -9,9 +9,9 @@ namespace Store_EF.Models
         [JsonProperty("name")]
         public string Name { get { return name; } set { name = value; } }
 
-        uint code;
+        int code;
         [JsonProperty("code")]
-        public uint Code { get { return code; } set { code = value; } }
+        public int Code { get { return code; } set { code = value; } }
 
         List<Province> districts;
         [JsonProperty("districts")]
@@ -23,7 +23,7 @@ namespace Store_EF.Models
 
         public Province() { }
 
-        public Province(string name, uint code, List<Province> districts, List<Province> wards)
+        public Province(string name, int code, List<Province> districts, List<Province> wards)
         {
             Name = name;
             Code = code;

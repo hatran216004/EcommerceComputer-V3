@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Store_EF.Models.Extensions
+﻿namespace Store_EF.Models.Extensions
 {
     public static class UserExts
     {

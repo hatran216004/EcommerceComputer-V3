@@ -71,12 +71,7 @@
 
             <div class="checkout__form-group">
                 <label for="province">Thành phố/Tỉnh</label>
-                <select id="province" name="province">
-                    @foreach (Province p in ProvincesHandler.Provinces)
-                    {
-                        <option value="@p.Code">@p.Name</option>
-                    }
-                </select>
+                <select id="province" name="province"></select>
             </div>
             <div class="checkout__form-group">
                 <label for="district">Quận/Huyện</label>
@@ -172,25 +167,64 @@
         </div>
     </form>
 </div>
+<script>
+    const provinceEle = document.getElementById('province');
+    const districtEle = document.getElementById("district");
+    const wardEle = document.getElementById("ward");
 
-@*<script>
-            // Lấy các phần tử radio button và vùng chứa QR code
-            const bankRadio = document.getElementById('checkout__method-bank');
-            const qrRadio = document.getElementById(
-                'checkout__method-transfer'
-            );
-            const qrCodeDiv = document.querySelector('.checkout__method-qr');
+    fetch('@Url.Action("Provinces", "Helpers")', {
+        method: "GET"
+    }).then(reponse => reponse.json().then(data => {
+        const json = JSON.parse(data)
+        json.forEach(item => {
+            const node = document.createElement("option");
+            node.setAttribute("value", item.code);
+            node.innerText = item.name;
+            provinceEle.appendChild(node);
+        })
+        provinceEle.selectedIndex = '-1';
+        districtEle.selectedIndex = '-1';
+        wardEle.selectedIndex = '-1';
+    }))
 
-            // Lắng nghe sự thay đổi của radio button
-            bankRadio.addEventListener('change', function () {
-                if (bankRadio.checked) {
-                    qrCodeDiv.style.display = 'none'; // Ẩn QR code khi chọn "Ngân hàng"
-                }
-            });
+    provinceEle.addEventListener('change', function () {
+        var form = new FormData();
+        form.append("provinceCode", this.value);
+        fetch('@Url.Action("Districts", "Helpers")', {
+            method: "POST",
+            body: form,
+        }).then(reponse => reponse.json().then(data => {
+            const json = JSON.parse(data)
+            districtEle.innerHTML = '';
+            wardEle.innerHTML = '';
+            json.forEach(item => {
+                const node = document.createElement("option");
+                node.setAttribute("value", item.code);
+                node.innerText = item.name;
+                districtEle.appendChild(node);
+            })
+            districtEle.selectedIndex = '-1';
+            wardEle.selectedIndex = '-1';
+        }))
+    })
 
-            qrRadio.addEventListener('change', function () {
-                if (qrRadio.checked) {
-                    qrCodeDiv.style.display = 'block'; // Hiển thị QR code khi chọn "QR CODE"
-                }
-            });
-</script>*@
+    districtEle.addEventListener('change', function () {
+        var form = new FormData();
+        form.append("provinceCode", provinceEle.value);
+        form.append("districtCode", this.value);
+        fetch('@Url.Action("Wards", "Helpers")', {
+            method: "POST",
+            body: form,
+        }).then(reponse => reponse.json().then(data => {
+            const json = JSON.parse(data)
+            wardEle.innerHTML = '';
+            json.forEach(item => {
+                const node = document.createElement("option");
+                node.setAttribute("value", item.code);
+                node.innerText = item.name;
+                wardEle.appendChild(node);
+            })
+            wardEle.selectedIndex = '-1';
+        }))
+    })
+</script>

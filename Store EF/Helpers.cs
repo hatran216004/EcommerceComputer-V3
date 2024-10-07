@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net.Mail;
@@ -31,12 +30,14 @@ namespace Store_EF
 
         public static bool IsValidPhone(string phone)
         {
-            if (phone.Length == 10 || phone.Length == 11) { 
+            if (phone.Length == 10 || phone.Length == 11)
+            {
                 if (phone[0] == '0')
                     return true;
                 else
                     return false;
-            } else return false;
+            }
+            else return false;
         }
 
         public static bool IsValidImage(Stream stream)
