@@ -17,5 +17,9 @@ namespace Store_EF.Controllers
             IEnumerable<Cart> cart = store.Carts.Where(x => x.UserId == userId);
             return View(cart);
         }
+
+        //public ActionResult Payments(string fullname, string email, string phone, string address, string note, string method) { 
+        //    if (Helpers.IsValidEmail(email) && Helpers.IsValidPhone(phone))        
+        //}
     }
 }

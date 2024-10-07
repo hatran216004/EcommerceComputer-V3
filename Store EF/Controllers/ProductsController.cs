@@ -57,7 +57,7 @@ namespace Store_EF.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.ToString());
-                return View(new List<Product>().ToPagedList(1, pageSize));
+                return View("Index", new List<Product>().ToPagedList(1, pageSize));
             }
         }
 
