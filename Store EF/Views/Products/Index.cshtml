@@ -34,6 +34,7 @@
                 }
                 <label for="brand">Nhãn hiệu</label>
                 <select name="brand">
+                    <option value="">Tất cả</option>
                     @foreach (Brand b in store.Brands)
                     {
                         if (b.Name.Equals(brand, StringComparison.OrdinalIgnoreCase))
