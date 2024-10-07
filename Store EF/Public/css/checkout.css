@@ -31,16 +31,23 @@
     margin-bottom: 32px;
 }
 
-    .checkout__form-group label {
-        margin-bottom: 8px;
-    }
+.checkout__form-group label {
+    margin-bottom: 8px;
+}
 
-    .checkout__form-group input {
-        height: 50px;
-        padding: 4px 8px;
-        font-size: 16px;
-        outline: 1px solid rgba(0, 0, 0, 0.2);
-    }
+.checkout__form-group input {
+    height: 50px;
+    padding: 4px 8px;
+    font-size: 16px;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.checkout__form-group select {
+    height: 50px;
+    padding: 4px 8px;
+    font-size: 16px;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+}
 
 .checkout__form-required {
     color: #db4444;

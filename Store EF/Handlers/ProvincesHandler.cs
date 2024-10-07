@@ -2,7 +2,6 @@
 using Store_EF.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 
 namespace Store_EF.Handlers
@@ -19,12 +18,12 @@ namespace Store_EF.Handlers
             }
         }
 
-        public static IEnumerable<Province> Districts(uint provinceCode)
+        public static IEnumerable<Province> Districts(int provinceCode)
         {
             return Provinces.Where(x => x.Code == provinceCode).First().Districts;
         }
 
-        public static IEnumerable<Province> Wards(uint provinceCode, uint districtCode)
+        public static IEnumerable<Province> Wards(int provinceCode, int districtCode)
         {
             return Districts(provinceCode).Where(x => x.Code == districtCode).First().Wards;
         }
