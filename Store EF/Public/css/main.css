@@ -117,6 +117,7 @@ a {
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    margin-left: 20px;
 }
 
 .header__action-btn {
