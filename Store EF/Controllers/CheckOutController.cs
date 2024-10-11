@@ -5,6 +5,7 @@ using StuceSoftware.RandomStringGenerator;
 using System;
 using System.Configuration;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 
 namespace Store_EF.Controllers
@@ -21,6 +22,8 @@ namespace Store_EF.Controllers
             User_ user = store.Users.First(x => x.UserId == userId);
             if (user.CurrentPayment() != null)
                 return RedirectToAction("Payment");
+            if (user.TotalCartPrice() == 0)
+                return RedirectToAction("Index", "Products");
             CheckOutForm checkOut = new CheckOutForm()
             {
                 FullName = user.UserDetail.Name,
@@ -80,16 +83,12 @@ namespace Store_EF.Controllers
                 {
                     store.Orders.Remove(order);
                     if (payment != new Payment())
-                    {
                         store.Payments.Remove(payment);
-                    }
                     return View("Index");
                 }
             }
             else
-            {
                 return View("Index");
-            }
         }
 
         public ActionResult Payment()
@@ -99,13 +98,59 @@ namespace Store_EF.Controllers
             int userId = int.Parse(Session["UserId"].ToString());
             Payment payment = store.Users.Where(x => x.UserId == userId).First().CurrentPayment();
             if (payment == null)
-            {
                 return RedirectToAction("Index", "Home");
-            }
             else
-            {
                 return View(payment);
+        }
+
+        public ActionResult Status(string code)
+        {
+            Payment payment = store.Payments.FirstOrDefault(x => x.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
+            if (payment == null)
+                return new HttpStatusCodeResult(404);
+            Response.ContentType = "text/event-stream";
+            Response.Headers.Add("Cache-Control", "no-cache");
+            Response.Headers.Add("Connection", "keep-alive");
+            Response.BufferOutput = false;
+            while (true)
+            {
+                payment = (new StoreEntities()).Payments.FirstOrDefault(x => x.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
+                switch (payment.Status)
+                {
+                    case "Succeeded":
+                        {
+                            try
+                            {
+                                Response.Write($"data: {payment.Status}\n\n");
+                                Response.Flush();
+                                Response.End();
+                            }
+                            catch
+                            {
+                                return new HttpStatusCodeResult(200);
+                            }
+                        }
+                        break;
+                    case "Failed":
+                        {
+                            try
+                            {
+                                Response.Write($"data: {payment.Status}\n\n");
+                                Response.Flush();
+                                Response.End();
+                            }
+                            catch
+                            {
+                                return new HttpStatusCodeResult(200);
+                            }
+                        }
+                        break;
+                }
+                if (payment.Status == "Succeeded" || payment.Status == "Failed")
+                    break;
+                Thread.Sleep(5000);
             }
+            return new HttpStatusCodeResult(200);
         }
     }
 }
