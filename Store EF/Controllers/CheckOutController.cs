@@ -114,7 +114,7 @@ namespace Store_EF.Controllers
             Response.BufferOutput = false;
             while (true)
             {
-                payment = (new StoreEntities()).Payments.FirstOrDefault(x => x.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
+                payment = new StoreEntities().Payments.FirstOrDefault(x => x.Code.Equals(code, StringComparison.OrdinalIgnoreCase));
                 switch (payment.Status)
                 {
                     case "Succeeded":
@@ -146,7 +146,7 @@ namespace Store_EF.Controllers
                         }
                         break;
                 }
-                if (payment.Status == "Succeeded" || payment.Status == "Failed")
+                if (payment.Status == "Succeeded" || payment.Status == "Failed" || !Response.IsClientConnected)
                     break;
                 Thread.Sleep(5000);
             }

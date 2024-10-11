@@ -20,21 +20,27 @@
     <p>Trạng thái: <span id="status">Chờ thanh toán</span></p>
 
     <script>
-        var source = new EventSource('@Url.Action("Status", "CheckOut", new { code = Model.Code })');
-        source.onmessage = function (event) {
-            console.log(event.data);
-            const statusEle = document.getElementById("status");
-            if (event.data == 'Succeeded') {
-                statusEle.innerText = "Đã thanh toán";
+        function startSSE() {
+            var source = new EventSource('@Url.Action("Status", "CheckOut", new { code = Model.Code })');
+            source.onmessage = function (event) {
+                const statusEle = document.getElementById("status");
+                if (event.data == 'Succeeded') {
+                    statusEle.innerText = "Đã thanh toán";
+                    source.close();
+                } else if (event.data == 'Failed') {
+                    statusEle.innerText = "Thanh toán thất bại";
+                    source.close();
+                }
+            };
+            source.onerror = function (event) {
+                console.log("Error occurred: ", event);
+            };
+            window.addEventListener('beforeunload', function () {
+                console.log('Closing SSE connection...');
                 source.close();
-            } else if (event.data == 'Failed') {
-                statusEle.innerText = "Thanh toán thất bại";
-                source.close();
-            }
-        };
-        source.onerror = function (event) {
-            console.log("Error occurred: ", event);
-        };
+            });
+        }
+        setTimeout(startSSE, 2000);
     </script>
 }
 
