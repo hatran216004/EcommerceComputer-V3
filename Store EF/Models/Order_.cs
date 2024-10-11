@@ -18,6 +18,7 @@ namespace Store_EF.Models
         public Order_()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.Payments = new HashSet<Payment>();
         }
     
         public int OrderId { get; set; }
@@ -33,5 +34,7 @@ namespace Store_EF.Models
         public virtual User_ User_ { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }
