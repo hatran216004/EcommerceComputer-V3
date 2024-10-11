@@ -35,5 +35,6 @@ namespace Store_EF.Models
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<User_> Users { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
     }
 }

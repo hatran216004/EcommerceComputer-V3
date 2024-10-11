@@ -26,6 +26,8 @@
         <AssociationConnector Association="StoreModel.FK__Review__ProductI__151B244E" ManuallyRouted="false" />
         <AssociationConnector Association="StoreModel.FK__Review__UserId__14270015" ManuallyRouted="false" />
         <AssociationConnector Association="StoreModel.FK__UserDetai__UserI__75A278F5" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="StoreModel.Payment" Width="1.5" PointX="5.25" PointY="12.5" />
+        <AssociationConnector Association="StoreModel.FK__Payment__OrderId__634EBE90" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

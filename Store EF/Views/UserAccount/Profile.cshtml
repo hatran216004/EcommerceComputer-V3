@@ -17,7 +17,7 @@
             @Html.HiddenFor(m => m.UserId)
             <div class="form__group">
                 <label class="form__label" for="name">Họ tên</label>
-                @Html.TextBoxFor(m => m.Name, new { @id = "name", @class = "form__input", required = "required" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form__input", required = "required" })
             </div>
 
             <div class="form__group ma-bt-md">
@@ -27,24 +27,17 @@
 
             <div class="form__group ma-bt-md">
                 <label class="form__label" for="phone">Điện thoại:</label>
-                @Html.TextBoxFor(m => m.Phone, new { @id = "phone", @class = "form__input", required = "required" })
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form__input", required = "required" })
             </div>
 
             <div class="form__group ma-bt-md">
                 <label class="form__label" for="address">Địa chỉ:</label>
-                @Html.TextBoxFor(m => m.Address, new { @id = "address", @class = "form__input", required = "required" })
+                @Html.TextBoxFor(m => m.Address, new { @class = "form__input", required = "required" })
             </div>
 
             <div class="form__group ma-bt-md">
                 <label class="form__label" for="dateOfBirth">Ngày sinh:</label>
-                @Html.TextBoxFor(m => m.DateOfBirth,
-                    new
-                    {
-                        @id = "dateOfBirth",
-                        @class = "form__input",
-                        type = "date",
-                        required = "required",
-                })
+                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form__input" value="@Model.DateOfBirth.GetValueOrDefault().ToString("yyyy-MM-dd")" />
             </div>
 
             <div class="form__group ma-bt-md">
@@ -55,7 +48,7 @@
                         new SelectListItem { Value = "true", Text = "Nam" },
                         new SelectListItem { Value = "false", Text = "Nữ" }
                     }, "Value", "Text"),
-                    new { @id = "gender", @class = "form__input", required = "required" })
+                    new { @class = "form__input", required = "required" })
             </div>
 
             <div class="form__group right">

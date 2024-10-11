@@ -9,7 +9,7 @@ namespace Store_EF.Models
         public string Gateway { get; set; }
 
         [JsonProperty("transactionDate")]
-        public DateTimeOffset TransactionDate { get; set; }
+        public DateTime TransactionDate { get; set; }
 
         [JsonProperty("accountNumber")]
         public string AccountNumber { get; set; }

@@ -1,0 +1,22 @@
+﻿@using Store_EF.Models;
+@using Store_EF.Models.Extensions;
+@using System.Configuration;
+@model Payment
+@{
+    ViewBag.Title = "Payment";
+    string bank = ConfigurationManager.AppSettings["Bank"];
+    string account = ConfigurationManager.AppSettings["Account"];
+    string fullName = ConfigurationManager.AppSettings["FullName"];
+}
+@if (Model.Method == "Bank")
+{
+    <img style="display:block; width:500px;height:500px;" src="data:image/png;base64,@Model.QR()" />
+    <p>Chủ tài khoản: @fullName</p>
+    <p>Số tài khoản: @account</p>
+    <p>Ngân hàng: @bank</p>
+    <p>Số tiền: @Model.Order_.TotalPrice()</p>
+    <p>Nội dung: @Model.Code</p>
+    <p>Mã thanh toán này sẽ hết hạn sau @Model.Expiry.ToString("hh:mm") ngày @Model.Expiry.ToString("dd-MM-yyyy")</p>
+    <p>Trạng thái: <span id="status">Chờ thanh toán</span></p>
+}
+

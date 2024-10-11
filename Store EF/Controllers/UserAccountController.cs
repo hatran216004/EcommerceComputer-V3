@@ -12,8 +12,11 @@ namespace Store_EF.Controllers
     {
         StoreEntities store = new StoreEntities();
 
-        public ActionResult Profile(int userId)
+        public ActionResult Profile()
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
             var userDetails = store.UserDetails.FirstOrDefault(x => x.UserId == userId);
             return View(userDetails);
         }
@@ -37,7 +40,7 @@ namespace Store_EF.Controllers
                         store.SaveChanges();
                     }
 
-                    return RedirectToAction("Profile", new { userId = user.UserId });
+                    return RedirectToAction("Profile");
                 }
                 catch (Exception ex)
                 {
@@ -80,7 +83,7 @@ namespace Store_EF.Controllers
                 }
             }
 
-            return RedirectToAction("Profile", new { userId = int.Parse(userId) });
+            return RedirectToAction("Profile");
         }
 
         public ActionResult UserManagement(int page = 1)
