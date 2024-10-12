@@ -6,6 +6,7 @@
 .pm__main {
     margin-left: 16px;
     flex-grow: 1;
+    width: 70%;
 }
 .pm__title {
     font-size: 24px;
@@ -90,6 +91,13 @@
         width: 200px;
     }
 
+.multiline-ellipsis {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; 
+    white-space: pre-wrap; 
+}
 
 
 /* add product page */
@@ -120,7 +128,10 @@
 
     .add-product__action button {
         color: #fff;
-        padding: 16px 24px;
+/*        background-color:blue;*/
+        padding: 16px 0;
+        width:100%;
+        cursor: pointer;
     }
 
 .add-product__form {

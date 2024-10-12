@@ -1,4 +1,4 @@
-﻿﻿create database Store
+﻿﻿CREATE DATABASE Store
 GO
 USE Store
 GO
@@ -39,7 +39,7 @@ CREATE TABLE Product (
     ProductId INT IDENTITY(1,1) PRIMARY KEY,
     Title NVARCHAR(255) NOT NULL,
     Stock INT NOT NULL,
-    Price INT NOT NULL,
+    Price INT NOT NULL CHECK (Price > 0),
     PromoPrice INT,
     Description NVARCHAR(MAX),
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
@@ -47,6 +47,8 @@ CREATE TABLE Product (
     BrandId INT FOREIGN KEY REFERENCES Brand(BrandId),
     CategoryId INT FOREIGN KEY REFERENCES Category(CategoryId)
 )
+
+ALTER TABLE Product ADD CHECK (PromoPrice IS NULL OR (PromoPrice > 0 AND PromoPrice < Price))
 
 CREATE TABLE Gallery (
     GalleryId INT IDENTITY(1,1) PRIMARY KEY,
@@ -84,6 +86,22 @@ CREATE TABLE OrderDetail (
 	PRIMARY KEY (OrderId, ProductId),
 )
 
+CREATE TABLE Payment (
+	PaymentId INT PRIMARY KEY IDENTITY(1,1),
+	OrderId INT NOT NULL FOREIGN KEY REFERENCES Order@(OrderId),
+	Amount MONEY DEFAULT 0 CHECK (Amount >= 0),
+	Code VARCHAR(20) NOT NULL UNIQUE,
+	Method VARCHAR(10) NOT NULL CHECK (Method IN ('Cash', 'Bank')),
+	Status VARCHAR(20) NOT NULL DEFAULT 'Waitting' CHECK (Status IN ('Waitting', 'Succeeded', 'Failed')),
+	PaymentDate DATETIME2 CHECK (PaymentDate <= GETDATE()),
+	Expiry DATETIME2 NOT NULL DEFAULT DATEADD(day, 1, GETDATE()) CHECK (Expiry > GETDATE()),
+	TransactionId VARCHAR(20),
+	Bank VARCHAR(20) NOT NULL,
+	Account VARCHAR(20) NOT NULL
+)
+
+CREATE UNIQUE NONCLUSTERED INDEX IDX_TransactionId_NOTNULL ON Payment(TransactionId) WHERE TransactionId IS NOT NULL
+
 CREATE TABLE Review (
     UserId INT NOT NULL FOREIGN KEY REFERENCES User@(UserId) ON DELETE CASCADE,
     ProductId INT NOT NULL FOREIGN KEY REFERENCES Product(ProductId) ON DELETE CASCADE,
@@ -113,23 +131,38 @@ BEGIN
 END
 GO
 
-CREATE TRIGGER Tri_AddGallery ON Gallery
-FOR INSERT
+GO
+CREATE FUNCTION GetPrice(@ProductId INT)
+RETURNS INT
 AS
 BEGIN
-	DECLARE @ProductId INT = (SELECT ProductId FROM inserted)
-	IF EXISTS(SELECT * FROM inserted WHERE IsPrimary = 1)
-	BEGIN
-		IF (SELECT COUNT(*) FROM Gallery WHERE IsPrimary = 1 AND ProductId = @ProductId) = 0
-			COMMIT TRAN
-		ELSE
-			ROLLBACK TRAN
-	END
-	ELSE
-		COMMIT TRAN
+	DECLARE @Price INT = (SELECT IIF(PromoPrice IS NULL, Price, PromoPrice) FROM Product WHERE ProductId = @ProductId)
+	RETURN @Price
 END
+GO
 
-
+GO
+CREATE TRIGGER Tri_AddPayment On Payment
+AFTER INSERT
+AS
+BEGIN
+	DECLARE @OrderId INT = (SELECT OrderId FROM inserted)
+	DECLARE @UserId INT = (SELECT UserId FROM Order@ WHERE OrderId = @OrderId)
+	DECLARE TMP CURSOR LOCAL SCROLL STATIC
+	FOR SELECT ProductId, Quantity FROM Cart WHERE UserId = @UserId
+	OPEN TMP
+	DECLARE @ProductId INT, @Quantity INT
+	FETCH NEXT FROM TMP INTO @ProductId, @Quantity
+	WHILE (@@FETCH_STATUS=0)
+	BEGIN
+		INSERT INTO OrderDetail VALUES (@OrderId, @ProductId, dbo.GetPrice(@ProductId), @Quantity)
+		DELETE FROM Cart WHERE UserId = @UserId AND ProductId = @ProductId
+		FETCH NEXT FROM TMP INTO @ProductId, @Quantity
+	END
+	CLOSE TMP
+	DEALLOCATE TMP
+END
+GO
 
 -- Thêm tài khoản người dùng
 INSERT INTO User@ (RoleName, Email, Password)
@@ -200,35 +233,3 @@ VALUES
 ('gallery_lenovo_thinkpad_2.jpg', 4),
 ('gallery_acer_aspire_1.jpg', 5),
 ('gallery_acer_aspire_2.jpg', 5)
-
-GO
-CREATE PROC AddCart @userId INT, @productId INT
-AS
-BEGIN
-	DECLARE @num INT = (SELECT COUNT(*) FROM Cart WHERE UserId = @userId AND ProductId = @productId)
-	IF @num = 0
-	BEGIN
-		DECLARE @result INT
-		INSERT INTO Cart (UserId, ProductId, Quantity) VALUES (@userId, @productId, 1)
-		SET @result = @@ROWCOUNT
-		RETURN @result
-	END
-	ELSE
-	BEGIN
-		UPDATE Cart
-		SET Quantity = Quantity + 1
-		WHERE UserId = @userId AND ProductId = @productId
-		RETURN 1
-	END
-
-END
--- Data Source=LAPTOP-97V7GE72\SQLEXPRESS;Initial Catalog=Store;Integrated Security=True
-
-select * from [dbo].[UserDetail]
-
-select * from User@
-
-
-delete User@
-
-END
