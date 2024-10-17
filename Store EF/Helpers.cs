@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Net.Mail;
 using System.Security.Cryptography;
@@ -8,6 +9,12 @@ namespace Store_EF
 {
     public static class Helpers
     {
+        public static string FormattedPrice(int price)
+        {
+            NumberFormatInfo nfi = new CultureInfo("vi-VN", false).NumberFormat;
+            return price.ToString("C0", nfi).Replace(",", ".");
+        }
+
         public static bool IsValidEmail(string email)
         {
             try
@@ -19,6 +26,18 @@ namespace Store_EF
             {
                 return false;
             }
+        }
+
+        public static bool IsValidPhone(string phone)
+        {
+            if (phone.Length == 10 || phone.Length == 11)
+            {
+                if (phone[0] == '0')
+                    return true;
+                else
+                    return false;
+            }
+            else return false;
         }
 
         public static bool IsValidImage(Stream stream)

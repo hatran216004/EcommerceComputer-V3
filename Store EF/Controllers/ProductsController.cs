@@ -57,7 +57,7 @@ namespace Store_EF.Controllers
             catch (Exception ex)
             {
                 Log.Error(ex.ToString());
-                return View(new List<Product>().ToPagedList(1, pageSize));
+                return View("Index", new List<Product>().ToPagedList(1, pageSize));
             }
         }
 
@@ -312,7 +312,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Lỗi khi lưu thay đổi vào cơ sở dữ liệu: " + ex.Message;                   
+                TempData["ErrorMessage"] = "Lỗi khi lưu thay đổi vào cơ sở dữ liệu: " + ex.Message;
                 return RedirectToAction("ProductManagement");
             }
 

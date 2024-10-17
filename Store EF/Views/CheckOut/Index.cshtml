@@ -1,0 +1,295 @@
+﻿@using Store_EF.Models;
+@using Store_EF.Models.Extensions;
+@model CheckOutForm
+@{
+    ViewBag.Title = "CheckOut";
+    StoreEntities store = new StoreEntities();
+    int userId = int.Parse(Session["UserId"].ToString());
+    User_ user = store.Users.First(x => x.UserId == userId);
+    Html.EnableClientValidation(true);
+}
+<div class="product-container">
+    <!-- Breakcrumbs -->
+    <ul class="breakcrumbs">
+        <li>
+            <a href="@Url.Action("Index", "Home")"
+               class="breakcrumbs__link">
+                Trang chủ
+                <img src="~/Public/icons/arrow-right.svg" alt="" height="10" />
+            </a>
+        </li>
+        <li>
+            <a href="#!"
+               class="breakcrumbs__link breakcrumbs__link--current">
+                Thanh toán
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="checkout">
+    <p class="checkout__title">Chi tiết đơn hàng</p>
+    @using (Html.BeginForm("Payment", "CheckOut", FormMethod.Post, new { @class = "checkout__form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="checkout__form-input">
+            <div class="checkout__form-group">
+                @Html.LabelFor(x => x.FullName)
+                @Html.TextBoxFor(x => x.FullName)
+                @Html.ValidationMessageFor(x => x.FullName, "", new {})
+            </div>
+            <div class="checkout__form-group">
+                @Html.LabelFor(x => x.Phone)
+                @Html.TextBoxFor(x => x.Phone)
+                @Html.ValidationMessageFor(x => x.Phone, "", new { })
+            </div>
+            <div class="checkout__form-group">
+                @Html.LabelFor(x => x.Province)
+                <select id="@nameof(Model.Province)" name="@nameof(Model.Province)"></select>
+            </div>
+            <div class="checkout__form-group">
+                @Html.LabelFor(x => x.District)
+                <select id="@nameof(Model.District)" name="@nameof(Model.District)"></select>
+            </div>
+            <div class="checkout__form-group">
+                @Html.LabelFor(x => x.Ward)
+                <select id="@nameof(Model.Ward)" name="@nameof(Model.Ward)"></select>
+            </div>
+            <div class="checkout__form-group">
+                @Html.LabelFor(x => x.Home)
+                @Html.TextBoxFor(x => x.Home)
+            </div>
+            <div class="checkout__form-group">
+                @Html.LabelFor(x => x.Note)
+                @Html.TextBoxFor(x => x.Note)
+            </div>
+        </div>
+
+        <div class="checkout__info">
+            @{
+                foreach (Cart c in user.Carts)
+                {
+                    <div class="checkout__info-products">
+                        <div class="checkout__info-product">
+                            <div class="checkout__info-product-item">
+                                <img src="~/Public/imgs/Products/@c.Product.Thumbnail(store)" alt="" />
+                                <span>@c.Product.Title</span>
+                            </div>
+                            <div class="checkout__info-product-price">
+                                @c.Product.FormattedPrice() x @c.Quantity
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="checkout__info-warp">
+                <div class="checkout__info-item">
+                    @{
+                        int totalPrice = user.TotalCartPrice();
+                        int shippingPrice = 0;
+                    }
+                    <span>Tạm tính: </span>
+                    <span class="checkout__info-item-price">@Helpers.FormattedPrice(totalPrice)</span>
+                </div>
+                <div class="checkout__info-item">
+                    <span>Vận chuyển: </span>
+                    <span class="checkout__info-item-price">@Helpers.FormattedPrice(shippingPrice)</span>
+                </div>
+                <div class="checkout__info-item">
+                    <span>Tổng cộng: </span>
+                    <span class="checkout__info-item-price">@Helpers.FormattedPrice(totalPrice + shippingPrice)</span>
+                </div>
+            </div>
+            <div class="checkout__method">
+                @Html.ValidationMessageFor(x => x.PaymentMethod, "", new { })
+                <div class="checkout__method-item">
+                    <div class="checkout__method-radio">
+                        @Html.RadioButtonFor(x => x.PaymentMethod, "Bank")
+                        <label for="@nameof(Model.PaymentMethod)">Ngân hàng</label>
+                    </div>
+                </div>
+                <div class="checkout__method-item">
+                    <div class="checkout__method-radio">
+                        @Html.RadioButtonFor(x => x.PaymentMethod, "Cash")
+                        <label for="@nameof(Model.PaymentMethod)">Tiền mặt</label>
+                    </div>
+                </div>
+            </div>
+            <div class="checkout__action">
+                <button type="submit" class="btn btn--primary">
+                    Tiến hành thanh toán
+                </button>
+            </div>
+        </div>
+    }
+    @*<form action="@Url.Action("Payments", "CheckOut")" method="post" class="checkout__form">
+            <div class="checkout__form-input">
+                <div class="checkout__form-group">
+                    <label for="fullname">
+                        Họ và tên
+                        <span class="checkout__form-required">*</span>
+                    </label>
+                    <input type="text"
+                           id="fullname"
+                           name="fullname"
+                           value="@userDetail.Name"
+                           required />
+                </div>
+                <div class="checkout__form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel"
+                           id="phone"
+                           name="phone"
+                           minlength="10"
+                           maxlength="11"
+                           value="@userDetail.Phone"
+                           required />
+                </div>
+                <div class="checkout__form-group">
+                    <label for="province">Thành phố / Tỉnh</label>
+                    <select id="province" name="province"></select>
+                </div>
+                <div class="checkout__form-group">
+                    <label for="district">Quận / Huyện</label>
+                    <select id="district" name="district"></select>
+                </div>
+                <div class="checkout__form-group">
+                    <label for="ward">Xã / Phường</label>
+                    <select id="ward" name="ward"></select>
+                </div>
+                <div class="checkout__form-group">
+                    <label for="home">Số nhà và tên đường</label>
+                    <input type="text" id="home" name="home" />
+                </div>
+                <div class="checkout__form-group">
+                    <label for="note">Ghi chú</label>
+                    <input type="text" id="note" name="note" />
+                </div>
+            </div>
+
+            <div class="checkout__info">
+                @{
+                    foreach (Cart c in carts)
+                    {
+                        <div class="checkout__info-products">
+                            <div class="checkout__info-product">
+                                <div class="checkout__info-product-item">
+                                    <img src="~/Public/imgs/Products/@c.Product.Thumbnail(store)" alt="" />
+                                    <span>@c.Product.Title</span>
+                                </div>
+                                <div class="checkout__info-product-price">
+                                    @c.Product.FormattedPrice() x @c.Quantity
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="checkout__info-warp">
+                    <div class="checkout__info-item">
+                        @{
+                            int totalPrice = carts.TotalPrice(store);
+                            int shippingPrice = 0;
+                        }
+                        <span>Tạm tính: </span>
+                        <span class="checkout__info-item-price">@Helpers.FormattedPrice(totalPrice)</span>
+                    </div>
+                    <div class="checkout__info-item">
+                        <span>Vận chuyển: </span>
+                        <span class="checkout__info-item-price">@Helpers.FormattedPrice(shippingPrice)</span>
+                    </div>
+                    <div class="checkout__info-item">
+                        <span>Tổng cộng: </span>
+                        <span class="checkout__info-item-price">@Helpers.FormattedPrice(totalPrice + shippingPrice)</span>
+                    </div>
+                </div>
+                <div class="checkout__method">
+                    <div class="checkout__method-item">
+                        <div class="checkout__method-radio">
+                            <input type="radio"
+                                   name="paymentMethod"
+                                   id="checkout__method-bank"
+                                   value="bank"
+                                   required />
+                            <label for="checkout__method-bank">Ngân hàng</label>
+                        </div>
+                    </div>
+                    <div class="checkout__method-item">
+                        <div class="checkout__method-radio">
+                            <input type="radio"
+                                   name="paymentMethod"
+                                   id="checkout__method-transfer"
+                                   value="cash"
+                                   required />
+                            <label for="checkout__method-transfer">Tiền mặt</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout__action">
+                    <button class="btn btn--primary">
+                        Tiến hành thanh toán
+                    </button>
+                </div>
+            </div>
+        </form>*@
+</div>
+<script>
+    const provinceEle = document.getElementById('@nameof(Model.Province)');
+    const districtEle = document.getElementById('@nameof(Model.District)');
+    const wardEle = document.getElementById('@nameof(Model.Ward)');
+
+    fetch('@Url.Action("Provinces", "Helpers")', {
+        method: "GET"
+    }).then(reponse => reponse.json().then(data => {
+        const json = JSON.parse(data)
+        json.forEach(item => {
+            const node = document.createElement("option");
+            node.setAttribute("value", item.code);
+            node.innerText = item.name;
+            provinceEle.appendChild(node);
+        })
+        provinceEle.selectedIndex = '-1';
+        districtEle.selectedIndex = '-1';
+        wardEle.selectedIndex = '-1';
+    }))
+
+    provinceEle.addEventListener('change', function () {
+        var form = new FormData();
+        form.append("provinceCode", this.value);
+        fetch('@Url.Action("Districts", "Helpers")', {
+            method: "POST",
+            body: form,
+        }).then(reponse => reponse.json().then(data => {
+            const json = JSON.parse(data)
+            districtEle.innerHTML = '';
+            wardEle.innerHTML = '';
+            json.forEach(item => {
+                const node = document.createElement("option");
+                node.setAttribute("value", item.code);
+                node.innerText = item.name;
+                districtEle.appendChild(node);
+            })
+            districtEle.selectedIndex = '-1';
+            wardEle.selectedIndex = '-1';
+        }))
+    })
+
+    districtEle.addEventListener('change', function () {
+        var form = new FormData();
+        form.append("provinceCode", provinceEle.value);
+        form.append("districtCode", this.value);
+        fetch('@Url.Action("Wards", "Helpers")', {
+            method: "POST",
+            body: form,
+        }).then(reponse => reponse.json().then(data => {
+            const json = JSON.parse(data)
+            wardEle.innerHTML = '';
+            json.forEach(item => {
+                const node = document.createElement("option");
+                node.setAttribute("value", item.code);
+                node.innerText = item.name;
+                wardEle.appendChild(node);
+            })
+            wardEle.selectedIndex = '-1';
+        }))
+    })
+</script>

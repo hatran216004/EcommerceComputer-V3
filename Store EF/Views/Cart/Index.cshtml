@@ -12,9 +12,9 @@
         <!-- Breakcrumbs -->
         <ul class="breakcrumbs">
             <li>
-                <a href="#!" class="breakcrumbs__link">
+                <a href="@Url.Action("Index", "Home")" class="breakcrumbs__link">
                     Home
-                    <img src="./assets/icons/arrow-right.svg" alt="" />
+                    <img src="~/Public/icons/arrow-right.svg" alt="" height="10" />
                 </a>
             </li>
             <li>
@@ -62,6 +62,7 @@
                                 <input class="cart__main-quantity-input"
                                        type="number"
                                        value="@cart.Quantity"
+                                       name="@cart.ProductId"
                                        min="1" />
                                 <div class="cart__main-quantity-btn">
                                     <button class="cart-btn-up">
@@ -80,21 +81,21 @@
                     <!-- Tổng giá trị của sản phẩm -->
                     <div class="cart__main-item">
                         <div class="cart__main-subtotal">
-                            <span class="cart__total-product">@cart.Product.FormattedPrice(quantity: cart.Quantity)</span>
+                            <span class="cart__total-product">0</span>
                         </div>
                     </div>
                 </div>
             }                    
         </div>
     </div>
-    <div class="cart__action">
+    @*<div class="cart__action">
         <div class="cart__action-item">
             <a href="@Url.Action("Index", "Home")" class="cart__action-item-text">Về trang chủ</a>
         </div>
         <div class="cart__action-item">
             <a href="#" class="cart__action-item-text">Cập nhật giỏ hàng</a>
         </div>
-    </div>
+    </div>*@
     <div class="cart__checkout">
         <div class="cart__total">
             <p class="cart__total-header">Tổng giỏ hàng</p>
@@ -102,20 +103,112 @@
                 <span class="cart__total-title">Tạm tính: </span>
                 <span id="cartSubtotal" class="cart__total-value">0</span>
             </div>
-            <div class="cart__total-item">
+            @*<div class="cart__total-item">
                 <span class="cart__total-title">Vận chuyển: </span>
                 <div>
                     <span id="shippingCost" class="cart__total-value">0 </span><span>VND</span>
                 </div>
-            </div>
-            <div class="cart__total-item">
+            </div>*@
+            @*<div class="cart__total-item">
                 <span class="cart__total-title">Tổng cộng: </span>
                 <span id="cartTotal" class="cart__total-value">0</span>
-            </div>
+            </div>*@
             <div class="cart__action-btn">
-                <a href="#" class=""> Tiến hành thanh toán </a>
+                <a href="@Url.Action("Index", "CheckOut")" class=""> Nhập thông tin thanh toán </a>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function postData(productId, quantity) {
+        const formData = new FormData();
+        formData.append('product', productId);
+        formData.append('quantity', quantity);
+        try {
+            fetch('@Url.Action("Add", "Cart")', {
+                method: "POST",
+                body: formData,
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function updateSubtotal(item) {
+        const subtotalElement = item.querySelector('.cart__total-product');
+
+        const price = parseInt(item.querySelector('.cart__main-price>input').value);
+        const productId = parseInt(item.querySelector('.cart__main-quantity-input').name)
+        const quantity = parseInt(item.querySelector('.cart__main-quantity-input').value);
+        const subtotal = price * quantity;
+        subtotalElement.innerText = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(subtotal);
+        return subtotal;
+    }
+
+    function updateCartTotals() {
+        let cartSubtotal = 0;
+        document.querySelectorAll('.cart__main-items').forEach((item) => {
+            cartSubtotal += updateSubtotal(item);
+        });
+
+        document.getElementById('cartSubtotal').textContent = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(cartSubtotal);
+    }
+
+    function increaseQuantity(event) {
+        const item = event.target.closest('.cart__main-items');
+        const productId = parseInt(item.querySelector('.cart__main-quantity-input').name)
+        const quantityInput = item.querySelector('.cart__main-quantity-input');
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+        updateCartTotals();
+
+        postData(productId, quantityInput.value)
+    }
+
+    // Hàm để giảm số lượng
+    function decreaseQuantity(event) {
+        const item = event.target.closest('.cart__main-items');
+        const productId = parseInt(item.querySelector('.cart__main-quantity-input').name)
+        const quantityInput = item.querySelector('.cart__main-quantity-input');
+        if (quantityInput.value > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+            updateCartTotals();
+        }
+
+        postData(productId, quantityInput.value)
+    }
+
+    function updateQuantity(event) {
+        const item = event.target.closest('.cart__main-items');
+        const productId = parseInt(item.querySelector('.cart__main-quantity-input').name)
+        const quantityInput = item.querySelector('.cart__main-quantity-input');
+        if (quantityInput.value > 1) {
+            updateCartTotals();
+        } else {
+            quantityInput.value = 1
+            updateCartTotals();
+        }
+
+        postData(productId, quantityInput.value)
+    }
+
+    document.querySelectorAll('.cart__main-quantity-input').forEach((input) => {
+        input.addEventListener('change', updateQuantity)
+    });
+
+    document.querySelectorAll('.cart-btn-up').forEach((button) => {
+        button.addEventListener('click', increaseQuantity);
+    });
+
+    document.querySelectorAll('.cart-btn-down').forEach((button) => {
+        button.addEventListener('click', decreaseQuantity);
+    });
+
+    updateCartTotals();
+</script>
 

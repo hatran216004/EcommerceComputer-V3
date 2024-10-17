@@ -1,4 +1,4 @@
-﻿﻿CREATE DATABASE Store
+CREATE DATABASE Store
 GO
 USE Store
 GO
@@ -142,12 +142,12 @@ END
 GO
 
 GO
-CREATE TRIGGER Tri_AddPayment On Payment
+CREATE TRIGGER Tri_AddOrderDetail On Order@
 AFTER INSERT
 AS
 BEGIN
 	DECLARE @OrderId INT = (SELECT OrderId FROM inserted)
-	DECLARE @UserId INT = (SELECT UserId FROM Order@ WHERE OrderId = @OrderId)
+	DECLARE @UserId INT = (SELECT UserId FROM inserted)
 	DECLARE TMP CURSOR LOCAL SCROLL STATIC
 	FOR SELECT ProductId, Quantity FROM Cart WHERE UserId = @UserId
 	OPEN TMP

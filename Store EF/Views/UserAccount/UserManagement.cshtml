@@ -5,6 +5,7 @@
 @{
     ViewBag.Title = "UserManagement";
     Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+    var Email = Session["Email"];
 }
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
@@ -31,14 +32,17 @@
             {
                 foreach (User_ p in Model)
                 {
-                    <tr>
-                        <td class="pm__table-item" scope="row">@p.Email</td>
-                        <td class="pm__table-item">@p.RoleName</td>
-                        <td class="pm__table-item">
-                            <button class="btn-delete-link" data-id="@p.UserId">Xóa</button>
-                            <a href="@Url.Action("GetUser", "UserAccount", new { id = p.UserId })" class="btn-edit-link">Sửa</a>
-                        </td>
-                    </tr>
+                    if ((string)Email != p.Email)
+                    {
+                        <tr>
+                            <td class="pm__table-item" scope="row">@p.Email</td>
+                            <td class="pm__table-item">@p.RoleName</td>
+                            <td class="pm__table-item">
+                                <button class="btn-delete-link" data-id="@p.UserId">Xóa</button>
+                                <a href="@Url.Action("GetUser", "UserAccount", new { id = p.UserId })" class="btn-edit-link">Sửa</a>
+                            </td>
+                        </tr>
+                    }
                 }
             }
         </tbody>
@@ -102,38 +106,42 @@
 
 <script>
     const deleteBtns = document.querySelectorAll('.btn-delete-link')
-    const cancelBtn = document.getElementById('cancelBtn')
     const btnAdd = document.querySelector('.pm__btn-add-warp')
+
+    // Close modal
+    function closeModal(modalClose) {
+        const cancelBtn = document.getElementById('cancelBtn')
+        const closeBtn = modalClose.querySelector('.model__btn-close')
+
+        closeBtn.addEventListener('click', () => {
+            modalClose.classList.remove('display')
+        })
+        cancelBtn.addEventListener('click', () => {
+            modalClose.classList.remove('display')
+        })
+    }
 
     // Delete
     deleteBtns.forEach(deleteBtn => {
         deleteBtn.addEventListener('click', () => {
         const deleteUserModal = document.getElementById('deleteUserModal')
         const userId = deleteBtn.getAttribute('data-id');
-        const closeBtn = document.querySelector('.model__btn-close')
-
-        // Close modal
-        closeBtn.addEventListener('click', () => {
-            deleteUserModal.classList.remove('display')
-        })
-
         deleteUserModal.classList.add('display')
-
+        
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
             confirmDeleteBtn.setAttribute('href', `@Url.Action("DeleteUser", "UserAccount", new { id = "__USERID__" })`.replace('__USERID__', userId))
-
         })
+
+        // Close modal
+        closeModal(deleteUserModal)
     })
 
     // Add
     btnAdd.addEventListener('click', () => {
         const addUserModal = document.getElementById('addUserModal')
         addUserModal.classList.add('display')
-    })
-
-    cancelBtn.addEventListener('click', () => {
-        const deleteUserModal = document.getElementById('deleteUserModal')
-        deleteUserModal.classList.remove('display')
+        // Close modal
+        closeModal(addUserModal)
     })
 </script>
 
@@ -152,9 +160,9 @@
         }).showToast();
     </script>
 } else
-            {
-                <script>
-                    console.log('loi cmnr...')
-                </script>
-            }
+{
+    <script>
+        console.log('loi cmnr...')
+    </script>
+}
 
