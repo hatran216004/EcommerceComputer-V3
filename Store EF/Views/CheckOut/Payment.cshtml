@@ -14,9 +14,33 @@
     <p>Chủ tài khoản: @fullName</p>
     <p>Số tài khoản: @account</p>
     <p>Ngân hàng: @bank</p>
-    <p>Số tiền: @Model.Order_.TotalPrice()</p>
+    <p>Số tiền: @Helpers.FormattedPrice(Model.Order_.TotalPrice())</p>
     <p>Nội dung: @Model.Code</p>
     <p>Mã thanh toán này sẽ hết hạn sau @Model.Expiry.ToString("hh:mm") ngày @Model.Expiry.ToString("dd-MM-yyyy")</p>
     <p>Trạng thái: <span id="status">Chờ thanh toán</span></p>
+
+    <script>
+        function startSSE() {
+            var source = new EventSource('@Url.Action("Status", "CheckOut", new { code = Model.Code })');
+            source.onmessage = function (event) {
+                const statusEle = document.getElementById("status");
+                if (event.data == 'Succeeded') {
+                    statusEle.innerText = "Đã thanh toán";
+                    source.close();
+                } else if (event.data == 'Failed') {
+                    statusEle.innerText = "Thanh toán thất bại";
+                    source.close();
+                }
+            };
+            source.onerror = function (event) {
+                console.log("Error occurred: ", event);
+            };
+            window.addEventListener('beforeunload', function () {
+                console.log('Closing SSE connection...');
+                source.close();
+            });
+        }
+        setTimeout(startSSE, 2000);
+    </script>
 }
 
