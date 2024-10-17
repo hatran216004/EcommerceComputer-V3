@@ -1,4 +1,4 @@
-﻿CREATE DATABASE Store
+CREATE DATABASE Store
 GO
 USE Store
 GO
@@ -140,29 +140,6 @@ BEGIN
 	RETURN @Price
 END
 GO
-
---GO
---CREATE TRIGGER Tri_AddPayment On Payment
---AFTER INSERT
---AS
---BEGIN
---	DECLARE @OrderId INT = (SELECT OrderId FROM inserted)
---	DECLARE @UserId INT = (SELECT UserId FROM Order@ WHERE OrderId = @OrderId)
---	DECLARE TMP CURSOR LOCAL SCROLL STATIC
---	FOR SELECT ProductId, Quantity FROM Cart WHERE UserId = @UserId
---	OPEN TMP
---	DECLARE @ProductId INT, @Quantity INT
---	FETCH NEXT FROM TMP INTO @ProductId, @Quantity
---	WHILE (@@FETCH_STATUS=0)
---	BEGIN
---		INSERT INTO OrderDetail VALUES (@OrderId, @ProductId, dbo.GetPrice(@ProductId), @Quantity)
---		DELETE FROM Cart WHERE UserId = @UserId AND ProductId = @ProductId
---		FETCH NEXT FROM TMP INTO @ProductId, @Quantity
---	END
---	CLOSE TMP
---	DEALLOCATE TMP
---END
---GO
 
 GO
 CREATE TRIGGER Tri_AddOrderDetail On Order@

@@ -13,6 +13,7 @@
 
     StoreEntities store = new StoreEntities();
 }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
 
 <div class="pm__main">
@@ -47,34 +48,21 @@
                                  src="~/Public/Imgs/Products/@p.Thumbnail(store)"
                                  alt="" />
                         </td>
-                        <td class="pm__table-item">@p.Title</td>
+                        <td class="pm__table-item"><div class="multiline-ellipsis">@p.Title</div></td>
                         <td class="pm__table-item">@p.Stock</td>
                         <td class="pm__table-item">
-                            <a href="@Url.Action("Delete", "Products", new { id = p.ProductId})" class="delete-link">Xóa</a> |
-                            <a href="@Url.Action("Update", "Products", new { id = p.ProductId})">Sửa</a>
+                            @*<a href="@Url.Action("Delete", "Products", new { id = p.ProductId})" class="DeleteElement btn-delete-link">Xóa</a>*@
+                            <a href="#" data-id="@p.ProductId" class="DeleteElement btn-delete-link">Xóa</a>
+                            <a href="@Url.Action("Update", "Products", new { id = p.ProductId})" class="btn-delete-link">Sửa</a>
                         </td>
                     </tr>
                 }
             }
         </tbody>
-
-        <!-- Modal comfrim -->
-        <div id="deleteModal" class="modal">
-            <div class="modal-content">
-                <span class="model__btn-close">&times;</span>
-                <h2>Xác nhận xóa</h2>
-                <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
-                <div class="modal-actions">
-                    <button id="cancelBtn" class="model__btn-cancel">Hủy</button>
-                    <a id="confirmDeleteBtn" href="#" class="model__btn-delete">Xóa</a>
-                </div>
-            </div>
-        </div>
-
     </table>
 </div>
 
-<div class="pagination", style="width: 100%">
+<div class="pagination" , style="width: 100%">
     @{
         string action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
         string product = Request.QueryString.Get("product");
@@ -90,32 +78,91 @@
     )
 </div>
 
+
+
+<!-- Modal comfrim -->
+<div id="deleteProcductModal" class="modal">
+    <div class="modal-content">
+        <span class="model__btn-close">&times;</span>
+        <h2>Xác nhận xóa</h2>
+        <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
+        <div class="modal-actions">
+            <button id="cancelBtn" class="model__btn-cancel">Hủy</button>
+            <a id="confirmDeleteBtn" href="#" class="model__btn-delete">Xóa</a>
+        </div>
+    </div>
+</div>
+
+
 <script>
-    var modal = document.getElementById("deleteModal");
+    var modal = document.getElementById("deleteProcductModal");
     var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
     var cancelBtn = document.getElementById("cancelBtn");
     var closeBtn = document.getElementsByClassName("model__btn-close")[0];
 
-    // sự kiện xuất hiện modal, và xóa sản phẩm
-    document.querySelectorAll('.delete-link').forEach(function (link) {
-        link.addEventListener('click', function (e) {
-            e.preventDefault(); 
-            var deleteUrl = this.getAttribute('href'); 
-            confirmDeleteBtn.setAttribute('href', deleteUrl); 
-            modal.style.display = "flex"; 
-        });
-    });
+    var deleteBtns = document.querySelectorAll('.DeleteElement')
+
+    deleteBtns.forEach(deleteBtn => {
+        deleteBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            console.log([deleteBtn])
+            const proid = deleteBtn.getAttribute('data-id')
+            confirmDeleteBtn.setAttribute('href', `@Url.Action("Delete", "Products", new { id = "Proid" })`.replace('Proid', proid))
+            modal.classList.add('display')
+        })
+    })
 
     // Sự kiện đóng modal khi nhấn x hoặc hủy, hoặc nhấn ra ngoài
     cancelBtn.onclick = function () {
-        modal.style.display = "none";
+        modal.classList.remove('display')
     }
     closeBtn.onclick = function () {
-        modal.style.display = "none";
+        modal.classList.remove('display')
+
     }
     window.onclick = function (event) {
         if (event.target === modal) {
-            modal.style.display = "none";
+            modal.classList.remove('display')
+
         }
     }
 </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
+@{
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+}
+
+@if (successMessage != null)
+{
+    <script>
+        Toastify({
+            text: `@successMessage`,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#4CAF50", // Màu nền thông báo thành công
+            className: "info",
+        }).showToast();
+    </script>
+}
+
+@if (errorMessage != null)
+{
+    <script>
+        Toastify({
+            text: `@errorMessage`,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#FF0000", // Màu nền thông báo lỗi
+            className: "error",
+        }).showToast();
+    </script>
+}
+
