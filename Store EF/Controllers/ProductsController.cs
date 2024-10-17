@@ -213,6 +213,18 @@ namespace Store_EF.Controllers
 
             // Xử lý ảnh thumbnail
             var galleryThumb = store.Galleries.FirstOrDefault(g => g.ProductId == product.ProductId && g.IsPrimary == true);
+
+            // Nếu không tìm thấy thumbnail của sp
+            if (galleryThumb == null)
+            {
+                galleryThumb = new Gallery
+                {
+                    ProductId = product.ProductId,
+                    IsPrimary = true
+                };
+
+                store.Galleries.Add(galleryThumb);
+            }
             if (thumbnailFile != null && thumbnailFile.ContentLength > 0)
             {
                 try
