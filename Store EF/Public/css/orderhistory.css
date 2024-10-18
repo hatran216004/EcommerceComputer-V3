@@ -1,0 +1,146 @@
+﻿.orderhis {
+    margin-top: 16px;
+}
+
+.orderhis_nav {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.orderhis_nav__list {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 1.44px;
+}
+
+.orderhis_nav__item {
+    padding: 16px 0;
+    width: 140px;
+    text-align: center;
+    border-bottom: 1px solid transparent;
+}
+
+    .orderhis_nav__item:hover {
+        cursor: pointer;
+        color: var(--primary-btn);
+    }
+
+.orderhis_nav__item--active {
+    cursor: pointer;
+    color: var(--primary-btn);
+    border-bottom: 1px solid var(--primary-btn);
+}
+
+.orderhis_nav__search {
+    margin: 12px 0;
+    display: flex;
+    width: 100%;
+    background-color: #fef9f2;
+}
+
+.orderhis_nav__search-btn {
+    width: 50px;
+    cursor: pointer;
+}
+
+    .orderhis_nav__search-btn img {
+        width: 24px;
+    }
+
+.orderhis_nav__search-input {
+    flex-grow: 1;
+    padding: 0 10px 0 20px;
+    height: 38px;
+    font-size: 16px;
+}
+
+.orderhis_list-order__list-mini {
+    padding: 24px;
+}
+
+.orderhis__list-mini__item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.orderhis__list-mini__item-header__status {
+    text-transform: uppercase;
+}
+
+.orderhis__list-mini__item-header__status--success {
+    color: #53a653;
+}
+
+.orderhis__list-mini__item-header__status--cancel {
+    color: #bc2739;
+}
+
+.orderhis__list-mini__item-product {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.orderhis__list-mini__item-product__thumnail {
+    width: 82px;
+    height: auto;
+}
+
+.orderhis__list-mini__item-product__info {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 8px;
+}
+
+.orderhis__list-mini__item-product__info-warp {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    line-height: 2rem;
+}
+
+.orderhis__list-mini__item-product__info-name {
+    font-weight: 600;
+}
+
+.orderhis__list-mini__item-product__info-des {
+    color: #929292;
+}
+
+.orderhis__list-mini__item-product__info-quantity {
+    font-size: 18px;
+}
+
+.orderhis__list-mini__item-product__info-price {
+    flex-grow: 1;
+    text-align: right;
+    font-size: 18px;
+}
+
+.orderhis__list-price--origin {
+    color: #929292;
+    margin-right: 16px;
+    font-size: 14px;
+    text-decoration: line-through;
+}
+
+.orderhis_list-order__list-mini__price {
+    text-align: right;
+    padding: 24px;
+}
+
+    .orderhis_list-order__list-mini__price span {
+        color: #ff4444;
+        font-size: 24px;
+        font-weight: 600;
+    }
