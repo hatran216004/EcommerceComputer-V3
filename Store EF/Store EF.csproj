@@ -217,6 +217,7 @@
     <Compile Include="Controllers\CheckOutController.cs" />
     <Compile Include="Controllers\HelpersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="Global.asax.cs">
@@ -320,6 +321,7 @@
     <Content Include="Public\css\checkout.css" />
     <Content Include="Public\css\grid.css" />
     <Content Include="Public\css\main.css" />
+    <Content Include="Public\css\orderhistory.css" />
     <Content Include="Public\css\profile.css" />
     <Content Include="Public\css\reset.css" />
     <Content Include="Public\icons\arrow-right.svg" />
@@ -398,6 +400,7 @@
     <Content Include="Views\UserAccount\UserManagement.cshtml" />
     <Content Include="Views\UserAccount\GetUser.cshtml" />
     <Content Include="Views\CheckOut\Payment.cshtml" />
+    <Content Include="Views\Order\OrderHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

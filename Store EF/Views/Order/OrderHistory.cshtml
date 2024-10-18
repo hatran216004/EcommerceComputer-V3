@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "OrderHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="orderhis">
+    <nav class="orderhis_nav">
+        <ul class="orderhis_nav__list">
+            <li class="orderhis_nav__item orderhis_nav__item--active">
+                <a href="#">Tất cả</a>
+            </li>
+            <li class="orderhis_nav__item">
+                <a href="#">Chờ thanh toán</a>
+            </li>
+            <li class="orderhis_nav__item">
+                <a href="#">Vận chuyển</a>
+            </li>
+            <li class="orderhis_nav__item">
+                <a href="#">Chờ giao hàng</a>
+            </li>
+            <li class="orderhis_nav__item">
+                <a href="#">Hoàn thành</a>
+            </li>
+            <li class="orderhis_nav__item">
+                <a href="#">Đã hủy</a>
+            </li>
+            <li class="orderhis_nav__item">
+                <a href="#">Trả lại/Hoàn tiền</a>
+            </li>
+        </ul>
+        <div class="orderhis_nav__search">
+            <button class="orderhis_nav__search-btn">
+                <img src="~/Public/Imgs/search-icon.svg" alt="" />
+            </button>
+            <input type="text"
+                    placeholder="Tìm kiếm đơn hàng..."
+                    class="orderhis_nav__search-input" />
+        </div>
+    </nav>
+    <div class="orderhis_list-order">
+        <!-- Danh sách đơn hàng -->
+        <div class="orderhis_list-order__list">
+            <!-- Đơn hàng -->
+            <div class="orderhis_list-order__list-mini">
+                <div class="orderhis__list-mini__item-header">
+                    <span>Mã đơn hàng: 1</span>
+                    <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--success">Hoàn thành</span>
+                </div>
+                <div class="orderhis__list-mini__item">
+                    <!-- Các sản phẩm trong đơn hàng -->
+                    <div class="orderhis__list-mini__item-product">
+                        <img class="orderhis__list-mini__item-product__thumnail"
+                             src="~/Public/Imgs/Products/null.png"
+                             alt="" />
+                        <div class="orderhis__list-mini__item-product__info">
+                            <div class="orderhis__list-mini__item-product__info-warp">
+                                <span class="orderhis__list-mini__item-product__info-name">
+                                    Màn hình MSI MAG 271QPX QD-OLED
+                                    E2 27" QD-OLED 2K 240Hz chuyên
+                                    game
+                                </span>
+                                <span class="orderhis__list-mini__item-product__info-des">
+                                    Phân loai sản phẩm: Màn hình,
+                                    MSI
+                                </span>
+                                <span class="orderhis__list-mini__item-product__info-quantity">x1</span>
+                            </div>
+
+                            <span class="orderhis__list-mini__item-product__info-price">
+                                <span class="orderhis__list-price--origin">10.000.000 VND</span>9.999.999 VND
+                            </span>
+                        </div>
+                    </div>
+                    <div class="orderhis__list-mini__item-product">
+                        <img class="orderhis__list-mini__item-product__thumnail"
+                                src="~/Public/Imgs/Products/null.png"
+                                alt="" />
+                        <div class="orderhis__list-mini__item-product__info">
+                            <div class="orderhis__list-mini__item-product__info-warp">
+                                <span class="orderhis__list-mini__item-product__info-name">
+                                    Màn hình MSI MAG 271QPX QD-OLED
+                                    E2 27" QD-OLED 2K 240Hz chuyên
+                                    game
+                                </span>
+                                <span class="orderhis__list-mini__item-product__info-des">
+                                    Phân loai sản phẩm: Màn hình,
+                                    MSI
+                                </span>
+                                <span class="orderhis__list-mini__item-product__info-quantity">x1</span>
+                            </div>
+
+                            <span class="orderhis__list-mini__item-product__info-price">
+                                <span class="orderhis__list-price--origin">10.000.000 VND</span>9.999.999 VND
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="orderhis_list-order__list-mini__price">
+                    Thành tiền: <span>10.000.000 VND</span>
+                </div>
+            </div>
+
+            <!-- Đơn hàng -->
+            <div class="orderhis_list-order__list-mini">
+                <div class="orderhis__list-mini__item-header">
+                    <span>Mã đơn hàng: 1</span>
+                    <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--cancel">đã hủy</span>
+                </div>
+                <div class="orderhis__list-mini__item">
+                    <!-- Các sản phẩm trong đơn hàng -->
+                    <div class="orderhis__list-mini__item-product">
+                        <img class="orderhis__list-mini__item-product__thumnail"
+                                src="~/Public/Imgs/Products/null.png"
+                                alt="" />
+                        <div class="orderhis__list-mini__item-product__info">
+                            <div class="orderhis__list-mini__item-product__info-warp">
+                                <span class="orderhis__list-mini__item-product__info-name">
+                                    Màn hình MSI MAG 271QPX QD-OLED
+                                    E2 27" QD-OLED 2K 240Hz chuyên
+                                    game
+                                </span>
+                                <span class="orderhis__list-mini__item-product__info-des">
+                                    Phân loai sản phẩm: Màn hình,
+                                    MSI
+                                </span>
+                                <span class="orderhis__list-mini__item-product__info-quantity">x1</span>
+                            </div>
+
+                            <span class="orderhis__list-mini__item-product__info-price">
+                                <span class="orderhis__list-price--origin">10.000.000 VND</span>9.999.999 VND
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="orderhis_list-order__list-mini__price">
+                    Thành tiền: <span>10.000.000 VND</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+            const navitemElements = document.querySelectorAll(
+                '.orderhis_nav__item'
+            );
+            navitemElements.forEach((navitem) => {
+                navitem.addEventListener('click', () => {
+                    navitemElements.forEach((item) => {
+                        item.classList.remove('orderhis_nav__item--active');
+                    });
+                    navitem.classList.add('orderhis_nav__item--active');
+                });
+            });
+</script>
+
