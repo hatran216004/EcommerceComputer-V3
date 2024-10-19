@@ -219,6 +219,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -401,6 +402,7 @@
     <Content Include="Views\UserAccount\GetUser.cshtml" />
     <Content Include="Views\CheckOut\Payment.cshtml" />
     <Content Include="Views\Order\OrderHistory.cshtml" />
+    <Content Include="Views\Review\GetReviewsOneProd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

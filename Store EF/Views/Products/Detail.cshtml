@@ -179,15 +179,15 @@
         <div class="product-container">
             <div class="prod-tab js-tabs">
                 <ul class="prod-tab__list">
-                    <li class="prod-tab__item prod-tab__item--active">
-                        Description
+                    <li class="prod-tab__item">
+                        Mô tả sản phẩm
                     </li>
-                    <li class="prod-tab__item">Review (1100)</li>
-                    <li class="prod-tab__item">Similar</li>
+                    <li class="prod-tab__item prod-tab__item--active">Đánh giá sản phẩm</li>
+                    <li class="prod-tab__item">Các sản phẩm tương tự</li>
                 </ul>
                 <div class="prod-tab__contents">
                     <!-- Description -->
-                    <div class="prod-tab__content prod-tab__content--active">
+                    <div class="prod-tab__content">
                         <div class="row">
                             <div class="col-8 col-xl-10 col-lg-12">
                                 <div class="text-content prod-tab__text-content">
@@ -196,133 +196,10 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Review -->
-                    <div class="prod-tab__content">
-                        <h2 class="prod-tab__content-heading">
-                            What our customers are saying
-                        </h2>
-                        <div class="row row-cols-3 gx-lg-2 row-cols-md-1 gy-md-3">
-                            <div class="col">
-                                <!-- Review card 1 -->
-                                <div class="review-card">
-                                    <div class="review-card__content">
-                                        <img src="./assets/images/avatar.png"
-                                             alt=""
-                                             class="review-card__avatar" />
-                                        <div class="review-card__info">
-                                            <h4 class="review-card__name">
-                                                Jakir Hussen
-                                            </h4>
-                                            <blockquote class="review-card__quote">
-                                                Great product, I love
-                                                this Coffee Beans
-                                            </blockquote>
-                                        </div>
-                                    </div>
-                                    <div class="review-card__rating">
-                                        <div class="review-card__star-list">
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/star-half.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/star-blank.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                        </div>
-                                        <span class="review-card__rating-text">(3.5) Review</span>
-                                    </div>
-                                </div>
-                            </div>
+                    @Html.Action("GetReviewsOneProd", "Review", new { productId = Model.ProductId })
 
-                            <div class="col">
-                                <!-- Review card 2 -->
-                                <div class="review-card">
-                                    <div class="review-card__content">
-                                        <img src="./assets/images/avatar-2.png"
-                                             alt=""
-                                             class="review-card__avatar" />
-                                        <div class="review-card__info">
-                                            <h4 class="review-card__name">
-                                                Jubed Ahmed
-                                            </h4>
-                                            <blockquote class="review-card__quote">
-                                                Awesome Coffee, I love
-                                                this Coffee Beans
-                                            </blockquote>
-                                        </div>
-                                    </div>
-                                    <div class="review-card__rating">
-                                        <div class="review-card__star-list">
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/star-half.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/star-blank.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                        </div>
-                                        <span class="review-card__rating-text">(3.5) Review</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <!-- Review card 3 -->
-                                <div class="review-card">
-                                    <div class="review-card__content">
-                                        <img src="./assets/images/avatar-3.png"
-                                             alt=""
-                                             class="review-card__avatar" />
-                                        <div class="review-card__info">
-                                            <h4 class="review-card__name">
-                                                Delwar Hussain
-                                            </h4>
-                                            <blockquote class="review-card__quote">
-                                                Great product, I don't
-                                                like this Coffee Beans
-                                            </blockquote>
-                                        </div>
-                                    </div>
-                                    <div class="review-card__rating">
-                                        <div class="review-card__star-list">
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/start.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/star-half.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                            <img src="./assets/icons/star-blank.svg"
-                                                 alt="star"
-                                                 class="review-card__star" />
-                                        </div>
-                                        <span class="review-card__rating-text">(3.5) Review</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- Similar -->
                     <div class="prod-tab__content">
                         <h2 class="prod-tab__content-heading">
@@ -559,3 +436,19 @@
     </div>
 </main>
 
+<script>
+    const prodTabItems = document.querySelectorAll('.prod-tab__item');
+    const prodTabContents = document.querySelectorAll('.prod-tab__content');
+    prodTabItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            const prodTabItemActive = document.querySelector('.prod-tab__item--active');
+            prodTabItemActive.classList.remove('prod-tab__item--active');
+            item.classList.add('prod-tab__item--active');
+
+            const prodTabContentActive = document.querySelector('.prod-tab__content--active');
+            prodTabContentActive.classList.remove('prod-tab__content--active');
+            prodTabContents[index].classList.add('prod-tab__content--active');
+        })
+    })
+
+</script>
