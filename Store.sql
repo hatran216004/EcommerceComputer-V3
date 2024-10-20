@@ -108,7 +108,7 @@ CREATE TABLE Review (
     Rating INT NOT NULL,
     Comment NVARCHAR(MAX),
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
-	PRIMARY KEY (UserId, ProductId),
+	PRIMARY KEY (UserId, ProductId, CreatedAt),
 )
 
 GO

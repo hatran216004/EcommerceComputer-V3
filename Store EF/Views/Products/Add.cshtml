@@ -43,9 +43,9 @@
                     @Html.TextBoxFor(x => x.Stock, new { @type = "number", @min = 0, @class = "add-product__form-text" })
                 </div>
                 <div class="add-product__form-group">
-                    <label class="add-product__form-label"
-                            for="category">Danh mục</label>
-                    <select name="@nameof(Model.CategoryId)" , class="add-product__form-text">
+                    <label class="add-product__form-label" for="category">Danh mục</label>
+                    <select name="@nameof(Model.CategoryId)" class="add-product__form-text">
+                        <option value="">Rỗng</option>
                         @{
                             foreach (Category c in ViewBag.Categories)
                             {
@@ -58,6 +58,7 @@
                     <label class="add-product__form-label"
                             for="category">Thương hiệu</label>
                     <select name="@nameof(Model.BrandId)" , class="add-product__form-text">
+                        <option value="">Rỗng</option>
                         @{
                             foreach (Brand c in ViewBag.Brands)
                             {

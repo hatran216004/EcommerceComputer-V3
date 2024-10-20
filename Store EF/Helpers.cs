@@ -1,9 +1,13 @@
-﻿using System.Drawing;
+﻿using Store_EF.Models;
+using System.Data.Entity;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
+using System.Linq;
 
 namespace Store_EF
 {
@@ -38,6 +42,32 @@ namespace Store_EF
                     return false;
             }
             else return false;
+        }
+
+        public static bool IsValidImage(HttpPostedFileBase postedFile)
+        {
+            if (postedFile == null)
+                return false;
+            Stream stream = postedFile.InputStream;
+            try
+            {
+                Image.FromStream(stream, false, true);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool IsUserAdmin(int userId, StoreEntities store)
+        {
+            User_ user = store.Users.FirstOrDefault(x => x.UserId == userId);
+            if (user == null)
+                return false;
+            if (user.RoleName != "Admin")
+                return false;
+            return true;
         }
 
         public static bool IsValidImage(Stream stream)

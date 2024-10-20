@@ -81,6 +81,11 @@ namespace Store_EF.Controllers
         [HttpGet]
         public ActionResult Add()
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            if (!Helpers.IsUserAdmin(userId, store))
+                return RedirectToAction("Index");
             try
             {
                 ViewBag.Categories = store.Categories.ToList();
@@ -98,7 +103,12 @@ namespace Store_EF.Controllers
         [HttpPost]
         public ActionResult Add(Product p, HttpPostedFileBase thumbnail, IEnumerable<HttpPostedFileBase> galleries = null)
         {
-            if (p.IsValid() && Helpers.IsValidImage(thumbnail.InputStream))
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            if (!Helpers.IsUserAdmin(userId, store))
+                return RedirectToAction("Index");
+            if (p.IsValid() && Helpers.IsValidImage(thumbnail))
             {
                 int productId;
                 if (!p.AddToDb(store, out productId))
@@ -144,6 +154,11 @@ namespace Store_EF.Controllers
 
         public ActionResult ProductManagement(int page = 1)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            if (!Helpers.IsUserAdmin(userId, store))
+                return RedirectToAction("Index");
             int pageSize = 8;
             if (page < 1)
                 page = 1;
@@ -165,6 +180,11 @@ namespace Store_EF.Controllers
 
         public ActionResult Delete(int id)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            if (!Helpers.IsUserAdmin(userId, store))
+                return RedirectToAction("Index");
             try
             {
                 var product = store.Products.FirstOrDefault(p => p.ProductId == id);
@@ -188,6 +208,11 @@ namespace Store_EF.Controllers
 
         public ActionResult Update(int id)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            if (!Helpers.IsUserAdmin(userId, store))
+                return RedirectToAction("Index");
             ViewBag.Categories = store.Categories.ToList();
             ViewBag.Brands = store.Brands.ToList();
             ViewBag.Galleries = store.Galleries.Where(p => p.ProductId == id).ToList();
@@ -204,6 +229,11 @@ namespace Store_EF.Controllers
         [HttpPost]
         public ActionResult Update(Product product, HttpPostedFileBase thumbnailFile, IEnumerable<HttpPostedFileBase> galleries, int[] galleryIds, IEnumerable<HttpPostedFileBase> newGalleries = null)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            if (!Helpers.IsUserAdmin(userId, store))
+                return RedirectToAction("Index");
             // Cập nhật thông tin sản phẩm trong cơ sở dữ liệu
             int productId;
             if (!product.UpdateInDb(store, out productId))
@@ -319,8 +349,5 @@ namespace Store_EF.Controllers
             TempData["SuccessMessage"] = "Cập nhật sản phẩm thành công!";
             return RedirectToAction("ProductManagement");
         }
-
-
-
     }
 }
