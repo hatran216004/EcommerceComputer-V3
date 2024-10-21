@@ -197,7 +197,7 @@
 
 .add-product__form-picture-thumbnail {
     --square: 437px;
-    width: var(--square);
+    max-width: var(--square);
     height: var(--square);
     margin-bottom: 20px;
     cursor: pointer;
