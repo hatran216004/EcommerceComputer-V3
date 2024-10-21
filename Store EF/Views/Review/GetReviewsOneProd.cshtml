@@ -1,0 +1,125 @@
+﻿@using Store_EF.Models
+@model List<Review>
+
+@{
+    int userId = Session["UserId"] != null ? int.Parse(Session["UserId"].ToString()) : 0;
+    int ProductId = ViewBag.ProductId;
+}
+
+<style>
+    .comment-section {
+        margin: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+        .comment-section h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+    #commentForm .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #fff;
+    }
+
+    .comments-list {
+        margin-top: 20px;
+    }
+
+    .comment {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #fff;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .comment-rating {
+        font-weight: bold;
+    }
+
+    .comment-body {
+        margin: 10px 0;
+    }
+
+    .comment-date {
+        color: #888;
+        font-size: 0.9em;
+    }
+
+    .btn-submit-comment {
+        height: 36px !important;
+    }
+</style>
+
+<div class="prod-tab__content prod-tab__content--active">
+    <div class="comment-section">
+        <h2>Bình luận về sản phẩm</h2>
+        @if (userId != 0)
+        {
+            using (Html.BeginForm("AddReview", "Review", FormMethod.Post, new { id = "commentForm" }))
+            {
+                <div class="form-group">
+                    @Html.Label("rating", "Đánh giá:")
+                    @Html.DropDownList("Rating", new SelectList(new[]
+                    {
+                        new { Value = "1", Text = "1 sao" },
+                        new { Value = "2", Text = "2 sao" },
+                        new { Value = "3", Text = "3 sao" },
+                        new { Value = "4", Text = "4 sao" },
+                        new { Value = "5", Text = "5 sao" }
+                    }, "Value", "Text"), new { @required = "required", id = "rating" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("comment", "Nội dung bình luận:")
+                    @Html.TextBox("Comment", null, new { id = "comment", @class = "form-control" })
+                </div>
+
+                @Html.Hidden("ProductId", ProductId)
+                @Html.Hidden("UserId", userId)
+                @Html.Hidden("CreatedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+
+                <button type="submit" class="btn btn-primary btn-submit-comment">Gửi bình luận</button>
+            }
+        }
+
+        <div class="comments-list" id="commentsList">
+            @if (Model != null)
+            {
+                foreach (var comment in Model)
+                {
+                    <div class="comment" data-id="@comment.ProductId">
+                        <!-- Giả sử bạn có thuộc tính Id trong Review -->
+                        <div class="comment-header">
+                            <strong>User @comment.UserId</strong>
+                            <span class="comment-rating">Đánh giá: @comment.Rating sao</span>
+                        </div>
+                        <p class="comment-body">@comment.Comment</p>
+                        <small class="comment-date">@comment.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
