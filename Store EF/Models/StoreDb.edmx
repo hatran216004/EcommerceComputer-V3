@@ -97,6 +97,7 @@
           <Key>
             <PropertyRef Name="UserId" />
             <PropertyRef Name="ProductId" />
+            <PropertyRef Name="CreatedAt" />
           </Key>
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
@@ -431,20 +432,7 @@
           <NavigationProperty Name="Category" Relationship="Self.FK__Product__Categor__7F2BE32F" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="Galleries" Relationship="Self.FK__Gallery__Product__02084FDA" FromRole="Product" ToRole="Gallery" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Produ__114A936A" FromRole="Product" ToRole="OrderDetail" />
-          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__ProductI__151B244E" FromRole="Product" ToRole="Review" />
-        </EntityType>
-        <EntityType Name="Review">
-          <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="ProductId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="Rating" Type="Int32" Nullable="false" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__Review__ProductI__151B244E" FromRole="Review" ToRole="Product" />
-          <NavigationProperty Name="User_" Relationship="Self.FK__Review__UserId__14270015" FromRole="Review" ToRole="User_" />
+          <NavigationProperty Name="Reviews" Relationship="StoreModel.FK__Review__ProductI__5D95E53A" FromRole="Product" ToRole="Review" />
         </EntityType>
         <EntityType Name="User_">
           <Key>
@@ -458,8 +446,8 @@
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__UserId__05D8E0BE" FromRole="User_" ToRole="Cart" />
           <NavigationProperty Name="Order_" Relationship="Self.FK__Order___UserId__0D7A0286" FromRole="User_" ToRole="Order_" />
-          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__UserId__14270015" FromRole="User_" ToRole="Review" />
           <NavigationProperty Name="UserDetail" Relationship="Self.FK__UserDetai__UserI__75A278F5" FromRole="User_" ToRole="UserDetail" />
+          <NavigationProperty Name="Reviews" Relationship="StoreModel.FK__Review__UserId__5CA1C101" FromRole="User_" ToRole="Review" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -573,30 +561,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__ProductI__151B244E">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Review__UserId__14270015">
-          <End Role="User_" Type="Self.User_" Multiplicity="1" />
-          <End Role="Review" Type="Self.Review" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User_">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Review">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__UserDetai__UserI__75A278F5">
           <End Role="User_" Type="Self.User_" Multiplicity="1" />
           <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
@@ -617,7 +581,6 @@
           <EntitySet Name="Order_" EntityType="Self.Order_" />
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
           <EntitySet Name="Products" EntityType="Self.Product" />
-          <EntitySet Name="Reviews" EntityType="Self.Review" />
           <EntitySet Name="User_" EntityType="Self.User_" />
           <EntitySet Name="UserDetails" EntityType="Self.UserDetail" />
           <AssociationSet Name="FK__Product__BrandId__7E37BEF6" Association="Self.FK__Product__BrandId__7E37BEF6">
@@ -652,14 +615,6 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__ProductI__151B244E" Association="Self.FK__Review__ProductI__151B244E">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Review__UserId__14270015" Association="Self.FK__Review__UserId__14270015">
-            <End Role="User_" EntitySet="User_" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
           <AssociationSet Name="FK__UserDetai__UserI__75A278F5" Association="Self.FK__UserDetai__UserI__75A278F5">
             <End Role="User_" EntitySet="User_" />
             <End Role="UserDetail" EntitySet="UserDetails" />
@@ -668,6 +623,15 @@
           <AssociationSet Name="FK__Payment__OrderId__634EBE90" Association="StoreModel.FK__Payment__OrderId__634EBE90">
             <End Role="Order_" EntitySet="Order_" />
             <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <EntitySet Name="Reviews" EntityType="StoreModel.Review" />
+          <AssociationSet Name="FK__Review__ProductI__5D95E53A" Association="StoreModel.FK__Review__ProductI__5D95E53A">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__UserId__5CA1C101" Association="StoreModel.FK__Review__UserId__5CA1C101">
+            <End Role="User_" EntitySet="User_" />
+            <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Payment">
@@ -696,6 +660,48 @@
             </Principal>
             <Dependent Role="Payment">
               <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="CreatedAt" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Product" Relationship="StoreModel.FK__Review__ProductI__5D95E53A" FromRole="Review" ToRole="Product" />
+          <NavigationProperty Name="User_" Relationship="StoreModel.FK__Review__UserId__5CA1C101" FromRole="Review" ToRole="User_" />
+        </EntityType>
+        <Association Name="FK__Review__ProductI__5D95E53A">
+          <End Type="StoreModel.Product" Role="Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="StoreModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__UserId__5CA1C101">
+          <End Type="StoreModel.User_" Role="User_" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="StoreModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -782,17 +788,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Reviews">
-            <EntityTypeMapping TypeName="StoreModel.Review">
-              <MappingFragment StoreEntitySet="Review">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="User_">
             <EntityTypeMapping TypeName="StoreModel.User_">
               <MappingFragment StoreEntitySet="User@">
@@ -831,6 +826,17 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="StoreModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
