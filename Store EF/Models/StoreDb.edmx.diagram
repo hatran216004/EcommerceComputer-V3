@@ -23,11 +23,11 @@
         <AssociationConnector Association="StoreModel.FK__OrderDeta__Order__10566F31" ManuallyRouted="false" />
         <AssociationConnector Association="StoreModel.FK__OrderDeta__Produ__114A936A" ManuallyRouted="false" />
         <AssociationConnector Association="StoreModel.FK__UserDetai__UserI__75A278F5" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="StoreModel.Payment" Width="1.5" PointX="5.25" PointY="12.5" />
-        <AssociationConnector Association="StoreModel.FK__Payment__OrderId__634EBE90" />
         <EntityTypeShape EntityType="StoreModel.Review" Width="1.5" PointX="8.25" PointY="7.875" />
         <AssociationConnector Association="StoreModel.FK__Review__ProductI__5D95E53A" />
         <AssociationConnector Association="StoreModel.FK__Review__UserId__5CA1C101" />
+        <EntityTypeShape EntityType="StoreModel.Payment" Width="1.5" PointX="5.25" PointY="12.25" />
+        <AssociationConnector Association="StoreModel.FK__Payment__OrderId__2AD55B43" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

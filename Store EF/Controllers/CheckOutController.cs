@@ -4,6 +4,8 @@ using Store_EF.Models.Extensions;
 using StuceSoftware.RandomStringGenerator;
 using System;
 using System.Configuration;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
@@ -60,30 +62,29 @@ namespace Store_EF.Controllers
                 store.Orders.Add(order);
                 int orderId = -1;
                 string code = "DH" + RandomStringGenerator.GetString(CharClasses.Uppercase | CharClasses.Numbers, maxLength: 10, randomLength: false, false);
-                Payment payment = new Payment();
                 try
                 {
                     store.SaveChanges();
                     orderId = store.Entry(order).GetDatabaseValues().GetValue<int>("OrderId");
-                    payment = new Payment()
+                    Payment payment = store.Payments.First(x => x.OrderId == orderId);
+                    payment.Method = checkOut.PaymentMethod;
+                    payment.Status = "Wait for payment";
+                    if (checkOut.PaymentMethod == "Bank")
                     {
-                        OrderId = orderId,
-                        Code = code,
-                        Method = checkOut.PaymentMethod,
-                        Status = "Waitting",
-                        Expiry = DateTime.Now.AddDays(1),
-                        Bank = ConfigurationManager.AppSettings["Bank"],
-                        Account = ConfigurationManager.AppSettings["Account"]
-                    };
-                    store.Payments.Add(payment);
+                        payment.Code = code;
+                        payment.Bank = ConfigurationManager.AppSettings["Bank"];
+                        payment.Account = ConfigurationManager.AppSettings["Account"];
+                    }
                     store.SaveChanges();
                     return RedirectToAction("Payment");
                 }
-                catch
+                catch (DbUpdateException ex)
                 {
                     store.Orders.Remove(order);
-                    if (payment != new Payment())
-                        store.Payments.Remove(payment);
+                    Debug.WriteLine(ex.InnerException.InnerException.Message);
+                    int productId = int.Parse(ex.InnerException.InnerException.Message);
+                    Product _ = store.Products.First(x => x.ProductId == productId);
+                    ModelState.AddModelError("error", $"{_.Title} không đủ số lượng bạn đã đặt!");
                     return View("Index");
                 }
             }
