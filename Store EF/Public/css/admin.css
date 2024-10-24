@@ -8,6 +8,7 @@
     flex-grow: 1;
     width: 70%;
 }
+
 .pm__title {
     font-size: 24px;
     font-weight: 500;
@@ -22,9 +23,9 @@
     cursor: pointer;
 }
 
-.pm__btn-add-warp:hover {
-    opacity: 0.9;
-}
+    .pm__btn-add-warp:hover {
+        opacity: 0.9;
+    }
 
 .pm__btn-add {
     display: flex;
@@ -95,10 +96,9 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2; 
-    white-space: pre-wrap; 
+    -webkit-line-clamp: 2;
+    white-space: pre-wrap;
 }
-
 
 /* add product page */
 
@@ -128,9 +128,9 @@
 
     .add-product__action button {
         color: #fff;
-/*        background-color:blue;*/
+        /*        background-color:blue;*/
         padding: 16px 0;
-        width:100%;
+        width: 100%;
         cursor: pointer;
     }
 
@@ -194,7 +194,6 @@
     text-align: center;
 }
 
-
 .add-product__form-picture-thumbnail {
     --square: 437px;
     max-width: var(--square);
@@ -215,22 +214,19 @@
         object-fit: cover;
     }
 
-  
     .add-product__form-picture-thumbnail:hover {
         border-color: #000;
     }
-
 
 .add-product__form-picture-warp {
     display: flex;
     justify-content: space-between;
 }
 
-
 .add-product__form-picture-item {
     --square: 100px;
     width: var(--square);
-    height: var(--square);
+    max-height: var(--square);
     cursor: pointer;
     border: 2px dashed #ccc;
     padding: 5px;
@@ -245,11 +241,9 @@
         margin-left: 8px;
     }
 
-
     .add-product__form-picture-item:hover {
         border-color: #000;
     }
-
 
     .add-product__form-picture-item img {
         max-width: 100%;
@@ -267,7 +261,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s, visibility 0.25s;
@@ -287,11 +280,11 @@
     position: relative;
 }
 
-.modal-content p {
-    font-size: 18px;
-    line-height: 150%;
-    font-weight: 700;
-}
+    .modal-content p {
+        font-size: 18px;
+        line-height: 150%;
+        font-weight: 700;
+    }
 
 .model__btn-close {
     padding: 8px 10px;
@@ -344,7 +337,7 @@
     background-color: #e1ecf4;
     border-radius: 3px;
     border: 1px solid #7aa7c7;
-    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
     color: #39739d;
     font-size: 16px;
     cursor: pointer;
@@ -386,5 +379,5 @@
     }
 
         .form-add-user button:hover {
-            opacity: 0.9
+            opacity: 0.9;
         }

@@ -40,7 +40,7 @@
     margin: 12px 0;
     display: flex;
     width: 100%;
-    background-color: #fef9f2;
+    background-color: #f5f5f5;
 }
 
 .orderhis_nav__search-btn {
@@ -60,7 +60,10 @@
 }
 
 .orderhis_list-order__list-mini {
+    margin: 10px;
     padding: 24px;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
 .orderhis__list-mini__item-header {
@@ -136,7 +139,7 @@
 
 .orderhis_list-order__list-mini__price {
     text-align: right;
-    padding: 24px;
+    padding: 24px 0;
 }
 
     .orderhis_list-order__list-mini__price span {

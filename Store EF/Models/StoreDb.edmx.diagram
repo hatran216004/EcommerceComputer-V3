@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="StoreModel.Order_" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="StoreModel.OrderDetail" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="StoreModel.Product" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.Review" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="StoreModel.User_" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="StoreModel.UserDetail" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
         <AssociationConnector Association="StoreModel.FK__Product__BrandId__7E37BEF6" ManuallyRouted="false" />
@@ -23,11 +22,12 @@
         <AssociationConnector Association="StoreModel.FK__Order___UserId__0D7A0286" ManuallyRouted="false" />
         <AssociationConnector Association="StoreModel.FK__OrderDeta__Order__10566F31" ManuallyRouted="false" />
         <AssociationConnector Association="StoreModel.FK__OrderDeta__Produ__114A936A" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__Review__ProductI__151B244E" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__Review__UserId__14270015" ManuallyRouted="false" />
         <AssociationConnector Association="StoreModel.FK__UserDetai__UserI__75A278F5" ManuallyRouted="false" />
         <EntityTypeShape EntityType="StoreModel.Payment" Width="1.5" PointX="5.25" PointY="12.5" />
         <AssociationConnector Association="StoreModel.FK__Payment__OrderId__634EBE90" />
+        <EntityTypeShape EntityType="StoreModel.Review" Width="1.5" PointX="8.25" PointY="7.875" />
+        <AssociationConnector Association="StoreModel.FK__Review__ProductI__5D95E53A" />
+        <AssociationConnector Association="StoreModel.FK__Review__UserId__5CA1C101" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

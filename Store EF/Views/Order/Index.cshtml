@@ -1,7 +1,10 @@
-﻿
+﻿@using Store_EF.Models
+@using Store_EF.Models.Extensions
+@model IEnumerable<Order_>
 @{
     ViewBag.Title = "OrderHistory";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    StoreEntities store = new StoreEntities();
 }
 <div class="orderhis">
     <nav class="orderhis_nav">
@@ -41,14 +44,56 @@
         <!-- Danh sách đơn hàng -->
         <div class="orderhis_list-order__list">
             <!-- Đơn hàng -->
-            <div class="orderhis_list-order__list-mini">
+            @foreach (Order_ order in Model)
+            {
+                <div class="orderhis_list-order__list-mini">
+                    <div class="orderhis__list-mini__item-header">
+                        <span>Mã đơn hàng: @order.OrderId</span>
+                        <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--cancel">@order.Status</span>
+                    </div>
+                    @foreach (OrderDetail detail in order.OrderDetails)
+                    {
+                        <div class="orderhis__list-mini__item">
+                            <!-- Các sản phẩm trong đơn hàng -->
+                            <div class="orderhis__list-mini__item-product">
+                                <img class="orderhis__list-mini__item-product__thumnail"
+                                     src="~/Public/imgs/Products/@detail.Product.Thumbnail(store)"
+                                     alt="" />
+                                <div class="orderhis__list-mini__item-product__info">
+                                    <div class="orderhis__list-mini__item-product__info-warp">
+                                        <span class="orderhis__list-mini__item-product__info-name">
+                                            @detail.Product.Title
+                                        </span>
+                                        <span class="orderhis__list-mini__item-product__info-quantity">x @detail.Quantity</span>
+                                    </div>
+                                    @if (detail.Product.PromoPrice == null)
+                                    {
+                                        <span class="orderhis__list-mini__item-product__info-price">
+                                            @detail.Product.FormattedPrice(false)
+                                        </span>
+                                    } else
+                                    {<span class="orderhis__list-mini__item-product__info-price">
+
+                                        <span class="orderhis__list-price--origin">@detail.Product.FormattedPrice(true)</span>@detail.Product.FormattedPrice(false)</span>
+                                    }                                    
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="orderhis_list-order__list-mini__price">
+                        Thành tiền: <span>@Helpers.FormattedPrice(order.TotalPrice())</span>
+                    </div>
+                </div>
+            }
+
+            <!--<div class="orderhis_list-order__list-mini">
                 <div class="orderhis__list-mini__item-header">
                     <span>Mã đơn hàng: 1</span>
                     <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--success">Hoàn thành</span>
                 </div>
-                <div class="orderhis__list-mini__item">
+                <div class="orderhis__list-mini__item">-->
                     <!-- Các sản phẩm trong đơn hàng -->
-                    <div class="orderhis__list-mini__item-product">
+                    <!--<div class="orderhis__list-mini__item-product">
                         <img class="orderhis__list-mini__item-product__thumnail"
                              src="~/Public/Imgs/Products/null.png"
                              alt="" />
@@ -73,8 +118,8 @@
                     </div>
                     <div class="orderhis__list-mini__item-product">
                         <img class="orderhis__list-mini__item-product__thumnail"
-                                src="~/Public/Imgs/Products/null.png"
-                                alt="" />
+                             src="~/Public/Imgs/Products/null.png"
+                             alt="" />
                         <div class="orderhis__list-mini__item-product__info">
                             <div class="orderhis__list-mini__item-product__info-warp">
                                 <span class="orderhis__list-mini__item-product__info-name">
@@ -98,20 +143,20 @@
                 <div class="orderhis_list-order__list-mini__price">
                     Thành tiền: <span>10.000.000 VND</span>
                 </div>
-            </div>
+            </div>-->
 
             <!-- Đơn hàng -->
-            <div class="orderhis_list-order__list-mini">
+            <!--<div class="orderhis_list-order__list-mini">
                 <div class="orderhis__list-mini__item-header">
                     <span>Mã đơn hàng: 1</span>
                     <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--cancel">đã hủy</span>
                 </div>
-                <div class="orderhis__list-mini__item">
+                <div class="orderhis__list-mini__item">-->
                     <!-- Các sản phẩm trong đơn hàng -->
-                    <div class="orderhis__list-mini__item-product">
+                    <!--<div class="orderhis__list-mini__item-product">
                         <img class="orderhis__list-mini__item-product__thumnail"
-                                src="~/Public/Imgs/Products/null.png"
-                                alt="" />
+                             src="~/Public/Imgs/Products/null.png"
+                             alt="" />
                         <div class="orderhis__list-mini__item-product__info">
                             <div class="orderhis__list-mini__item-product__info-warp">
                                 <span class="orderhis__list-mini__item-product__info-name">
@@ -135,7 +180,7 @@
                 <div class="orderhis_list-order__list-mini__price">
                     Thành tiền: <span>10.000.000 VND</span>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>

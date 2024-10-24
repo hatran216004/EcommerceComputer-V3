@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Store_EF.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,14 @@ namespace Store_EF.Controllers
 {
     public class OrderController : Controller
     {
-        // GET: Order
-        public ActionResult OrderHistory()
+        
+        StoreEntities store = new StoreEntities();
+
+        public ActionResult Index()
         {
-            return View();
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            return View(store.Orders);
         }
     }
 }

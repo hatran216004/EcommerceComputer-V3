@@ -259,7 +259,7 @@ namespace Store_EF.Controllers
             {
                 try
                 {
-                    string fileName = Path.GetFileName(thumbnailFile.FileName);
+                    string fileName = $"{Guid.NewGuid()}{Path.GetExtension(thumbnailFile.FileName)}";
                     string path = Path.Combine(Server.MapPath("~\\public\\imgs\\products\\"), fileName);
 
                     // Lưu tệp thumbnail
@@ -287,7 +287,7 @@ namespace Store_EF.Controllers
                         {
                             try
                             {
-                                string fileName = Path.GetFileName(file.FileName);
+                                string fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
                                 string path = Path.Combine(Server.MapPath("~\\public\\imgs\\products\\"), fileName);
 
                                 file.SaveAs(path);
@@ -313,7 +313,7 @@ namespace Store_EF.Controllers
                     {
                         try
                         {
-                            string fileName = Path.GetFileName(newGallery.FileName);
+                            string fileName = $"{Guid.NewGuid()}{Path.GetExtension(newGallery.FileName)}";
                             string path = Path.Combine(Server.MapPath("~\\public\\imgs\\products\\"), fileName);
 
                             newGallery.SaveAs(path);

@@ -359,6 +359,7 @@
     <Content Include="Models\StoreDb.edmx.diagram">
       <DependentUpon>StoreDb.edmx</DependentUpon>
     </Content>
+    <Content Include="Public\provinces.json" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -401,7 +402,7 @@
     <Content Include="Views\UserAccount\UserManagement.cshtml" />
     <Content Include="Views\UserAccount\GetUser.cshtml" />
     <Content Include="Views\CheckOut\Payment.cshtml" />
-    <Content Include="Views\Order\OrderHistory.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Review\GetReviewsOneProd.cshtml" />
   </ItemGroup>
   <ItemGroup>
