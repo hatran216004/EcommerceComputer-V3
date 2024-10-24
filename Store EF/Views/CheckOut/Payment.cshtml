@@ -16,7 +16,7 @@
     <p>Ngân hàng: @bank</p>
     <p>Số tiền: @Helpers.FormattedPrice(Model.Order_.TotalPrice())</p>
     <p>Nội dung: @Model.Code</p>
-    <p>Mã thanh toán này sẽ hết hạn sau @Model.Expiry.ToString("hh:mm") ngày @Model.Expiry.ToString("dd-MM-yyyy")</p>
+    <p>Mã thanh toán này sẽ hết hạn sau @Model.Expiry.Value.ToString("hh:mm") ngày @Model.Expiry.Value.ToString("dd-MM-yyyy")</p>
     <p>Trạng thái: <span id="status">Chờ thanh toán</span></p>
 
     <script>
@@ -25,7 +25,7 @@
             source.onmessage = function (event) {
                 const statusEle = document.getElementById("status");
                 if (event.data == 'Succeeded') {
-                    statusEle.innerText = "Đã thanh toán";
+                    statusEle.innerText = "Thanh toán thành công";
                     source.close();
                 } else if (event.data == 'Failed') {
                     statusEle.innerText = "Thanh toán thất bại";

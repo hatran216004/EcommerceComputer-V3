@@ -116,121 +116,15 @@
                 </div>
             </div>
             <div class="checkout__action">
+                <div class="">
+                    @Html.ValidationMessage("error")
+                </div>
                 <button type="submit" class="btn btn--primary">
                     Tiến hành thanh toán
                 </button>
             </div>
         </div>
     }
-    @*<form action="@Url.Action("Payments", "CheckOut")" method="post" class="checkout__form">
-            <div class="checkout__form-input">
-                <div class="checkout__form-group">
-                    <label for="fullname">
-                        Họ và tên
-                        <span class="checkout__form-required">*</span>
-                    </label>
-                    <input type="text"
-                           id="fullname"
-                           name="fullname"
-                           value="@userDetail.Name"
-                           required />
-                </div>
-                <div class="checkout__form-group">
-                    <label for="phone">Số điện thoại</label>
-                    <input type="tel"
-                           id="phone"
-                           name="phone"
-                           minlength="10"
-                           maxlength="11"
-                           value="@userDetail.Phone"
-                           required />
-                </div>
-                <div class="checkout__form-group">
-                    <label for="province">Thành phố / Tỉnh</label>
-                    <select id="province" name="province"></select>
-                </div>
-                <div class="checkout__form-group">
-                    <label for="district">Quận / Huyện</label>
-                    <select id="district" name="district"></select>
-                </div>
-                <div class="checkout__form-group">
-                    <label for="ward">Xã / Phường</label>
-                    <select id="ward" name="ward"></select>
-                </div>
-                <div class="checkout__form-group">
-                    <label for="home">Số nhà và tên đường</label>
-                    <input type="text" id="home" name="home" />
-                </div>
-                <div class="checkout__form-group">
-                    <label for="note">Ghi chú</label>
-                    <input type="text" id="note" name="note" />
-                </div>
-            </div>
-
-            <div class="checkout__info">
-                @{
-                    foreach (Cart c in carts)
-                    {
-                        <div class="checkout__info-products">
-                            <div class="checkout__info-product">
-                                <div class="checkout__info-product-item">
-                                    <img src="~/Public/imgs/Products/@c.Product.Thumbnail(store)" alt="" />
-                                    <span>@c.Product.Title</span>
-                                </div>
-                                <div class="checkout__info-product-price">
-                                    @c.Product.FormattedPrice() x @c.Quantity
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-                <div class="checkout__info-warp">
-                    <div class="checkout__info-item">
-                        @{
-                            int totalPrice = carts.TotalPrice(store);
-                            int shippingPrice = 0;
-                        }
-                        <span>Tạm tính: </span>
-                        <span class="checkout__info-item-price">@Helpers.FormattedPrice(totalPrice)</span>
-                    </div>
-                    <div class="checkout__info-item">
-                        <span>Vận chuyển: </span>
-                        <span class="checkout__info-item-price">@Helpers.FormattedPrice(shippingPrice)</span>
-                    </div>
-                    <div class="checkout__info-item">
-                        <span>Tổng cộng: </span>
-                        <span class="checkout__info-item-price">@Helpers.FormattedPrice(totalPrice + shippingPrice)</span>
-                    </div>
-                </div>
-                <div class="checkout__method">
-                    <div class="checkout__method-item">
-                        <div class="checkout__method-radio">
-                            <input type="radio"
-                                   name="paymentMethod"
-                                   id="checkout__method-bank"
-                                   value="bank"
-                                   required />
-                            <label for="checkout__method-bank">Ngân hàng</label>
-                        </div>
-                    </div>
-                    <div class="checkout__method-item">
-                        <div class="checkout__method-radio">
-                            <input type="radio"
-                                   name="paymentMethod"
-                                   id="checkout__method-transfer"
-                                   value="cash"
-                                   required />
-                            <label for="checkout__method-transfer">Tiền mặt</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="checkout__action">
-                    <button class="btn btn--primary">
-                        Tiến hành thanh toán
-                    </button>
-                </div>
-            </div>
-        </form>*@
 </div>
 <script>
     const provinceEle = document.getElementById('@nameof(Model.Province)');

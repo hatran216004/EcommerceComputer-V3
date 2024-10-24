@@ -32,6 +32,11 @@
             <div class="cart__main-title-item">Giá</div>
             <div class="cart__main-title-item">Số lượng</div>
             <div class="cart__main-title-item">Tổng cộng</div>
+            <div class="cart__main-title-item" style="width:100px">
+                @using(Html.BeginForm("RemoveAll", "Cart", FormMethod.Post)) { 
+                    <button type="submit">Xoá tất cả</button>
+                }
+            </div>
         </div>
         <div class="cart__main-listitem">
             @foreach (Cart cart in Model) {
@@ -84,6 +89,12 @@
                             <span class="cart__total-product">0</span>
                         </div>
                     </div>
+                    <div class="cart__main-item" style="width:100px;cursor:pointer">
+                        @using(Html.BeginForm("Remove", "Cart", FormMethod.Post)) { 
+                            @Html.Hidden("product", cart.ProductId)
+                            <button type="submit">Xoá</button>
+                        }
+                    </div>
                 </div>
             }                    
         </div>
@@ -126,7 +137,9 @@
             fetch('@Url.Action("Add", "Cart")', {
                 method: "POST",
                 body: formData,
-            });
+            }).then(response => response.text().then(result => {
+                document.getElementById(productId).querySelector(".cart__main-quantity-input").value = result;
+            }));
         } catch (e) {
             console.error(e);
         }

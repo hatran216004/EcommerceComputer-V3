@@ -52,10 +52,14 @@
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="UserId" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Store.dbo.OrderDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="OrderDetail">
           <Key>
             <PropertyRef Name="OrderId" />
             <PropertyRef Name="ProductId" />
+            
+            
           </Key>
           <Property Name="OrderId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
@@ -69,14 +73,14 @@
           <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="int" Nullable="false" />
           <Property Name="Amount" Type="money" />
-          <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Method" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="20" />
+          <Property Name="Method" Type="varchar" MaxLength="10" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
           <Property Name="PaymentDate" Type="datetime2" Precision="7" />
-          <Property Name="Expiry" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Expiry" Type="datetime2" Precision="7" />
           <Property Name="TransactionId" Type="varchar" MaxLength="20" />
-          <Property Name="Bank" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Account" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Bank" Type="varchar" MaxLength="20" />
+          <Property Name="Account" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -203,8 +207,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Payment__OrderId__5224328E">
-          <End Role="Order@" Type="Self.Order@" Multiplicity="1" />
+        <Association Name="FK__Payment__OrderId__373B3228">
+          <End Role="Order@" Type="Self.Order@" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Order@">
@@ -287,12 +293,19 @@
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gallery" EntityType="Self.Gallery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order@" EntityType="Self.Order@" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User@" EntityType="Self.User@" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [OrderDetail].[OrderId] AS [OrderId], 
+    [OrderDetail].[ProductId] AS [ProductId], 
+    [OrderDetail].[Price] AS [Price], 
+    [OrderDetail].[Quantity] AS [Quantity]
+    FROM [dbo].[OrderDetail] AS [OrderDetail]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Cart__ProductId__43D61337" Association="Self.FK__Cart__ProductId__43D61337">
             <End Role="Product" EntitySet="Product" />
             <End Role="Cart" EntitySet="Cart" />
@@ -317,7 +330,7 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Payment__OrderId__5224328E" Association="Self.FK__Payment__OrderId__5224328E">
+          <AssociationSet Name="FK__Payment__OrderId__373B3228" Association="Self.FK__Payment__OrderId__373B3228">
             <End Role="Order@" EntitySet="Order@" />
             <End Role="Payment" EntitySet="Payment" />
           </AssociationSet>
@@ -399,7 +412,7 @@
           <Property Name="UserId" Type="Int32" />
           <NavigationProperty Name="User_" Relationship="Self.FK__Order___UserId__0D7A0286" FromRole="Order_" ToRole="User_" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Order__10566F31" FromRole="Order_" ToRole="OrderDetail" />
-          <NavigationProperty Name="Payments" Relationship="StoreModel.FK__Payment__OrderId__634EBE90" FromRole="Order_" ToRole="Payment" />
+          <NavigationProperty Name="Payments" Relationship="StoreModel.FK__Payment__OrderId__2AD55B43" FromRole="Order_" ToRole="Payment" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -619,11 +632,6 @@
             <End Role="User_" EntitySet="User_" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <EntitySet Name="Payments" EntityType="StoreModel.Payment" />
-          <AssociationSet Name="FK__Payment__OrderId__634EBE90" Association="StoreModel.FK__Payment__OrderId__634EBE90">
-            <End Role="Order_" EntitySet="Order_" />
-            <End Role="Payment" EntitySet="Payments" />
-          </AssociationSet>
           <EntitySet Name="Reviews" EntityType="StoreModel.Review" />
           <AssociationSet Name="FK__Review__ProductI__5D95E53A" Association="StoreModel.FK__Review__ProductI__5D95E53A">
             <End Role="Product" EntitySet="Products" />
@@ -633,36 +641,12 @@
             <End Role="User_" EntitySet="User_" />
             <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
+          <EntitySet Name="Payments" EntityType="StoreModel.Payment" />
+          <AssociationSet Name="FK__Payment__OrderId__2AD55B43" Association="StoreModel.FK__Payment__OrderId__2AD55B43">
+            <End Role="Order_" EntitySet="Order_" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Payment">
-          <Key>
-            <PropertyRef Name="PaymentId" />
-          </Key>
-          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Method" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentDate" Type="DateTime" Precision="7" />
-          <Property Name="Expiry" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="TransactionId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Order_" Relationship="StoreModel.FK__Payment__OrderId__634EBE90" FromRole="Payment" ToRole="Order_" />
-          <Property Name="Bank" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Account" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <Association Name="FK__Payment__OrderId__634EBE90">
-          <End Type="StoreModel.Order_" Role="Order_" Multiplicity="1" />
-          <End Type="StoreModel.Payment" Role="Payment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order_">
-              <PropertyRef Name="OrderId" />
-            </Principal>
-            <Dependent Role="Payment">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Review">
           <Key>
             <PropertyRef Name="UserId" />
@@ -702,6 +686,37 @@
             </Principal>
             <Dependent Role="Review">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Method" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="7" />
+          <Property Name="Expiry" Type="DateTime" Precision="7" />
+          <Property Name="TransactionId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Bank" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Account" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order_" Relationship="StoreModel.FK__Payment__OrderId__2AD55B43" FromRole="Payment" ToRole="Order_" />
+        </EntityType>
+        <Association Name="FK__Payment__OrderId__2AD55B43">
+          <End Type="StoreModel.Order_" Role="Order_" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="StoreModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order_">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -812,6 +827,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="StoreModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="StoreModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
@@ -826,17 +852,6 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Reviews">
-            <EntityTypeMapping TypeName="StoreModel.Review">
-              <MappingFragment StoreEntitySet="Review">
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

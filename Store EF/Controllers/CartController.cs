@@ -1,6 +1,8 @@
 ﻿using Serilog;
 using Store_EF.Models;
 using System;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -19,15 +21,15 @@ namespace Store_EF.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(int? product, int quantity = 0)
+        public ActionResult Add(int? product, int quantity = 0, string url = "")
         {
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
             if (!product.HasValue)
-                return HttpNotFound();
+                return RedirectToAction("Index");
             else
             {
-                int userId = int.Parse(Session["UserId"].ToString());
                 if (store.Carts.Where(x => x.UserId == userId && x.ProductId == product.Value).Count() == 0)
                 {
                     store.Carts.Add(new Cart()
@@ -50,40 +52,58 @@ namespace Store_EF.Controllers
                 {
                     store.SaveChanges();
                 }
-                catch (Exception ex)
+                catch (DbUpdateException ex)
                 {
-                    Log.Error(ex.ToString());
-                    return HttpNotFound();
+                    Debug.WriteLine(ex.InnerException.InnerException.Message);
+                    store = new StoreEntities();
                 }
-                return RedirectToAction("Detail", "Products", new { id = product });
+                if (url == "")
+                    return Content(store.Carts.Where(x => x.UserId == userId && x.ProductId == product.Value).First().Quantity.ToString());
+                else
+                    return Redirect(url);
             }
         }
 
         [HttpPost]
-        public ActionResult Remove(int? product, bool confirm = false)
+        public ActionResult Remove(int? product)
         {
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
             if (!product.HasValue)
                 return HttpNotFound();
             else
             {
                 try
                 {
-                    Product p = store.Products.Where(x => x.ProductId == product).First();
-                    if (confirm)
-                    {
-                        store.Products.Remove(p);
-                        store.SaveChanges();
-                    }
-                    return RedirectToAction("Index", "Products");
+                    Cart c = store.Carts.Where(x => x.UserId == userId && x.ProductId == product.Value).First();
+                    store.Carts.Remove(c);
+                    store.SaveChanges();
                 }
                 catch (Exception ex)
                 {
                     Log.Error(ex.ToString());
-                    return HttpNotFound();
                 }
+                return RedirectToAction("Index");
             }
+        }
+
+        [HttpPost]
+        public ActionResult RemoveAll()
+        {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            try
+            {
+                store.Carts.RemoveRange(store.Carts.Where(x => x.UserId == userId));
+                store.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return RedirectToAction("Index");
         }
     }
 }

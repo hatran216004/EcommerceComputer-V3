@@ -16,7 +16,8 @@ namespace Store_EF.Models.Extensions
                 if (p.Title.Length >= 3 && p.Price >= 1000 && p.Stock != 0)
                     return true;
                 else return false;
-            } catch
+            }
+            catch
             {
                 return false;
             }
