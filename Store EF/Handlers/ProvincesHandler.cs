@@ -2,7 +2,9 @@
 using Store_EF.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
+using System.IO;
+using System.Web.Http;
+using System.Web;
 
 namespace Store_EF.Handlers
 {
@@ -12,10 +14,7 @@ namespace Store_EF.Handlers
 
         static ProvincesHandler()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                Provinces = JsonConvert.DeserializeObject<List<Province>>(client.GetStringAsync(@"https://provinces.open-api.vn/api/?depth=3").Result);
-            }
+            Provinces = JsonConvert.DeserializeObject<List<Province>>(File.ReadAllText(Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~"), "Public", "provinces.json")));
         }
 
         public static IEnumerable<Province> Districts(int provinceCode)

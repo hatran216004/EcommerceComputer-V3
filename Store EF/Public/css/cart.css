@@ -141,8 +141,11 @@
 }
 
 .cart__total {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
     border: 1px solid #000;
-    padding: 32px 24px;
+    padding: 32px 24px 20px 24px;
     width: 470px;
 }
 
@@ -151,7 +154,6 @@
     font-style: normal;
     font-weight: 500;
     line-height: 28px;
-    margin-bottom: 24px;
 }
 
 .cart__total-item + .cart__total-item {
@@ -159,7 +161,6 @@
 }
 
 .cart__total-item {
-    padding: 16px 0;
     display: flex;
     justify-content: space-between;
 }
@@ -173,5 +174,6 @@
     font-weight: 500;
     line-height: 24px;
     width: fit-content;
-    margin: 8px auto 0;
+    margin: 8px 0;
+    margin-left: auto;
 }
