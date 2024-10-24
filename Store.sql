@@ -79,7 +79,7 @@ CREATE TABLE Order@ (
 )
 
 CREATE TABLE OrderDetail (
-    OrderId INT NOT NULL FOREIGN KEY REFERENCES Order@(OrderId),
+    OrderId INT NOT NULL FOREIGN KEY REFERENCES Order@(OrderId) ON DELETE CASCADE,
     ProductId INT NOT NULL FOREIGN KEY REFERENCES Product(ProductId),
     Price INT NOT NULL,
     Quantity INT NOT NULL,
@@ -196,13 +196,57 @@ END
 GO
 
 GO
+CREATE PROC PaymentFailed @PaymentId INT
+AS
+BEGIN
+	DECLARE @Status VARCHAR(20) = (SELECT [Status] FROM Payment WHERE PaymentId = @PaymentId)
+	DECLARE @OrderId INT = (SELECT OrderId FROM Payment WHERE PaymentId = @PaymentId)
+	IF (@Status = 'Failed')
+		BEGIN
+			DECLARE TMP CURSOR LOCAL SCROLL STATIC
+			FOR SELECT ProductId, Quantity FROM OrderDetail WHERE OrderId = @OrderId
+			OPEN TMP
+			DECLARE @ProductId INT, @Quantity INT
+			FETCH NEXT FROM TMP INTO @ProductId, @Quantity
+			WHILE (@@FETCH_STATUS=0)
+			BEGIN
+				UPDATE Product
+				SET Stock = Stock + @Quantity
+				WHERE ProductId = @ProductId
+				FETCH NEXT FROM TMP INTO @ProductId, @Quantity
+			END
+			CLOSE TMP
+			DEALLOCATE TMP
+		END
+END
+GO
+
+GO
 CREATE TRIGGER Tri_UpdateOrder ON Payment
 AFTER INSERT, UPDATE
 AS
 BEGIN
-	UPDATE Order@
-	SET [Status] = (SELECT [Status] FROM inserted)
-	WHERE OrderId = (SELECT OrderId FROM inserted)
+	DECLARE @Status VARCHAR(20) = (SELECT [Status] FROM inserted)
+	IF (@Status = 'Waitting')
+		BEGIN
+			UPDATE Order@
+			SET [Status] = N'Chờ thanh toán'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+		END
+	ELSE IF (@Status = 'Failed')
+		BEGIN
+			UPDATE Order@
+			SET [Status] = N'Thanh toán thất bại'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+			DECLARE @PaymentId INT = (SELECT PaymentId FROM inserted)
+			EXEC PaymentFailed @PaymentId
+		END
+	ELSE
+		BEGIN
+			UPDATE Order@
+			SET [Status] = N'Thanh toán thành công'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+		END
 END
 GO
 

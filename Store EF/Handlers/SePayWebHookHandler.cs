@@ -3,7 +3,11 @@ using Newtonsoft.Json;
 using Store_EF.Models;
 using Store_EF.Models.Extensions;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
+using System;
+using System.Diagnostics;
 
 namespace Store_EF.Handlers
 {
@@ -28,10 +32,9 @@ namespace Store_EF.Handlers
                             Payment curr = store.Payments.FirstOrDefault(x => x.Code == sePay.Code);
                             if (curr != null)
                             {
-                                Order_ order = curr.Order_;
                                 curr.TransactionId = sePay.ReferenceCode;
                                 curr.PaymentDate = sePay.TransactionDate;
-                                curr.Amount = order.TotalPrice();
+                                curr.Amount = curr.Order_.TotalPrice();
                                 if (curr.Amount == sePay.TransferAmount)
                                     curr.Status = "Succeeded";
                                 else
@@ -39,18 +42,22 @@ namespace Store_EF.Handlers
                                 try
                                 {
                                     store.SaveChanges();
+                                    context.Response = context.Request.CreateResponse(HttpStatusCode.OK);
                                     return Task.FromResult(true);
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
-                                    return Task.FromResult(false);
+                                    Debug.WriteLine(ex);
+                                    context.Response = context.Request.CreateResponse(HttpStatusCode.BadRequest);
+                                    return Task.FromResult(true);
                                 }
                             }
                         }
                     }
                     break;
             }
-            return Task.FromResult(false);
+            context.Response = context.Request.CreateResponse(HttpStatusCode.NotFound);
+            return Task.FromResult(true);
         }
     }
 }

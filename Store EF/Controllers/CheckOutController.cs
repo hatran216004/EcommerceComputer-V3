@@ -68,7 +68,6 @@ namespace Store_EF.Controllers
                     orderId = store.Entry(order).GetDatabaseValues().GetValue<int>("OrderId");
                     Payment payment = store.Payments.First(x => x.OrderId == orderId);
                     payment.Method = checkOut.PaymentMethod;
-                    payment.Status = "Wait for payment";
                     if (checkOut.PaymentMethod == "Bank")
                     {
                         payment.Code = code;
