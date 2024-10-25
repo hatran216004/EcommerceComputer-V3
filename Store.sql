@@ -94,7 +94,7 @@ CREATE TABLE Payment (
 	Method VARCHAR(10) NOT NULL DEFAULT 'Cash' CHECK (Method IN ('Cash', 'Bank')),
 	[Status] VARCHAR(20) NOT NULL DEFAULT 'Waitting' CHECK (Status IN ('Waitting', 'Succeeded', 'Failed')),
 	PaymentDate DATETIME2 CHECK (PaymentDate <= GETDATE()),
-	Expiry DATETIME2 NOT NULL DEFAULT DATEADD(day, 1, GETDATE()) CHECK (Expiry > GETDATE()),
+	Expiry DATETIME2 NOT NULL DEFAULT DATEADD(day, 1, GETDATE()) CHECK (Expiry >= GETDATE()),
 	TransactionId VARCHAR(20),
 	Bank VARCHAR(20),
 	Account VARCHAR(20)

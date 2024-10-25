@@ -91,6 +91,30 @@ namespace Store_EF.Controllers
                 return View("Index");
         }
 
+        [HttpPost]
+        public ActionResult Cancel(int paymentId = 0, string url = "")
+        {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            Payment payment = store.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
+            if (payment.Status == "Waitting")
+            {
+                payment.Status = "Failed";
+                try
+                {
+                    store.SaveChanges();
+                }
+                catch (Exception ex) 
+                {
+                    Debug.WriteLine(ex);
+                }
+            }
+            if (url == "")
+                return RedirectToAction("Index", "Home");
+            else
+                return Redirect(url);
+        }
         public ActionResult Payment()
         {
             if (Session["UserId"] == null)
