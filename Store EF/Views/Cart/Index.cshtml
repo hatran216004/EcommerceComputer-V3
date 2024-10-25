@@ -32,11 +32,15 @@
             <div class="cart__main-title-item">Giá</div>
             <div class="cart__main-title-item">Số lượng</div>
             <div class="cart__main-title-item">Tổng cộng</div>
-            <div class="cart__main-title-item" style="width:100px">
-                @using(Html.BeginForm("RemoveAll", "Cart", FormMethod.Post)) { 
-                    <button type="submit">Xoá tất cả</button>
-                }
-            </div>
+            @if (Model.Count() != 0)
+            {
+                <div class="cart__main-title-item" style="width:100px">
+                    @using (Html.BeginForm("RemoveAll", "Cart", FormMethod.Post))
+                    {
+                        <button type="submit">Xoá tất cả</button>
+                    }
+                </div>
+            }
         </div>
         <div class="cart__main-listitem">
             @foreach (Cart cart in Model) {
