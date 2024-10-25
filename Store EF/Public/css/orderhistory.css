@@ -71,6 +71,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
+    font-weight: bold;
 }
 
 .orderhis__list-mini__item-header__status {
@@ -113,7 +114,7 @@
 }
 
 .orderhis__list-mini__item-product__info-name {
-    font-weight: 600;
+    font-weight: normal;
 }
 
 .orderhis__list-mini__item-product__info-des {
@@ -140,10 +141,10 @@
 .orderhis_list-order__list-mini__price {
     text-align: right;
     padding: 24px 0;
+    font-size: 24px;
 }
 
     .orderhis_list-order__list-mini__price span {
         color: #ff4444;
-        font-size: 24px;
         font-weight: 600;
     }
