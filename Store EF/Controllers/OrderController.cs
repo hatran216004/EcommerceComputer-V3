@@ -13,7 +13,8 @@ namespace Store_EF.Controllers
         {
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
-            return View(store.Orders);
+            int userId = int.Parse(Session["UserId"].ToString());
+            return View(store.Orders.Where(x => x.UserId == userId).OrderByDescending(x => x.CreatedAt));
         }
 
         public ActionResult Invoice(int id = 0)

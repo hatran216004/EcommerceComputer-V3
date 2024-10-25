@@ -18,16 +18,22 @@
     <p>Nội dung: @Model.Code</p>
     <p>Mã thanh toán này sẽ hết hạn sau @Model.Expiry.Value.ToString("hh:mm") ngày @Model.Expiry.Value.ToString("dd-MM-yyyy")</p>
     <p>Trạng thái: <span id="status">Chờ thanh toán</span></p>
-
+    using (Html.BeginForm("Cancel", "CheckOut", FormMethod.Post, new { id = "cancelPayment" })) {
+        <input type="hidden" value="@Model.PaymentId" name="paymentId" />
+        <button type="submit">Huỷ thanh toán</button>
+    }
     <script>
         function startSSE() {
             var source = new EventSource('@Url.Action("Status", "CheckOut", new { code = Model.Code })');
             source.onmessage = function (event) {
                 const statusEle = document.getElementById("status");
+                const cancelPayment = document.getElementById("cancelPayment");
                 if (event.data == 'Succeeded') {
+                    cancelPayment.style.visibility = "hidden"
                     statusEle.innerText = "Thanh toán thành công";
                     source.close();
                 } else if (event.data == 'Failed') {
+                    cancelPayment.style.visibility = "hidden"
                     statusEle.innerText = "Thanh toán thất bại";
                     source.close();
                 }
