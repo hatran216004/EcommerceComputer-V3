@@ -56,7 +56,7 @@
                 </div>
                 <!-- Product info -->
                 <div class="col-7 col-xl-6 col-lg-12">
-                    <form action="@Url.Action("Add", "Cart")" method="post" class="form">
+                    <form action="@Url.Action("Add", "Cart", new { url = Request.Url })" method="post" class="form">
                         <section class="prod-info">
                             <h1 class="prod-info__heading">
                                 @Model.Title
@@ -158,10 +158,10 @@
                                                     Add to cart
                                                 </button>
                                                 <button class="like-btn prod-info__like-btn">
-                                                    <img src="./assets/icons/heart.svg"
+                                                    <img src=""
                                                          alt=""
                                                          class="like-btn__icon icon" />
-                                                    <img src="./assets/icons/red-heart.svg"
+                                                    <img src=""
                                                          alt=""
                                                          class="like-btn__icon--liked" />
                                                 </button>

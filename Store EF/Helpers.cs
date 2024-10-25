@@ -1,13 +1,12 @@
 ﻿using Store_EF.Models;
-using System.Data.Entity;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using System.Linq;
 
 namespace Store_EF
 {
