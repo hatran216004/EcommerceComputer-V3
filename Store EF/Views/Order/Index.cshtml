@@ -46,10 +46,20 @@
             <!-- Đơn hàng -->
             @foreach (Order_ order in Model)
             {
+                Payment payment = order.Payments.First(x => x.OrderId == order.OrderId);
                 <div class="orderhis_list-order__list-mini">
                     <div class="orderhis__list-mini__item-header">
                         <span>Mã đơn hàng: @order.OrderId</span>
-                        <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--cancel">@order.Status</span>
+                        <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--cancel">
+                            @if (payment.Status == "Succeeded")
+                            {
+                                <a href="@Url.Action("Invoice", "Order", new { id = order.OrderId })" target="_blank">@order.Status</a>
+                            }
+                            else
+                            {
+                                @order.Status
+                            }
+                        </span>
                     </div>
                     @foreach (OrderDetail detail in order.OrderDetails)
                     {

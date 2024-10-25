@@ -8,5 +8,10 @@ namespace Store_EF.Models.Extensions
         {
             return order.OrderDetails.Sum(d => d.Price * d.Quantity);
         }
+
+        public static int TotalQuantity(this Order_ order)
+        {
+            return order.OrderDetails.Sum(d => d.Quantity);
+        }
     }
 }

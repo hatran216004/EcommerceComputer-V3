@@ -2,12 +2,12 @@
 using Newtonsoft.Json;
 using Store_EF.Models;
 using Store_EF.Models.Extensions;
-using System.Linq;
-using System.Net.Http;
-using System.Net;
-using System.Threading.Tasks;
 using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Store_EF.Handlers
 {

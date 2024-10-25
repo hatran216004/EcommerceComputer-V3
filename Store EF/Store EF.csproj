@@ -238,6 +238,7 @@
     </Compile>
     <Compile Include="Models\CheckOutForm.cs" />
     <Compile Include="Models\Extensions\CartsExts.cs" />
+    <Compile Include="Models\Extensions\OrderDetailExts.cs" />
     <Compile Include="Models\Extensions\OrderExts.cs" />
     <Compile Include="Models\Extensions\PaymentExts.cs" />
     <Compile Include="Models\Extensions\ProductExts.cs" />
@@ -338,12 +339,14 @@
     <Content Include="Public\imgs\hero.png" />
     <Content Include="Public\imgs\Icon-Google.png" />
     <Content Include="Public\imgs\instagram.svg" />
+    <Content Include="Public\imgs\logo.jpg" />
     <Content Include="Public\imgs\logo.svg" />
     <Content Include="Public\imgs\logout.svg" />
     <Content Include="Public\imgs\my-order.svg" />
     <Content Include="Public\imgs\products\null.png" />
     <Content Include="Public\imgs\profile.svg" />
     <Content Include="Public\imgs\search-icon.svg" />
+    <Content Include="Public\imgs\signature.png" />
     <Content Include="Public\imgs\twitter.svg" />
     <Content Include="Public\imgs\youtube.svg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -371,6 +374,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Order\Invoice.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
