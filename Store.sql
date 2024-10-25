@@ -38,7 +38,7 @@ CREATE TABLE Category (
 CREATE TABLE Product (
     ProductId INT IDENTITY(1,1) PRIMARY KEY,
     Title NVARCHAR(255) NOT NULL,
-    Stock INT NOT NULL,
+    Stock INT NOT NULL CHECK (Stock >= 0),
     Price INT NOT NULL CHECK (Price > 0),
     PromoPrice INT,
     [Description] NVARCHAR(MAX),
@@ -165,6 +165,17 @@ END
 GO
 
 GO
+CREATE PROC ReduceProductStock @UserId INT, @ProductId INT, @Quatity INT
+AS
+BEGIN
+	DELETE FROM Cart WHERE UserId = @UserId AND ProductId = @ProductId
+	UPDATE Product
+	SET Stock = Stock - @Quatity
+	WHERE ProductId = @ProductId
+END
+GO
+
+GO
 CREATE TRIGGER Tri_AddOderDetail ON OrderDetail
 AFTER INSERT
 AS
@@ -173,12 +184,7 @@ BEGIN
 	DECLARE @ProductId INT = (SELECT ProductId FROM inserted)
 	DECLARE @Quatity INT = (SELECT Quantity FROM inserted)
 	IF ((SELECT Stock FROM Product WHERE ProductId = @ProductId) >= @Quatity)
-		BEGIN
-			DELETE FROM Cart WHERE UserId = @UserId AND ProductId = @ProductId
-			UPDATE Product
-			SET Stock = Stock - @Quatity
-			WHERE ProductId = @ProductId
-		END
+		EXEC ReduceProductStock @UserId, @ProductId, @Quatity
 	ELSE
 		THROW 50001, @ProductId, 1
 END
