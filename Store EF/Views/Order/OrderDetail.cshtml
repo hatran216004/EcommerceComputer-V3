@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="orderdetail">
+    <div class="orderdetail__header">
+        <a href="#" class="orderdetail__header-back">
+            <img src="~/Public/icons/agnle-left.svg" alt="" />
+            <span>trở lại</span>
+        </a>
+        <div class="orderdetail__header-detail">
+            <span>mã đơn hàng: 123456789</span>
+            <span>|</span>
+            <span class="orderdetail__header-detail-status">
+                Đơn hàng đã hoàn thành
+            </span>
+        </div>
+    </div>
+
+    <div class="orderdetail-line"></div>
+    <div class="orderdetail__rebuy">
+        <span>Cảm ơn bạn đã mua hàng!</span>
+        <a href="#" class="orderdetail__rebuy-btn">Mua Lại</a>
+    </div>
+
+    <div class="orderdetail__info">
+        <div class="orderdetail__info-user">
+            <div class="orderdetail__info-user-header">
+                Địa chỉ nhận hàng
+            </div>
+            <div class="orderdetail__info-user-name">
+                <span>John Doe</span>
+            </div>
+            <div class="orderdetail__info-user-address">
+                <span>0987654321</span>
+                <span>
+                    Số 123, Quốc Lộ 123, Xã Bình Hưng, Huyện Bình
+                    Chánh, TP. Hồ Chí Minh, kljasdlfkj zxuvcl
+                </span>
+            </div>
+        </div>
+        <div class="orderdetail__info-product">
+            <div class="orderdetail__info-product-header">
+                Sản phẩm đã mua
+            </div>
+            <div class="orderdetail__info-product-list">
+                <!-- Danh Sách sản phẩm đã mua -->
+                <div class="orderdetail__info-product-item">
+                    <img src="./img/product.png"
+                         alt=""
+                         class="orderdetail__info-product-item-img" />
+                    <div class="orderdetail__info-product-item-detail">
+                        <div class="orderdetail__info-product-item-name">
+                            Màn hình MSI MAG 271QPX QD-OLED E2 27"
+                            QD-OLED 2K 240Hz chuyên game
+                        </div>
+                        <div class="orderdetail__info-product-item-type">
+                            Phân loai sản phẩm: Màn hình, MSI
+                        </div>
+                        <div class="orderdetail__info-product-item-quantity">
+                            x1
+                        </div>
+                    </div>
+                    <div class="orderdetail__info-product-price">
+                        <span class="orderdetail__info-product-price-curr">100999999 <span>đ</span></span>
+                        <span class="orderdetail__info-product-price-old">10000.000 <span>đ</span></span>
+                    </div>
+                </div>
+                <div class="orderdetail__info-product-item">
+                    <img src="./img/product.png"
+                         alt=""
+                         class="orderdetail__info-product-item-img" />
+                    <div class="orderdetail__info-product-item-detail">
+                        <div class="orderdetail__info-product-item-name">
+                            Màn hình MSI MAG 271QPX QD-OLED E2 27"
+                            QD-OLED 2K 240Hz chuyên game
+                        </div>
+                        <div class="orderdetail__info-product-item-type">
+                            Phân loai sản phẩm: Màn hình, MSI
+                        </div>
+                        <div class="orderdetail__info-product-item-quantity">
+                            x1
+                        </div>
+                    </div>
+                    <div class="orderdetail__info-product-price">
+                        <span class="orderdetail__info-product-price-curr">100999999 <span>đ</span></span>
+                        <span class="orderdetail__info-product-price-old">10000.000 <span>đ</span></span>
+                    </div>
+                </div>
+                <div class="orderdetail__info-product-item">
+                    <img src="./img/product.png"
+                         alt=""
+                         class="orderdetail__info-product-item-img" />
+                    <div class="orderdetail__info-product-item-detail">
+                        <div class="orderdetail__info-product-item-name">
+                            Màn hình MSI MAG 271QPX QD-OLED E2 27"
+                            QD-OLED 2K 240Hz chuyên game
+                        </div>
+                        <div class="orderdetail__info-product-item-type">
+                            Phân loai sản phẩm: Màn hình, MSI
+                        </div>
+                        <div class="orderdetail__info-product-item-quantity">
+                            x1
+                        </div>
+                    </div>
+                    <div class="orderdetail__info-product-price">
+                        <span class="orderdetail__info-product-price-curr">100999999 <span>đ</span></span>
+                        <span class="orderdetail__info-product-price-old">10000.000 <span>đ</span></span>
+                    </div>
+                </div>
+                <div class="orderdetail__info-product-item">
+                    <img src="./img/product.png"
+                         alt=""
+                         class="orderdetail__info-product-item-img" />
+                    <div class="orderdetail__info-product-item-detail">
+                        <div class="orderdetail__info-product-item-name">
+                            Màn hình MSI MAG 271QPX QD-OLED E2 27"
+                            QD-OLED 2K 240Hz chuyên game
+                        </div>
+                        <div class="orderdetail__info-product-item-type">
+                            Phân loai sản phẩm: Màn hình, MSI
+                        </div>
+                        <div class="orderdetail__info-product-item-quantity">
+                            x1
+                        </div>
+                    </div>
+                    <div class="orderdetail__info-product-price">
+                        <span class="orderdetail__info-product-price-curr">100999999 <span>đ</span></span>
+                        <span class="orderdetail__info-product-price-old">10000000 <span>đ</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="orderdetail__bill-warp">
+        <div class="orderdetail__bill">
+            <div class="orderdetail__bill-item">
+                <span>Tổng tiền hàng: </span>
+                <span class="orderdetail__bill-item-price totalPrices">200.000 <span>đ</span></span>
+            </div>
+            <div class="orderdetail__bill-item">
+                <span>Vận chuyển: </span>
+                <span class="orderdetail__bill-item-price shippingFee">0 <span>đ</span></span>
+            </div>
+            <div class="orderdetail__bill-item">
+                <span>Thành tiền: </span>
+                <span class="orderdetail__bill-item-price finalPrices">200.000 <span>đ</span></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const priceCurrElements = document.querySelectorAll(
+        '.orderdetail__info-product-price-curr'
+    )
+    const totalPricesElement = document.querySelector('.totalPrices')
+    const shippingFeeElement = document.querySelector('.shippingFee')
+    const finalPricesElement = document.querySelector('.finalPrices')
+    let sum = 0
+    console.log(parseInt(priceCurrElements[0].innerText))
+    priceCurrElements.forEach((priceCurrElement) => {
+        sum += parseInt(priceCurrElement.innerText)
+    })
+    totalPricesElement.innerText = sum + 'đ'
+    finalPricesElement.innerText =
+        sum + parseInt(shippingFeeElement.innerText) + 'đ'
+</script>
