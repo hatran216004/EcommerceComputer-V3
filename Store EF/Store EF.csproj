@@ -339,7 +339,7 @@
     <Content Include="Public\imgs\hero.png" />
     <Content Include="Public\imgs\Icon-Google.png" />
     <Content Include="Public\imgs\instagram.svg" />
-    <Content Include="Public\imgs\logo.jpg" />
+    <Content Include="Public\imgs\logo.png" />
     <Content Include="Public\imgs\logo.svg" />
     <Content Include="Public\imgs\logout.svg" />
     <Content Include="Public\imgs\my-order.svg" />
