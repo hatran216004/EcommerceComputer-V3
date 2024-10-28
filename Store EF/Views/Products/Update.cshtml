@@ -98,7 +98,7 @@
                 <img id="preview1"
                      src="~/public/imgs/products/@(primaryGallery != null ? primaryGallery.Thumbnail : "default-thumbnail.png")"
                      alt="Click to select image" />
-                <input type="file" name="thumbnailFile" id="picture1" accept="image/*" onchange="previewImage(this, 'preview1')" style="display: none;" />
+                <input type="file" name="thumbnailFile" id="picture1" accept="image/png,image/bmp,image/jpeg" onchange="previewImage(this, 'preview1')" style="display: none;" />
             </div>
 
             <!-- Các khung ảnh nhỏ bên dưới -->

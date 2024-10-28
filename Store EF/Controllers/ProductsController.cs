@@ -67,8 +67,8 @@ namespace Store_EF.Controllers
                 return RedirectToAction("Index");
             try
             {
-                Product p = store.Products.ToList().Where(x => x.ProductId == id).First();
-                ViewBag.Galleries = store.Galleries.ToList().Where(x => x.ProductId == p.ProductId);
+                Product p = store.Products.Where(x => x.ProductId == id).First();
+                ViewBag.Galleries = store.Galleries.Where(x => x.ProductId == p.ProductId);
                 return View(p);
             }
             catch (Exception ex)

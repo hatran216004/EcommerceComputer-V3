@@ -3,7 +3,18 @@
 @model Product
 @{
     ViewBag.Title = Model.Title;
+    IEnumerable<Gallery> Galleries = ViewBag.Galleries;
 }
+
+<style>
+    .prod-preview__img--active {
+        display: block;
+    }
+
+    .prod-preview__img {
+    }
+
+</style>
 
 <main class="product-page">
     <div class="container">
@@ -34,7 +45,7 @@
                         @if (ViewBag.Galleries != null)
                         {
                             <div class="prod-preview__list">
-                                @foreach (Gallery gallery in ViewBag.Galleries)
+                                @foreach (Gallery gallery in Galleries)
                                 {
                                     <div class="prod-preview__item">
                                         <img src="~/Public/Imgs/Products/@gallery.Thumbnail"
@@ -44,11 +55,14 @@
                                 }
                             </div>
                             <div class="prod-preview__thumbs d-md-none">
-                                @foreach (Gallery gallery in ViewBag.Galleries)
+                                <img src="~/Public/Imgs/Products/@Galleries.ElementAt(0).Thumbnail"
+                                     alt=""
+                                     class="prod-preview__thumb-img prod-preview__thumb-img--current" />
+                                @for (int i = 1; i < Galleries.Count(); i++)
                                 {
-                                    <img src="~/Public/Imgs/Products/@gallery.Thumbnail"
-                                         alt=""
-                                         class="prod-preview__thumb-img prod-preview__thumb-img--current" />
+                                        <img src="~/Public/Imgs/Products/@Galleries.ElementAt(i).Thumbnail"
+                                             alt=""
+                                             class="prod-preview__thumb-img" />
                                 }
                             </div>
                         }
@@ -439,6 +453,9 @@
 <script>
     const prodTabItems = document.querySelectorAll('.prod-tab__item');
     const prodTabContents = document.querySelectorAll('.prod-tab__content');
+    const imgItems = document.querySelectorAll('.prod-preview__thumb-img');
+    const imgLarge = document.querySelector('.prod-preview__img');
+
     prodTabItems.forEach((item, index) => {
         item.addEventListener('click', () => {
             const prodTabItemActive = document.querySelector('.prod-tab__item--active');
@@ -448,6 +465,17 @@
             const prodTabContentActive = document.querySelector('.prod-tab__content--active');
             prodTabContentActive.classList.remove('prod-tab__content--active');
             prodTabContents[index].classList.add('prod-tab__content--active');
+        })
+    })
+
+    imgItems.forEach((item) => {
+        item.addEventListener('click', () => {
+            const activeImgSmall = document.querySelector('.prod-preview__thumb-img--current');
+            activeImgSmall.classList.remove('prod-preview__thumb-img--current')
+            item.classList.add('prod-preview__thumb-img--current')
+
+            const url = item.getAttribute('src')
+            imgLarge.setAttribute('src', url)
         })
     })
 
