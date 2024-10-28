@@ -139,12 +139,31 @@
 }
 
 .orderhis_list-order__list-mini__price {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 24px 0;
-    font-size: 24px;
+    font-size: 2rem;
+    font-weight:600;
+
+}
+.orderhis_list-order__list-mini__price-action{
+    font-size: 1.6rem;
+
+}
+.orderhis_list-order__list-mini__price-detailBTN {
+    color: blue;
+    margin-right: 16px;
+}
+    .orderhis_list-order__list-mini__price-detailBTN:hover {
+        text-decoration: underline;
+    }
+
+.orderhis_list-order__list-mini__price-cancel {
+    color: red;
 }
 
-    .orderhis_list-order__list-mini__price span {
-        color: #ff4444;
-        font-weight: 600;
-    }
+.orderhis_list-order__list-mini__price span {
+    color: #ff4444;
+    font-weight: 600;
+}
