@@ -1,0 +1,139 @@
+﻿@using Store_EF.Models
+@using Store_EF.Models.Extensions
+@model Order_
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    StoreEntities store = new StoreEntities();
+    Payment payment = Model.Payments.First(x => x.OrderId == Model.OrderId);
+}
+
+<div class="orderdetail">
+    <div class="orderdetail__header">
+        <a href="@Url.Action("Index", "Order")" class="orderdetail__header-back">
+            <img src="~/Public/icons/agnle-left.svg" alt="" />
+            <span>Trở lại</span>
+        </a>
+        <div class="orderdetail__header-detail">
+            <span>Mã đơn hàng: @Model.OrderId</span>
+            <span>|</span>
+            <span class="orderdetail__header-detail-status">
+                @Model.Status
+            </span>
+        </div>
+    </div>
+
+    <div class="orderdetail-line"></div>
+    @*<div class="orderdetail__rebuy">
+        <span>Cảm ơn bạn đã mua hàng!</span>
+        <a href="#" class="orderdetail__rebuy-btn">Mua Lại</a>
+    </div>*@
+
+    <div class="orderdetail__info">
+        <div class="orderdetail__info-user">
+            <div class="orderdetail__info-user-header">
+                Thông tin hoá đơn
+            </div>
+            <div class="orderdetail__info-user-name">
+                Đơn hàng đã đặt
+                <div class="orderdetail__info-user-address">
+                    <span>@Model.CreatedAt.ToString("HH:mm dd-MM-yyyy")</span>
+                </div>
+            </div>
+            <br />
+            @if (payment.Status == "Succeeded")
+            {
+                <div class="orderdetail__info-user-name">
+                    Đơn hàng đã thanh toán
+                    <div class="orderdetail__info-user-address">
+                        <span>@payment.PaymentDate.Value.ToString("HH:mm dd-MM-yyyy")</span>
+                    </div>
+                </div>
+            }
+            else if (payment.Status == "Failed" || payment.Expiry < DateTime.Now)
+            {
+                <div class="orderdetail__info-user-name">
+                    Đơn hàng đã huỷ
+                    <div class="orderdetail__info-user-address">
+                        <span>@payment.Expiry.Value.ToString("HH:mm dd-MM-yyyy")</span>
+                    </div>
+                </div>
+            }
+            <hr />
+            <div class="orderdetail__info-user-header">
+                Địa chỉ nhận hàng
+            </div>
+            <div class="orderdetail__info-user-name">
+                <span>@Model.Name</span>
+            </div>
+            <div class="orderdetail__info-user-address">
+                <span>@Model.Phone</span>
+                <span>
+                    @Model.Address
+                </span>
+            </div>
+        </div>
+        <div class="orderdetail__info-product">
+            <div class="orderdetail__info-product-header">
+                Sản phẩm đã mua
+            </div>
+            <div class="orderdetail__info-product-list">
+                <!-- Danh Sách sản phẩm đã mua -->
+
+                @foreach (OrderDetail detail in Model.OrderDetails)
+                {
+                    <div class="orderdetail__info-product-item">
+                        <img src="~/Public/Imgs/Products/@detail.Product.Thumbnail(store)"
+                             alt=""
+                             class="orderdetail__info-product-item-img" />
+                        <div class="orderdetail__info-product-item-detail">
+                            <div class="orderdetail__info-product-item-name">
+                                @detail.Product.Title
+                            </div>
+                            <div class="orderdetail__info-product-item-quantity">
+                                x @detail.Quantity
+                            </div>
+                        </div>
+                        <div class="orderdetail__info-product-price">
+                            <span class="orderdetail__info-product-price-curr">@Helpers.FormattedPrice(detail.TotalPrice())</span>
+                            @*<span class="orderdetail__info-product-price-old">10000.000 <span>đ</span></span>*@
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="orderdetail__bill-warp">
+        <div class="orderdetail__bill">
+            @*<div class="orderdetail__bill-item">
+                <span>Tổng tiền hàng: </span>
+                <span class="orderdetail__bill-item-price totalPrices">@Helpers.FormattedPrice(Model.TotalPrice())</span>
+            </div>
+            <div class="orderdetail__bill-item">
+                <span>Vận chuyển: </span>
+                <span class="orderdetail__bill-item-price shippingFee">@Helpers.FormattedPrice(0)</span>
+            </div>*@
+            <div class="orderdetail__bill-item">
+                <span>Thành tiền: </span>
+                <span class="orderdetail__bill-item-price finalPrices">@Helpers.FormattedPrice(Model.TotalPrice())</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script>
+    const priceCurrElements = document.querySelectorAll(
+        '.orderdetail__info-product-price-curr'
+    )
+    const totalPricesElement = document.querySelector('.totalPrices')
+    const shippingFeeElement = document.querySelector('.shippingFee')
+    const finalPricesElement = document.querySelector('.finalPrices')
+    let sum = 0
+    console.log(parseInt(priceCurrElements[0].innerText))
+    priceCurrElements.forEach((priceCurrElement) => {
+        sum += parseInt(priceCurrElement.innerText)
+    })
+    totalPricesElement.innerText = sum + 'đ'
+    finalPricesElement.innerText =
+        sum + parseInt(shippingFeeElement.innerText) + 'đ'
+</script>*@

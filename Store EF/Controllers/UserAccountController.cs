@@ -12,7 +12,7 @@ namespace Store_EF.Controllers
     {
         StoreEntities store = new StoreEntities();
 
-        public ActionResult Profile()
+        public new ActionResult Profile()
         {
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");

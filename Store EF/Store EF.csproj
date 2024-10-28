@@ -323,6 +323,7 @@
     <Content Include="Public\css\checkout.css" />
     <Content Include="Public\css\grid.css" />
     <Content Include="Public\css\main.css" />
+    <Content Include="Public\css\orderdetail.css" />
     <Content Include="Public\css\orderhistory.css" />
     <Content Include="Public\css\profile.css" />
     <Content Include="Public\css\reset.css" />
@@ -339,7 +340,7 @@
     <Content Include="Public\imgs\hero.png" />
     <Content Include="Public\imgs\Icon-Google.png" />
     <Content Include="Public\imgs\instagram.svg" />
-    <Content Include="Public\imgs\logo.jpg" />
+    <Content Include="Public\imgs\logo.png" />
     <Content Include="Public\imgs\logo.svg" />
     <Content Include="Public\imgs\logout.svg" />
     <Content Include="Public\imgs\my-order.svg" />
@@ -408,7 +409,7 @@
     <Content Include="Views\CheckOut\Payment.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Review\GetReviewsOneProd.cshtml" />
-    <Content Include="Views\Order\OrderDetail.cshtml" />
+    <Content Include="Views\Order\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
