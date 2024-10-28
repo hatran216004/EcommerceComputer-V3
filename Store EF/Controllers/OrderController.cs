@@ -37,5 +37,11 @@ namespace Store_EF.Controllers
                 }
             }
         }
+
+
+        public ActionResult OrderDetail()
+        {
+            return View();
+        }
     }
 }
