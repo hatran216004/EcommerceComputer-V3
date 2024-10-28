@@ -39,9 +39,15 @@ namespace Store_EF.Controllers
         }
 
 
-        public ActionResult OrderDetail()
+        public ActionResult Detail(int id = 0)
         {
-            return View();
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            Order_ detail = store.Orders.FirstOrDefault(x => x.OrderId == id);
+            if (detail == null)
+                return RedirectToAction("Index");
+            return View(detail);
         }
     }
 }

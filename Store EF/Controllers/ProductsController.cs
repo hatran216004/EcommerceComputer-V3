@@ -61,13 +61,15 @@ namespace Store_EF.Controllers
             }
         }
 
-        public ActionResult Detail(int id = 1)
+        public ActionResult Detail(int? id)
         {
-            if (id < 1)
+            if (!id.HasValue)
                 return RedirectToAction("Index");
             try
             {
-                Product p = store.Products.Where(x => x.ProductId == id).First();
+                Product p = store.Products.Where(x => x.ProductId == id).FirstOrDefault();
+                if (p == null)
+                    return RedirectToAction("Index");
                 ViewBag.Galleries = store.Galleries.Where(x => x.ProductId == p.ProductId);
                 return View(p);
             }

@@ -43,7 +43,8 @@
             }
         </div>
         <div class="cart__main-listitem">
-            @foreach (Cart cart in Model) {
+            @foreach (Cart cart in Model)
+            {
 
                 <div class="cart__main-items" id="@cart.ProductId">
                     <!-- Sản phẩm -->
@@ -94,43 +95,29 @@
                         </div>
                     </div>
                     <div class="cart__main-item" style="width:100px;cursor:pointer">
-                        @using(Html.BeginForm("Remove", "Cart", FormMethod.Post)) { 
+                        @using (Html.BeginForm("Remove", "Cart", FormMethod.Post))
+                        {
                             @Html.Hidden("product", cart.ProductId)
                             <button type="submit">Xoá</button>
                         }
                     </div>
                 </div>
-            }                    
+            }
         </div>
     </div>
-    @*<div class="cart__action">
-        <div class="cart__action-item">
-            <a href="@Url.Action("Index", "Home")" class="cart__action-item-text">Về trang chủ</a>
-        </div>
-        <div class="cart__action-item">
-            <a href="#" class="cart__action-item-text">Cập nhật giỏ hàng</a>
-        </div>
-    </div>*@
-    <div class="cart__checkout">
-        <div class="cart__total">
-            <p class="cart__total-header">Tổng giỏ hàng</p>
-            <div class="cart__total-item">
-                <span class="cart__total-title">Tạm tính: </span>
-                <span id="cartSubtotal" class="cart__total-value">0</span>
-            </div>
-            @*<div class="cart__total-item">
-                <span class="cart__total-title">Vận chuyển: </span>
-                <div>
-                    <span id="shippingCost" class="cart__total-value">0 </span><span>VND</span>
+    @if (Model.Count() != 0)
+    {
+        <div class="cart__checkout">
+            <div class="cart__total">
+                <p class="cart__total-header">Tổng giỏ hàng</p>
+                <div class="cart__total-item">
+                    <span class="cart__total-title">Tạm tính: </span>
+                    <span id="cartSubtotal" class="cart__total-value">0</span>
                 </div>
-            </div>*@
-            @*<div class="cart__total-item">
-                <span class="cart__total-title">Tổng cộng: </span>
-                <span id="cartTotal" class="cart__total-value">0</span>
-            </div>*@
-            <a href="@Url.Action("Index", "CheckOut")" class="cart__action-btn"> Nhập thông tin thanh toán </a>
+                <a href="@Url.Action("Index", "CheckOut")" class="cart__action-btn"> Nhập thông tin thanh toán </a>
+            </div>
         </div>
-    </div>
+    }
 </div>
 <script>
     function postData(productId, quantity) {

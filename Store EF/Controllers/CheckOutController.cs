@@ -92,7 +92,7 @@ namespace Store_EF.Controllers
         }
 
         [HttpPost]
-        public ActionResult Cancel(int paymentId = 0, string url = "")
+        public ActionResult Cancel(int paymentId, string url = "")
         {
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
@@ -105,7 +105,7 @@ namespace Store_EF.Controllers
                 {
                     store.SaveChanges();
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
                 }

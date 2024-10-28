@@ -26,12 +26,6 @@
                 <a href="#">Chờ thanh toán</a>
             </li>
             <li class="orderhis_nav__item">
-                <a href="#">Vận chuyển</a>
-            </li>
-            <li class="orderhis_nav__item">
-                <a href="#">Chờ giao hàng</a>
-            </li>
-            <li class="orderhis_nav__item">
                 <a href="#">Hoàn thành</a>
             </li>
             <li class="orderhis_nav__item">
@@ -101,8 +95,11 @@
                         }
                             <div class="orderhis_list-order__list-mini__price">
                                 <div class="orderhis_list-order__list-mini__price-action">
-                                    <a class="orderhis_list-order__list-mini__price-detailBTN" href="#">Xem chi tiết</a>
-                                    <a class="orderhis_list-order__list-mini__price-cancel" href="#">Huỷ</a>
+                                    <a class="orderhis_list-order__list-mini__price-detailBTN" href="@Url.Action("Detail", "Order", new { id = order.OrderId })">Xem chi tiết</a>
+                                    @if (payment.Status == "Waitting")
+                                    {
+                                        <a class="orderhis_list-order__list-mini__price-cancel" href="#">Huỷ</a>
+                                    }
                                 </div>
                                 <div class="orderhis_list-order__list-mini__price-info">
                                     Thành tiền: <span>@Helpers.FormattedPrice(order.TotalPrice())</span>
@@ -156,7 +153,7 @@
                             }
                             <div class="orderhis_list-order__list-mini__price">
                                 <div class="orderhis_list-order__list-mini__price-action">
-                                    <a class="orderhis_list-order__list-mini__price-detailBTN" href="#">Xem chi tiết</a>
+                                    <a class="orderhis_list-order__list-mini__price-detailBTN" href="@Url.Action("Detail", "Order", new { id = order.OrderId })">Xem chi tiết</a>
                                     <a class="orderhis_list-order__list-mini__price-cancel" href="#">Huỷ</a>
                                 </div>
                                 <div class="orderhis_list-order__list-mini__price-info">
@@ -167,15 +164,6 @@
                     }
                 }
             </div>
-
-            <div class="orderhis_nav__content">
-                @*Vận chuyển*@
-            </div>
-
-            <div class="orderhis_nav__content">
-                @*Chờ giao hàng*@
-            </div>
-
             <div class="orderhis_nav__content">
                 @foreach (Order_ order in Model)
                 {
@@ -219,7 +207,12 @@
                                 </div>
                             }
                             <div class="orderhis_list-order__list-mini__price">
-                                Thành tiền: <span>@Helpers.FormattedPrice(order.TotalPrice())</span>
+                                <div class="orderhis_list-order__list-mini__price-action">
+                                    <a class="orderhis_list-order__list-mini__price-detailBTN" href="@Url.Action("Detail", "Order", new { id = order.OrderId })">Xem chi tiết</a>
+                                </div>
+                                <div class="orderhis_list-order__list-mini__price-info">
+                                    Thành tiền: <span>@Helpers.FormattedPrice(order.TotalPrice())</span>
+                                </div>
                             </div>
                         </div>
                     }
@@ -269,14 +262,17 @@
                                 </div>
                             }
                             <div class="orderhis_list-order__list-mini__price">
-                                Thành tiền: <span>@Helpers.FormattedPrice(order.TotalPrice())</span>
+                                <div class="orderhis_list-order__list-mini__price-action">
+                                    <a class="orderhis_list-order__list-mini__price-detailBTN" href="@Url.Action("Detail", "Order", new { id = order.OrderId })">Xem chi tiết</a>
+                                </div>
+                                <div class="orderhis_list-order__list-mini__price-info">
+                                    Thành tiền: <span>@Helpers.FormattedPrice(order.TotalPrice())</span>
+                                </div>
                             </div>
                         </div>
                     }
                 }
             </div>
-        
-
         </div>
     </div>
 </div>
