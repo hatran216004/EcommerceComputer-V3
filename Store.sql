@@ -3,7 +3,7 @@ GO
 USE Store
 GO
 
---DBCC USEROPTIONS
+DBCC USEROPTIONS
 ALTER DATABASE Store SET READ_COMMITTED_SNAPSHOT ON
 GO
 
@@ -75,7 +75,8 @@ CREATE TABLE Order@ (
     [Status] NVARCHAR(50),
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
     UpdatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
-    UserId INT FOREIGN KEY (UserId) REFERENCES User@(UserId)
+    UserId INT FOREIGN KEY (UserId) REFERENCES User@(UserId),
+	TotalPrice INT NOT NULL DEFAULT 0
 )
 
 CREATE TABLE OrderDetail (
@@ -88,9 +89,9 @@ CREATE TABLE OrderDetail (
 
 CREATE TABLE Payment (
 	PaymentId INT PRIMARY KEY IDENTITY(1,1),
-	OrderId INT NOT NULL FOREIGN KEY REFERENCES Order@(OrderId) ON DELETE CASCADE,
+	OrderId INT NOT NULL UNIQUE FOREIGN KEY REFERENCES Order@(OrderId) ON DELETE CASCADE,
 	Amount MONEY DEFAULT 0 CHECK (Amount >= 0),
-	Code VARCHAR(20) UNIQUE,
+	Code VARCHAR(20),
 	Method VARCHAR(10) NOT NULL DEFAULT 'Cash' CHECK (Method IN ('Cash', 'Bank')),
 	[Status] VARCHAR(20) NOT NULL DEFAULT 'Waitting' CHECK (Status IN ('Waitting', 'Succeeded', 'Failed')),
 	PaymentDate DATETIME2 CHECK (PaymentDate <= GETDATE()),
@@ -101,6 +102,7 @@ CREATE TABLE Payment (
 )
 
 CREATE UNIQUE NONCLUSTERED INDEX IDX_TransactionId_NOTNULL ON Payment(TransactionId) WHERE TransactionId IS NOT NULL
+CREATE UNIQUE NONCLUSTERED INDEX IDX_Code_NOTNULL ON Payment(Code) WHERE Code IS NOT NULL
 
 CREATE TABLE Review (
     UserId INT NOT NULL FOREIGN KEY REFERENCES User@(UserId) ON DELETE CASCADE,
@@ -112,7 +114,7 @@ CREATE TABLE Review (
 )
 
 GO
-CREATE TRIGGER Tri_AddProduct ON Product
+CREATE OR ALTER TRIGGER Tri_AddProduct ON Product
 AFTER INSERT
 AS
 BEGIN
@@ -121,7 +123,7 @@ BEGIN
 END
 
 GO
-CREATE TRIGGER Tri_AddUserDetail ON User@
+CREATE OR ALTER TRIGGER Tri_AddUserDetail ON User@
 AFTER INSERT
 AS
 BEGIN
@@ -132,7 +134,7 @@ END
 GO
 
 GO
-CREATE FUNCTION GetPrice(@ProductId INT)
+CREATE OR ALTER FUNCTION GetPrice(@ProductId INT)
 RETURNS INT
 AS
 BEGIN
@@ -142,7 +144,7 @@ END
 GO
 	
 GO
-CREATE TRIGGER Tri_CreateOrder ON Order@
+CREATE OR ALTER TRIGGER Tri_CreateOrder ON Order@
 AFTER INSERT
 AS
 BEGIN
@@ -165,7 +167,7 @@ END
 GO
 
 GO
-CREATE PROC ReduceProductStock @UserId INT, @ProductId INT, @Quatity INT
+CREATE OR ALTER PROC ReduceProductStock @UserId INT, @ProductId INT, @Quatity INT
 AS
 BEGIN
 	DELETE FROM Cart WHERE UserId = @UserId AND ProductId = @ProductId
@@ -176,7 +178,18 @@ END
 GO
 
 GO
-CREATE TRIGGER Tri_AddOderDetail ON OrderDetail
+CREATE OR ALTER PROC UpdatePaymentStatus @UserId INT
+AS
+BEGIN
+	UPDATE Payment
+	SET [Status] = 'Failed'
+	FROM Order@
+	WHERE UserId = @UserId AND Payment.OrderId = Order@.OrderId AND Payment.Expiry < GETDATE() AND Payment.Status = 'Waitting'
+END
+GO
+
+GO
+CREATE OR ALTER TRIGGER Tri_AddOderDetail ON OrderDetail
 AFTER INSERT
 AS
 BEGIN
@@ -184,14 +197,20 @@ BEGIN
 	DECLARE @ProductId INT = (SELECT ProductId FROM inserted)
 	DECLARE @Quatity INT = (SELECT Quantity FROM inserted)
 	IF ((SELECT Stock FROM Product WHERE ProductId = @ProductId) >= @Quatity)
-		EXEC ReduceProductStock @UserId, @ProductId, @Quatity
+		BEGIN
+			EXEC ReduceProductStock @UserId, @ProductId, @Quatity
+			UPDATE Order@
+			SET Order@.TotalPrice = Order@.TotalPrice + (inserted.Price * inserted.Quantity)
+			FROM inserted
+			WHERE Order@.OrderId = inserted.OrderId
+		END
 	ELSE
 		THROW 50001, @ProductId, 1
 END
 GO
 
 GO
-CREATE TRIGGER Tri_UpdateCart ON Cart
+CREATE OR ALTER TRIGGER Tri_UpdateCart ON Cart
 AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -202,7 +221,7 @@ END
 GO
 
 GO
-CREATE PROC PaymentFailed @PaymentId INT
+CREATE OR ALTER PROC PaymentFailed @PaymentId INT
 AS
 BEGIN
 	DECLARE @Status VARCHAR(20) = (SELECT [Status] FROM Payment WHERE PaymentId = @PaymentId)
@@ -228,7 +247,7 @@ END
 GO
 
 GO
-CREATE TRIGGER Tri_UpdateOrder ON Payment
+CREATE OR ALTER TRIGGER Tri_UpdateOrder ON Payment
 AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -245,7 +264,11 @@ BEGIN
 			SET [Status] = N'Thanh toán thất bại'
 			WHERE OrderId = (SELECT OrderId FROM inserted)
 			DECLARE @PaymentId INT = (SELECT PaymentId FROM inserted)
-			EXEC PaymentFailed @PaymentId
+			EXEC PaymentFailed @PaymentId			
+			UPDATE Payment
+			SET Expiry = GETDATE()
+			FROM inserted
+			WHERE Payment.OrderId = inserted.OrderId 
 		END
 	ELSE
 		BEGIN
@@ -255,15 +278,6 @@ BEGIN
 		END
 END
 GO
-
--- Thêm tài khoản người dùng
-INSERT INTO User@ (RoleName, Email, Password)
-VALUES 
-('Admin', 'admin1@example.com', '$2y$10$f6aTCo72j1YVSnO2kYqSfu1twbdhZdU3qN3R6PWIQKPY99geHvVD.'),
-('User', 'user1@example.com', '$2y$10$eo2MugDWT/NbZ9oNlhNFJOEhRtD9cVJc87//.pFJH3EDqZMuUMmza'),
-('Employee', 'employee1@example.com', '$2y$10$3itQ6m7Z6NiYXMwln0HLpukKTCkyLkO3eTglR.F1Y6/C92ECBGWsC'),
-('Admin', 'admin2@example.com', '$2y$10$/r.6OrFwenI/C3o9y.Bafu7hKaVe/BNRkImylSG.bytaJB1exeDY2'),
-('User', 'user2@example.com', '$2y$10$ZF7vrHTFqZ8oIIfk0.1W2..OVZf7YUnzRo8DzwPlO8Xq.QBn7ARWW')
 
 -- Thêm thương hiệu
 INSERT INTO Brand (Name)
@@ -282,46 +296,3 @@ VALUES
 ('Tablet'),
 ('Monitor'),
 ('Accessory')
-
--- Thêm sản phẩm
-INSERT INTO Product (Title, Stock, Price, PromoPrice, Description, BrandId, CategoryId)
-VALUES 
-(N'Dell XPS 13', 10, 20000000, 18000000, N'Laptop Dell XPS 13 với thiết kế mỏng nhẹ', NULL, NULL),
-(N'HP Pavilion', 15, 15000000, 14000000, N'Laptop HP Pavilion với hiệu năng cao', 2, 1),
-(N'Asus ZenBook', 8, 18000000, 17000000, N'Laptop Asus ZenBook với hiệu suất mạnh mẽ', 3, 1),
-(N'Lenovo ThinkPad', 12, 16000000, 15000000, N'Laptop Lenovo ThinkPad bền bỉ và hiệu quả', 4, 1),
-(N'Acer Aspire', 20, 14000000, 13000000, N'Laptop Acer Aspire phù hợp cho học tập', 5, 1),
-(N'Dell XPS 13 - Version 1', 10, 20000000, 18000000, N'Laptop Dell XPS 13 với thiết kế mỏng nhẹ', 1, 1),
-(N'Dell XPS 13 - Version 2', 12, 21000000, 18500000, N'Laptop Dell XPS 13 bản nâng cấp', 1, 1),
-(N'Dell XPS 13 - Version 3', 8, 19500000, 17500000, N'Laptop Dell XPS 13 bản mỏng nhẹ', 1, 1),
-(N'Dell XPS 13 - Version 4', 15, 22000000, 20000000, N'Laptop Dell XPS 13 hiệu năng cao', 1, 1),
-(N'Dell XPS 13 - Version 5', 9, 20500000, 19000000, N'Laptop Dell XPS 13 siêu di động', 1, 1),
-(N'Dell XPS 13 - Version 6', 11, 20000000, 18500000, N'Laptop Dell XPS 13 bản đặc biệt', 1, 1),
-(N'Dell XPS 13 - Version 7', 13, 21500000, 19500000, N'Laptop Dell XPS 13 với màn hình đẹp', 1, 1),
-(N'Dell XPS 13 - Version 8', 7, 19000000, 17000000, N'Laptop Dell XPS 13 nhẹ nhàng và mạnh mẽ', 1, 1),
-(N'Dell XPS 13 - Version 9', 14, 22500000, 20000000, N'Laptop Dell XPS 13 với viền màn hình siêu mỏng', 1, 1),
-(N'Dell XPS 13 - Version 10', 10, 20000000, 18500000, N'Laptop Dell XPS 13 với hiệu suất tối ưu', 1, 1),
-(N'Dell XPS 13 - Version 11', 10, 21000000, 18500000, N'Laptop Dell XPS 13 cho doanh nhân', 1, 1),
-(N'Dell XPS 13 - Version 12', 8, 19500000, 17500000, N'Laptop Dell XPS 13 bản mỏng nhẹ hơn', 1, 1),
-(N'Dell XPS 13 - Version 13', 15, 22000000, 20000000, N'Laptop Dell XPS 13 siêu bền', 1, 1),
-(N'Dell XPS 13 - Version 14', 9, 20500000, 19000000, N'Laptop Dell XPS 13 cao cấp', 1, 1),
-(N'Dell XPS 13 - Version 15', 11, 20000000, 18500000, N'Laptop Dell XPS 13 cho công việc và giải trí', 1, 1),
-(N'Dell XPS 13 - Version 16', 13, 21500000, 19500000, N'Laptop Dell XPS 13 màn hình siêu sắc nét', 1, 1),
-(N'Dell XPS 13 - Version 17', 7, 19000000, 17000000, N'Laptop Dell XPS 13 mạnh mẽ và thời trang', 1, 1),
-(N'Dell XPS 13 - Version 18', 14, 22500000, 20000000, N'Laptop Dell XPS 13 với công nghệ tiên tiến', 1, 1),
-(N'Dell XPS 13 - Version 19', 10, 20000000, 18500000, N'Laptop Dell XPS 13 bản nâng cao', 1, 1),
-(N'Dell XPS 13 - Version 20', 12, 21000000, 18500000, N'Laptop Dell XPS 13 hiệu năng tuyệt vời', 1, 1)
-
--- Thêm hình ảnh sản phẩm
-INSERT INTO Gallery (Thumbnail, ProductId)
-VALUES 
-('gallery_dell_xps_13_1.jpg', 3),	
-('gallery_dell_xps_13_2.jpg', 3),
-('gallery_hp_pavilion_1.jpg', 4),
-('gallery_hp_pavilion_2.jpg', 5),
-('gallery_asus_zenbook_1.jpg', 3),
-('gallery_asus_zenbook_2.jpg', 3),
-('gallery_lenovo_thinkpad_1.jpg', 4),
-('gallery_lenovo_thinkpad_2.jpg', 4),
-('gallery_acer_aspire_1.jpg', 5),
-('gallery_acer_aspire_2.jpg', 5)

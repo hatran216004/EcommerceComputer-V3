@@ -58,6 +58,7 @@ namespace Store_EF.Controllers
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                     UserId = userId,
+                    TotalPrice = 0
                 };
                 store.Orders.Add(order);
                 int orderId = -1;
@@ -81,9 +82,6 @@ namespace Store_EF.Controllers
                 {
                     store.Orders.Remove(order);
                     Debug.WriteLine(ex.InnerException.InnerException.Message);
-                    int productId = int.Parse(ex.InnerException.InnerException.Message);
-                    Product _ = store.Products.First(x => x.ProductId == productId);
-                    ModelState.AddModelError("error", $"{_.Title} không đủ số lượng bạn đã đặt!");
                     return View("Index");
                 }
             }

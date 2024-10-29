@@ -30,6 +30,7 @@ namespace Store_EF.Models
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
         public Nullable<int> UserId { get; set; }
+        public int TotalPrice { get; set; }
     
         public virtual User_ User_ { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

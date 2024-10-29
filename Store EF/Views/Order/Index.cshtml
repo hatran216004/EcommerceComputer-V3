@@ -57,6 +57,10 @@
                                 <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--success"><a href="@Url.Action("Invoice", "Order", new { id = order.OrderId })" target="_blank">@order.Status</a></span>
 
                             }
+                            else if ((payment.Status == "Waitting"))
+                            {
+                                <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--cancel"><a href="@Url.Action("Payment", "CheckOut")">@order.Status</a></span>
+                            }
                             else
                             {
                                 <span class="orderhis__list-mini__item-header__status orderhis__list-mini__item-header__status--cancel">@order.Status</span>

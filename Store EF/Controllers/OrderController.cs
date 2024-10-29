@@ -14,6 +14,7 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            store.UpdatePaymentStatus(userId);
             return View(store.Orders.Where(x => x.UserId == userId).OrderByDescending(x => x.CreatedAt));
         }
 
@@ -38,13 +39,12 @@ namespace Store_EF.Controllers
             }
         }
 
-
         public ActionResult Detail(int id = 0)
         {
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
-            Order_ detail = store.Orders.FirstOrDefault(x => x.OrderId == id);
+            Order_ detail = store.Orders.FirstOrDefault(x => x.OrderId == id && x.UserId == userId);
             if (detail == null)
                 return RedirectToAction("Index");
             return View(detail);

@@ -12,6 +12,8 @@ namespace Store_EF.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class StoreEntities : DbContext
     {
@@ -31,10 +33,19 @@ namespace Store_EF.Models
         public virtual DbSet<Gallery> Galleries { get; set; }
         public virtual DbSet<Order_> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<User_> Users { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
-        public virtual DbSet<Review> Reviews { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
+    
+        public virtual int UpdatePaymentStatus(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdatePaymentStatus", userIdParameter);
+        }
     }
 }
