@@ -5,29 +5,29 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f8d03cc238cd469194303bb4bea416ad" Name="Diagram1">
-        <EntityTypeShape EntityType="StoreModel.Brand" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.Cart" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.Category" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.Gallery" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.Order_" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.OrderDetail" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.Product" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.User_" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoreModel.UserDetail" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
-        <AssociationConnector Association="StoreModel.FK__Product__BrandId__7E37BEF6" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__Cart__ProductId__06CD04F7" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__Cart__UserId__05D8E0BE" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__Product__Categor__7F2BE32F" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__Gallery__Product__02084FDA" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__Order___UserId__0D7A0286" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__OrderDeta__Order__10566F31" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__OrderDeta__Produ__114A936A" ManuallyRouted="false" />
-        <AssociationConnector Association="StoreModel.FK__UserDetai__UserI__75A278F5" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="StoreModel.Review" Width="1.5" PointX="8.25" PointY="7.875" />
-        <AssociationConnector Association="StoreModel.FK__Review__ProductI__5D95E53A" />
-        <AssociationConnector Association="StoreModel.FK__Review__UserId__5CA1C101" />
-        <EntityTypeShape EntityType="StoreModel.Payment" Width="1.5" PointX="5.25" PointY="12.25" />
-        <AssociationConnector Association="StoreModel.FK__Payment__OrderId__2AD55B43" />
+        <EntityTypeShape EntityType="StoreModel.Brand" Width="1.5" PointX="0.75" PointY="7.875" />
+        <EntityTypeShape EntityType="StoreModel.Cart" Width="1.5" PointX="5.25" PointY="4.5" />
+        <EntityTypeShape EntityType="StoreModel.Category" Width="1.5" PointX="0.75" PointY="4.875" />
+        <EntityTypeShape EntityType="StoreModel.Gallery" Width="1.5" PointX="5.25" PointY="16.625" />
+        <EntityTypeShape EntityType="StoreModel.Order_" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="StoreModel.OrderDetail" Width="1.5" PointX="5.25" PointY="10.5" />
+        <EntityTypeShape EntityType="StoreModel.Payment" Width="1.5" PointX="5.25" PointY="20" />
+        <EntityTypeShape EntityType="StoreModel.Product" Width="1.5" PointX="3" PointY="6.625" />
+        <EntityTypeShape EntityType="StoreModel.Review" Width="1.5" PointX="5.25" PointY="7.5" />
+        <EntityTypeShape EntityType="StoreModel.User_" Width="1.5" PointX="3" PointY="2.125" />
+        <EntityTypeShape EntityType="StoreModel.UserDetail" Width="1.5" PointX="5.25" PointY="0.75" />
+        <AssociationConnector Association="StoreModel.FK__Product__BrandId__3C34F16F" />
+        <AssociationConnector Association="StoreModel.FK__Cart__ProductId__45BE5BA9" />
+        <AssociationConnector Association="StoreModel.FK__Cart__UserId__44CA3770" />
+        <AssociationConnector Association="StoreModel.FK__Product__Categor__3D2915A8" />
+        <AssociationConnector Association="StoreModel.FK__Gallery__Product__40F9A68C" />
+        <AssociationConnector Association="StoreModel.FK__Order___UserId__4C6B5938" />
+        <AssociationConnector Association="StoreModel.FK__OrderDeta__Order__503BEA1C" />
+        <AssociationConnector Association="StoreModel.FK__Payment__OrderId__55009F39" />
+        <AssociationConnector Association="StoreModel.FK__OrderDeta__Produ__51300E55" />
+        <AssociationConnector Association="StoreModel.FK__Review__ProductI__6166761E" />
+        <AssociationConnector Association="StoreModel.FK__Review__UserId__607251E5" />
+        <AssociationConnector Association="StoreModel.FK__UserDetai__UserI__2FCF1A8A" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

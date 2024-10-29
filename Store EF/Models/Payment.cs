@@ -21,7 +21,7 @@ namespace Store_EF.Models
         public string Method { get; set; }
         public string Status { get; set; }
         public Nullable<System.DateTime> PaymentDate { get; set; }
-        public Nullable<System.DateTime> Expiry { get; set; }
+        public System.DateTime Expiry { get; set; }
         public string TransactionId { get; set; }
         public string Bank { get; set; }
         public string Account { get; set; }
