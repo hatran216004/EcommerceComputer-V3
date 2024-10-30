@@ -17,7 +17,11 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
-            return View(store.Carts.Where(x => x.UserId == userId));
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
+            else
+                return View(store.Carts.Where(x => x.UserId == userId));
         }
 
         [HttpPost]
@@ -26,6 +30,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (!product.HasValue)
                 return RedirectToAction("Index");
             else
@@ -70,6 +77,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (!product.HasValue)
                 return HttpNotFound();
             else
@@ -94,6 +104,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             try
             {
                 store.Carts.RemoveRange(store.Carts.Where(x => x.UserId == userId));

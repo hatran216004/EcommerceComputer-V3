@@ -12,30 +12,31 @@ namespace Store_EF.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Order_
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Order_()
+        public User()
         {
-            this.OrderDetails = new HashSet<OrderDetail>();
-            this.Payments = new HashSet<Payment>();
+            this.Carts = new HashSet<Cart>();
+            this.Orders = new HashSet<Order>();
+            this.Reviews = new HashSet<Review>();
         }
     
-        public int OrderId { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public string Address { get; set; }
-        public string Note { get; set; }
-        public string Status { get; set; }
+        public int UserId { get; set; }
+        public string RoleName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public Nullable<System.DateTime> PasswordChangedAt { get; set; }
         public System.DateTime CreatedAt { get; set; }
-        public System.DateTime UpdatedAt { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public int TotalPrice { get; set; }
+        public bool IsConfirm { get; set; }
+        public string UniqueCode { get; set; }
     
-        public virtual User_ User_ { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual UserDetail UserDetail { get; set; }
     }
 }

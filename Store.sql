@@ -7,17 +7,19 @@ DBCC USEROPTIONS
 ALTER DATABASE Store SET READ_COMMITTED_SNAPSHOT ON
 GO
 
-CREATE TABLE User@ (
+CREATE TABLE [User] (
     UserId INT IDENTITY(1,1) PRIMARY KEY,
     RoleName NVARCHAR(10) NOT NULL DEFAULT 'User' CHECK (RoleName IN ('Admin', 'User', 'Employee')),
     Email VARCHAR(320) NOT NULL UNIQUE,
     [Password] VARCHAR(255) NOT NULL,
     PasswordChangedAt DATETIME2,
-    CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE()
+    CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+	IsConfirm BIT NOT NULL DEFAULT 0,
+	UniqueCode CHAR(64) NOT NULL UNIQUE
 )
 
 CREATE TABLE UserDetail (
-    UserId INT PRIMARY KEY FOREIGN KEY REFERENCES User@(UserId) ON DELETE CASCADE,
+    UserId INT PRIMARY KEY FOREIGN KEY REFERENCES [User](UserId) ON DELETE CASCADE,
     [Name] NVARCHAR(50) NOT NULL,
 	Gender BIT, -- 1: Nam | 0: Nữ
     Phone VARCHAR(11),
@@ -59,14 +61,14 @@ CREATE TABLE Gallery (
 
 
 CREATE TABLE Cart (
-    UserId INT NOT NULL FOREIGN KEY REFERENCES User@(UserId),
+    UserId INT NOT NULL FOREIGN KEY REFERENCES [User](UserId),
     ProductId INT NOT NULL FOREIGN KEY REFERENCES Product(ProductId) ON DELETE CASCADE, -- Xóa sản phẩm sẽ xóa giỏ hàng liên quan
     Quantity INT NOT NULL DEFAULT 1,
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
     PRIMARY KEY (UserId, ProductId)
 )
 
-CREATE TABLE Order@ (
+CREATE TABLE [Order] (
     OrderId INT IDENTITY(1,1) PRIMARY KEY,
     [Name] NVARCHAR(50) NOT NULL,
 	Phone VARCHAR(11) NOT NULL,
@@ -75,12 +77,12 @@ CREATE TABLE Order@ (
     [Status] NVARCHAR(50),
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
     UpdatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
-    UserId INT FOREIGN KEY (UserId) REFERENCES User@(UserId),
+    UserId INT FOREIGN KEY (UserId) REFERENCES [User](UserId),
 	TotalPrice INT NOT NULL DEFAULT 0
 )
 
 CREATE TABLE OrderDetail (
-    OrderId INT NOT NULL FOREIGN KEY REFERENCES Order@(OrderId) ON DELETE CASCADE,
+    OrderId INT NOT NULL FOREIGN KEY REFERENCES [Order](OrderId) ON DELETE CASCADE,
     ProductId INT NOT NULL FOREIGN KEY REFERENCES Product(ProductId),
     Price INT NOT NULL,
     Quantity INT NOT NULL,
@@ -89,7 +91,7 @@ CREATE TABLE OrderDetail (
 
 CREATE TABLE Payment (
 	PaymentId INT PRIMARY KEY IDENTITY(1,1),
-	OrderId INT NOT NULL UNIQUE FOREIGN KEY REFERENCES Order@(OrderId) ON DELETE CASCADE,
+	OrderId INT NOT NULL UNIQUE FOREIGN KEY REFERENCES [Order](OrderId) ON DELETE CASCADE,
 	Amount MONEY DEFAULT 0 CHECK (Amount >= 0),
 	Code VARCHAR(20),
 	Method VARCHAR(10) NOT NULL DEFAULT 'Cash' CHECK (Method IN ('Cash', 'Bank')),
@@ -105,7 +107,7 @@ CREATE UNIQUE NONCLUSTERED INDEX IDX_TransactionId_NOTNULL ON Payment(Transactio
 CREATE UNIQUE NONCLUSTERED INDEX IDX_Code_NOTNULL ON Payment(Code) WHERE Code IS NOT NULL
 
 CREATE TABLE Review (
-    UserId INT NOT NULL FOREIGN KEY REFERENCES User@(UserId) ON DELETE CASCADE,
+    UserId INT NOT NULL FOREIGN KEY REFERENCES [User](UserId) ON DELETE CASCADE,
     ProductId INT NOT NULL FOREIGN KEY REFERENCES Product(ProductId) ON DELETE CASCADE,
     Rating INT NOT NULL,
     Comment NVARCHAR(MAX),
@@ -123,12 +125,12 @@ BEGIN
 END
 
 GO
-CREATE OR ALTER TRIGGER Tri_AddUserDetail ON User@
+CREATE OR ALTER TRIGGER Tri_AddUserDetail ON [User]
 AFTER INSERT
 AS
 BEGIN
 	DECLARE @Id INT = (SELECT UserId from inserted)
-	DECLARE @Email VARCHAR(320) = (SELECT Email FROM User@ WHERE UserId = @Id)
+	DECLARE @Email VARCHAR(320) = (SELECT Email FROM [User] WHERE UserId = @Id)
 	INSERT INTO UserDetail (UserId, Name) VALUES (@Id, SUBSTRING(@Email, 1, CHARINDEX('@', @Email) - 1))
 END
 GO
@@ -144,7 +146,7 @@ END
 GO
 	
 GO
-CREATE OR ALTER TRIGGER Tri_CreateOrder ON Order@
+CREATE OR ALTER TRIGGER Tri_CreateOrder ON [Order]
 AFTER INSERT
 AS
 BEGIN
@@ -183,8 +185,8 @@ AS
 BEGIN
 	UPDATE Payment
 	SET [Status] = 'Failed'
-	FROM Order@
-	WHERE UserId = @UserId AND Payment.OrderId = Order@.OrderId AND Payment.Expiry < GETDATE() AND Payment.Status = 'Waitting'
+	FROM [Order]
+	WHERE UserId = @UserId AND Payment.OrderId = [Order].OrderId AND Payment.Expiry < GETDATE() AND Payment.Status = 'Waitting'
 END
 GO
 
@@ -193,16 +195,16 @@ CREATE OR ALTER TRIGGER Tri_AddOderDetail ON OrderDetail
 AFTER INSERT
 AS
 BEGIN
-	DECLARE @UserId INT = (SELECT O.UserId FROM Order@ O JOIN inserted I ON O.OrderId = I.OrderId)
+	DECLARE @UserId INT = (SELECT O.UserId FROM [Order] O JOIN inserted I ON O.OrderId = I.OrderId)
 	DECLARE @ProductId INT = (SELECT ProductId FROM inserted)
 	DECLARE @Quatity INT = (SELECT Quantity FROM inserted)
 	IF ((SELECT Stock FROM Product WHERE ProductId = @ProductId) >= @Quatity)
 		BEGIN
 			EXEC ReduceProductStock @UserId, @ProductId, @Quatity
-			UPDATE Order@
-			SET Order@.TotalPrice = Order@.TotalPrice + (inserted.Price * inserted.Quantity)
+			UPDATE [Order]
+			SET [Order].TotalPrice = [Order].TotalPrice + (inserted.Price * inserted.Quantity)
 			FROM inserted
-			WHERE Order@.OrderId = inserted.OrderId
+			WHERE [Order].OrderId = inserted.OrderId
 		END
 	ELSE
 		THROW 50001, @ProductId, 1
@@ -254,13 +256,13 @@ BEGIN
 	DECLARE @Status VARCHAR(20) = (SELECT [Status] FROM inserted)
 	IF (@Status = 'Waitting')
 		BEGIN
-			UPDATE Order@
+			UPDATE [Order]
 			SET [Status] = N'Chờ thanh toán'
 			WHERE OrderId = (SELECT OrderId FROM inserted)
 		END
 	ELSE IF (@Status = 'Failed')
 		BEGIN
-			UPDATE Order@
+			UPDATE [Order]
 			SET [Status] = N'Thanh toán thất bại'
 			WHERE OrderId = (SELECT OrderId FROM inserted)
 			DECLARE @PaymentId INT = (SELECT PaymentId FROM inserted)
@@ -272,7 +274,7 @@ BEGIN
 		END
 	ELSE
 		BEGIN
-			UPDATE Order@
+			UPDATE [Order]
 			SET [Status] = N'Thanh toán thành công'
 			WHERE OrderId = (SELECT OrderId FROM inserted)
 		END

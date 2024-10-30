@@ -1,5 +1,5 @@
 ﻿@using Store_EF.Models
-@model PagedList.IPagedList<User_>
+@model PagedList.IPagedList<User>
 @using PagedList.Mvc;
 
 @{
@@ -30,7 +30,7 @@
         <tbody>
             @if (Model != null)
             {
-                foreach (User_ p in Model)
+                foreach (User p in Model)
                 {
                     if ((string)Email != p.Email)
                     {

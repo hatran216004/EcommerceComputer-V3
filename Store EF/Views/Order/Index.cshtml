@@ -1,6 +1,6 @@
 @using Store_EF.Models
 @using Store_EF.Models.Extensions
-@model IEnumerable<Order_>
+@model IEnumerable<Order>
 @{
     ViewBag.Title = "OrderHistory";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -46,7 +46,7 @@
         <div class="orderhis_list-order__list">
             <!-- Đơn hàng -->
             <div class="orderhis_nav__content orderhis_nav__content--active">
-                @foreach (Order_ order in Model)
+                @foreach (Order order in Model)
                 {
                     Payment payment = order.Payments.First(x => x.OrderId == order.OrderId);
                     <div class="orderhis_list-order__list-mini">
@@ -114,7 +114,7 @@
             </div>
 
             <div class="orderhis_nav__content">
-                @foreach (Order_ order in Model)
+                @foreach (Order order in Model)
                 {
                     Payment payment = order.Payments.First(x => x.OrderId == order.OrderId);
                     if (payment.Status == "Waitting")
@@ -169,7 +169,7 @@
                 }
             </div>
             <div class="orderhis_nav__content">
-                @foreach (Order_ order in Model)
+                @foreach (Order order in Model)
                 {
                     Payment payment = order.Payments.First(x => x.OrderId == order.OrderId);
                     if (payment.Status == "Succeeded") 
@@ -224,7 +224,7 @@
             </div>
 
             <div class="orderhis_nav__content">
-                @foreach (Order_ order in Model)
+                @foreach (Order order in Model)
                 {
                     Payment payment = order.Payments.First(x => x.OrderId == order.OrderId);
                     if (payment.Status == "Failed")

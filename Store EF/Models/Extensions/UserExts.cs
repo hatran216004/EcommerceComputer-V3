@@ -5,13 +5,13 @@ namespace Store_EF.Models.Extensions
 {
     public static class UserExts
     {
-        public static Payment CurrentPayment(this User_ user)
+        public static Payment CurrentPayment(this User user)
         {
             if (user == null)
                 return null;
             else
             {
-                foreach (var order in user.Order_)
+                foreach (var order in user.Orders)
                 {
                     var find = order.Payments.Where(x => x.Expiry >= DateTime.Now && x.Status == "Waitting");
                     if (find.Count() > 0)
@@ -21,7 +21,7 @@ namespace Store_EF.Models.Extensions
             }
         }
 
-        public static int TotalCartPrice(this User_ user)
+        public static int TotalCartPrice(this User user)
         {
             int result = 0;
             foreach (var cart in user.Carts)

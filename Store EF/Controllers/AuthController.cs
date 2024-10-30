@@ -1,7 +1,11 @@
-﻿using Serilog;
+﻿using MimeKit;
+using Store_EF.Handlers;
 using Store_EF.Models;
+using Store_EF.Models.Extensions;
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace Store_EF.Controllers
@@ -13,6 +17,36 @@ namespace Store_EF.Controllers
         public ActionResult SignUp()
         {
             return View();
+        }
+
+        public ActionResult Verify(string email, string code)
+        {
+            User user = store.Users.FirstOrDefault(x => x.Email == email);
+            if (user == null)
+                return View("Error");
+            if (!user.IsConfirm)
+            {
+                if (user.Email == email && user.UniqueCode == code)
+                {
+                    user.IsConfirm = true;
+                    try
+                    {
+                        store.SaveChanges();
+                        object data = "Xác thực email thành công!";
+                        return View(data);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex);
+                    }
+                }
+                else
+                {
+                    object data = "Link không hợp lệ!";
+                    return View(data);
+                }
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -31,19 +65,31 @@ namespace Store_EF.Controllers
             }
             if (!err)
             {
-                store.Users.Add(new User_
+                User user = new User
                 {
                     Email = email,
                     Password = BCrypt.Net.BCrypt.HashPassword(password),
-                    RoleName = "User"
-                });
+                    RoleName = "User",
+                    UniqueCode = email.GenUniqueWithSalt(),
+                    CreatedAt = DateTime.Now,
+                };
+                store.Users.Add(user);
                 try
                 {
                     store.SaveChanges();
+                    var message = new MimeMessage();
+                    message.To.Add(new MailboxAddress("Khách hàng", user.Email));
+                    message.From.Add(new MailboxAddress("Store EF", GmailHandler.Email));
+                    message.Subject = "Kích hoạt tài khoản";
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = $"Vào link sau để xác nhận email: {Regex.Match(Request.Url.AbsoluteUri, "^(https?:\\/\\/[^\\/]+)").Value}{Url.Action("Verify", "Auth", new { email = email, code = user.UniqueCode })}"
+                    };
+                    GmailHandler.SendMail(message);
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.ToString());
+                    Debug.WriteLine(ex);
                     ModelState.AddModelError("Db", "Lỗi cơ sở dữ liệu!");
                     return View();
                 }
@@ -62,7 +108,7 @@ namespace Store_EF.Controllers
         [HttpPost]
         public ActionResult SignIn(string email, string password)
         {
-            User_ user = null;
+            User user = null;
             try
             {
                 user = store.Users.Where(x => x.Email.Equals(email)).First();

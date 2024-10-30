@@ -20,6 +20,6 @@ namespace Store_EF.Models
         public System.DateTime CreatedAt { get; set; }
     
         public virtual Product Product { get; set; }
-        public virtual User_ User_ { get; set; }
+        public virtual User User { get; set; }
     }
 }

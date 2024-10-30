@@ -26,6 +26,6 @@ namespace Store_EF.Models
         public string Bank { get; set; }
         public string Account { get; set; }
     
-        public virtual Order_ Order_ { get; set; }
+        public virtual Order Order { get; set; }
     }
 }
