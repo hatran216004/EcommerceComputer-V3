@@ -170,7 +170,7 @@ namespace Store_EF.Controllers
                 }
                 if (payment.Status == "Succeeded" || payment.Status == "Failed" || !Response.IsClientConnected)
                     break;
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
             }
             return new HttpStatusCodeResult(200);
         }
