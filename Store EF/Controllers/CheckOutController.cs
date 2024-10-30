@@ -1,5 +1,4 @@
-﻿using MimeKit;
-using Store_EF.Handlers;
+﻿using Store_EF.Handlers;
 using Store_EF.Models;
 using Store_EF.Models.Extensions;
 using StuceSoftware.RandomStringGenerator;

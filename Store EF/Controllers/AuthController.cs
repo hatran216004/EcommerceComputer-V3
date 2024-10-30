@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web.Mvc;
 
 namespace Store_EF.Controllers
@@ -49,6 +50,20 @@ namespace Store_EF.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        static void SendVerifyEmail(object obj)
+        {
+            var parameters = ((User user, string absoluteUri, string pathUri))obj;
+            var message = new MimeMessage();
+            message.To.Add(new MailboxAddress("Khách hàng", parameters.user.Email));
+            message.From.Add(new MailboxAddress("Store EF", GmailHandler.Email));
+            message.Subject = "Kích hoạt tài khoản";
+            message.Body = new TextPart("plain")
+            {
+                Text = $"Vào link sau để xác nhận email: {Regex.Match(parameters.absoluteUri, "^(https?:\\/\\/[^\\/]+)").Value}{parameters.pathUri}"
+            };
+            GmailHandler.SendMail(message);
+        }
+
         [HttpPost]
         public ActionResult SignUp(string email, string password)
         {
@@ -77,15 +92,8 @@ namespace Store_EF.Controllers
                 try
                 {
                     store.SaveChanges();
-                    var message = new MimeMessage();
-                    message.To.Add(new MailboxAddress("Khách hàng", user.Email));
-                    message.From.Add(new MailboxAddress("Store EF", GmailHandler.Email));
-                    message.Subject = "Kích hoạt tài khoản";
-                    message.Body = new TextPart("plain")
-                    {
-                        Text = $"Vào link sau để xác nhận email: {Regex.Match(Request.Url.AbsoluteUri, "^(https?:\\/\\/[^\\/]+)").Value}{Url.Action("Verify", "Auth", new { email = email, code = user.UniqueCode })}"
-                    };
-                    GmailHandler.SendMail(message);
+                    var parameters = (user: user, absoluteUri: Request.Url.AbsoluteUri, pathUri: Url.Action("Verify", "Auth", new { email = user.Email, code = user.UniqueCode }));
+                    new Thread(new ParameterizedThreadStart(SendVerifyEmail)).Start(parameters);
                 }
                 catch (Exception ex)
                 {

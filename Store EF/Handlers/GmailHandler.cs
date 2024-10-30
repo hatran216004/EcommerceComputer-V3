@@ -18,22 +18,20 @@ namespace Store_EF.Handlers
         {
             email = ConfigurationManager.AppSettings["GmailAddress"];
             password = ConfigurationManager.AppSettings["GmailPassword"];
-            smtp.Connect("smtp.gmail.com", 465, true);
-            smtp.Authenticate(email, password);
         }
 
-        public static bool SendMail(MimeMessage message)
+        public static void SendMail(MimeMessage message)
         {
             try
             {
+                smtp.Connect("smtp.gmail.com", 465, true);
+                smtp.Authenticate(email, password);
                 smtp.Send(message);
                 smtp.Disconnect(true);
-                return true;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return false;
             }
         }
     }
