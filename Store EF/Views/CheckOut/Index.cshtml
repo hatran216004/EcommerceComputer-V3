@@ -5,7 +5,7 @@
     ViewBag.Title = "CheckOut";
     StoreEntities store = new StoreEntities();
     int userId = int.Parse(Session["UserId"].ToString());
-    User_ user = store.Users.First(x => x.UserId == userId);
+    User user = store.Users.First(x => x.UserId == userId);
     Html.EnableClientValidation(true);
 }
 <div class="product-container">

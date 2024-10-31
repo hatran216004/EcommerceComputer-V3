@@ -87,14 +87,14 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.4.0.2\lib\net471\Serilog.dll</HintPath>
+    <Reference Include="Serilog, Version=4.1.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.4.1.0\lib\net471\Serilog.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.Sinks.File, Version=6.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.Sinks.File.6.0.0\lib\net471\Serilog.Sinks.File.dll</HintPath>
     </Reference>
-    <Reference Include="StuceSoftware.RandomStringGenerator, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\StuceSoftware.RandomStringGenerator.2.0.0\lib\netstandard2.0\StuceSoftware.RandomStringGenerator.dll</HintPath>
+    <Reference Include="StuceSoftware.RandomStringGenerator, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StuceSoftware.RandomStringGenerator.3.0.1\lib\netstandard2.0\StuceSoftware.RandomStringGenerator.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -224,6 +224,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\GmailHandler.cs" />
     <Compile Include="Handlers\ProvincesHandler.cs" />
     <Compile Include="Handlers\SePayWebHookHandler.cs" />
     <Compile Include="Helpers.cs" />
@@ -238,6 +239,7 @@
     </Compile>
     <Compile Include="Models\CheckOutForm.cs" />
     <Compile Include="Models\Extensions\CartsExts.cs" />
+    <Compile Include="Models\Extensions\Exts.cs" />
     <Compile Include="Models\Extensions\OrderDetailExts.cs" />
     <Compile Include="Models\Extensions\OrderExts.cs" />
     <Compile Include="Models\Extensions\PaymentExts.cs" />
@@ -247,10 +249,10 @@
     <Compile Include="Models\Gallery.cs">
       <DependentUpon>StoreDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OrderDetail.cs">
+    <Compile Include="Models\Order.cs">
       <DependentUpon>StoreDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Order_.cs">
+    <Compile Include="Models\OrderDetail.cs">
       <DependentUpon>StoreDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Payment.cs">
@@ -279,10 +281,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StoreDb.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserDetail.cs">
+    <Compile Include="Models\User.cs">
       <DependentUpon>StoreDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\User_.cs">
+    <Compile Include="Models\UserDetail.cs">
       <DependentUpon>StoreDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -410,6 +412,8 @@
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Review\GetReviewsOneProd.cshtml" />
     <Content Include="Views\Order\Detail.cshtml" />
+    <Content Include="Views\Home\Verify.cshtml" />
+    <Content Include="Views\Auth\Verify.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

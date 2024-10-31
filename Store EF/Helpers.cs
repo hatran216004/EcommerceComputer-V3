@@ -62,7 +62,7 @@ namespace Store_EF
 
         public static bool IsUserAdmin(int userId, StoreEntities store)
         {
-            User_ user = store.Users.FirstOrDefault(x => x.UserId == userId);
+            User user = store.Users.FirstOrDefault(x => x.UserId == userId);
             if (user == null)
                 return false;
             if (user.RoleName != "Admin")

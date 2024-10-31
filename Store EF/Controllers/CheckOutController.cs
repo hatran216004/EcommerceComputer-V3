@@ -2,6 +2,7 @@
 using Store_EF.Models;
 using Store_EF.Models.Extensions;
 using StuceSoftware.RandomStringGenerator;
+using StuceSoftware.RandomStringGenerator.RandomSourceImplementations;
 using System;
 using System.Configuration;
 using System.Data.Entity.Infrastructure;
@@ -21,7 +22,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
-            User_ user = store.Users.First(x => x.UserId == userId);
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (user.CurrentPayment() != null)
                 return RedirectToAction("Payment");
             if (user.TotalCartPrice() == 0)
@@ -40,6 +43,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (store.Users.First(x => x.UserId == userId).CurrentPayment() != null)
                 return RedirectToAction("Payment");
             if (ModelState.IsValid)
@@ -48,7 +54,7 @@ namespace Store_EF.Controllers
                 Province d = ProvincesHandler.Districts(p.Code).First(x => x.Code == checkOut.District);
                 Province w = ProvincesHandler.Wards(p.Code, d.Code).First(x => x.Code == checkOut.Ward);
                 string address = $"{checkOut.Home}, {w.Name}, {d.Name}, {p.Name}";
-                Order_ order = new Order_()
+                Order order = new Order()
                 {
                     Name = checkOut.FullName,
                     Address = address,
@@ -62,7 +68,7 @@ namespace Store_EF.Controllers
                 };
                 store.Orders.Add(order);
                 int orderId = -1;
-                string code = "DH" + RandomStringGenerator.GetString(CharClasses.Uppercase | CharClasses.Numbers, maxLength: 10, randomLength: false, false);
+                string code = "DH" + new RandomStringGenerator(new SystemRandomSource()).GetString(CharClasses.Uppercase | CharClasses.Numbers, maxLength: 10, randomLength: false, false);
                 try
                 {
                     store.SaveChanges();
@@ -95,6 +101,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             Payment payment = store.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
             if (payment.Status == "Waitting")
             {
@@ -118,6 +127,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             Payment payment = store.Users.Where(x => x.UserId == userId).First().CurrentPayment();
             if (payment == null)
                 return RedirectToAction("Index", "Home");

@@ -16,7 +16,7 @@ namespace Store_EF.Models.Extensions
                 string bank = ConfigurationManager.AppSettings["Bank"];
                 string account = ConfigurationManager.AppSettings["Account"];
                 string fullName = ConfigurationManager.AppSettings["FullName"];
-                string requestUrl = $"https://qr.sepay.vn/img?bank={bank}&acc={account}&template=compact&amount={payment.Order_.TotalPrice()}&des={payment.Code}";
+                string requestUrl = $"https://qr.sepay.vn/img?bank={bank}&acc={account}&template=compact&amount={payment.Order.TotalPrice()}&des={payment.Code}";
                 using (HttpClient client = new HttpClient())
                 {
                     var data = client.GetByteArrayAsync(requestUrl).Result;

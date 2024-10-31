@@ -21,6 +21,6 @@ namespace Store_EF.Models
         public string Address { get; set; }
         public Nullable<System.DateTime> DateOfBirth { get; set; }
     
-        public virtual User_ User_ { get; set; }
+        public virtual User User { get; set; }
     }
 }

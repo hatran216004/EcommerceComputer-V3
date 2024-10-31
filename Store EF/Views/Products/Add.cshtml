@@ -76,27 +76,27 @@
             <!-- Khung ảnh thumbnail lớn chính giữa -->
             <div class="add-product__form-picture-thumbnail" onclick="document.getElementById('picture1').click()">
                 <img id="preview1" src="default-thumbnail.jpg" alt="Click to select image" />
-                <input type="file" name="thumbnail" id="picture1" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                <input type="file" name="thumbnail" id="picture1" accept="image/png,image/bmp,image/jpeg" onchange="previewImage(this)" style="display: none;" />
             </div>
 
             <!-- Các khung ảnh nhỏ bên dưới -->
             <div class="add-product__form-picture-warp">
                 <div class="add-product__form-picture-item" onclick="document.getElementById('picture2').click()">
                     <img id="preview2" src="default-image.jpg" alt="Click to select image" />
-                    <input type="file" name="galleries" id="picture2" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                    <input type="file" name="galleries" id="picture2" accept="image/png,image/bmp,image/jpeg" onchange="previewImage(this)" style="display: none;" />
                 </div>
                 <!-- Các khung ảnh nhỏ khác tương tự -->
                 <div class="add-product__form-picture-item" onclick="document.getElementById('picture3').click()">
                     <img id="preview3" src="default-image.jpg" alt="Click to select image" />
-                    <input type="file" name="galleries" id="picture3" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                    <input type="file" name="galleries" id="picture3" accept="image/png,image/bmp,image/jpeg" onchange="previewImage(this)" style="display: none;" />
                 </div>
                 <div class="add-product__form-picture-item" onclick="document.getElementById('picture4').click()">
                     <img id="preview4" src="default-image.jpg" alt="Click to select image" />
-                    <input type="file" name="galleries" id="picture4" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                    <input type="file" name="galleries" id="picture4" accept="image/png,image/bmp,image/jpeg" onchange="previewImage(this)" style="display: none;" />
                 </div>
                 <div class="add-product__form-picture-item" onclick="document.getElementById('picture5').click()">
                     <img id="preview5" src="default-image.jpg" alt="Click to select image" />
-                    <input type="file" name="galleries" id="picture5" accept="image/*" onchange="previewImage(this)" style="display: none;" />
+                    <input type="file" name="galleries" id="picture5" accept="image/png,image/bmp,image/jpeg" onchange="previewImage(this)" style="display: none;" />
                 </div>
             </div>
             <div class="add-product__action">
@@ -105,8 +105,6 @@
         </div>
     }
 </div>
-
-
 <script>
     function previewImage(input) {
         if (input.files && input.files[0]) {

@@ -18,6 +18,13 @@ namespace Store_EF.Controllers
 
         public ActionResult Index(int page = 1, string category = "", string brand = "")
         {
+            if (Session["UserId"] != null)
+            {
+                int userId = int.Parse(Session["UserId"].ToString());
+                User user = store.Users.First(x => x.UserId == userId);
+                if (!user.IsConfirm)
+                    return RedirectToAction("Verify", "Home");
+            }
             int pageSize = 8;
             if (page < 1)
                 page = 1;
@@ -45,6 +52,13 @@ namespace Store_EF.Controllers
 
         public ActionResult Search(string product, int page = 1)
         {
+            if (Session["UserId"] != null)
+            {
+                int userId = int.Parse(Session["UserId"].ToString());
+                User user = store.Users.First(x => x.UserId == userId);
+                if (!user.IsConfirm)
+                    return RedirectToAction("Verify", "Home");
+            }
             int pageSize = 8;
             if (page < 1)
                 page = 1;
@@ -63,6 +77,13 @@ namespace Store_EF.Controllers
 
         public ActionResult Detail(int? id)
         {
+            if (Session["UserId"] != null)
+            {
+                int userId = int.Parse(Session["UserId"].ToString());
+                User user = store.Users.First(x => x.UserId == userId);
+                if (!user.IsConfirm)
+                    return RedirectToAction("Verify", "Home");
+            }
             if (!id.HasValue)
                 return RedirectToAction("Index");
             try
@@ -86,6 +107,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
             try
@@ -108,6 +132,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
             if (p.IsValid() && Helpers.IsValidImage(thumbnail))
@@ -159,6 +186,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
             int pageSize = 8;
@@ -185,6 +215,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
             try
@@ -213,6 +246,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
             ViewBag.Categories = store.Categories.ToList();
@@ -234,6 +270,9 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
             // Cập nhật thông tin sản phẩm trong cơ sở dữ liệu

@@ -17,26 +17,34 @@ namespace Store_EF.Controllers
             if (Session["UserId"] == null)
                 return RedirectToAction("SignIn", "Auth");
             int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             var userDetails = store.UserDetails.FirstOrDefault(x => x.UserId == userId);
             return View(userDetails);
         }
 
         [HttpPost]
-        public ActionResult UpdateProfile(UserDetail user)
+        public ActionResult UpdateProfile(UserDetail detail)
         {
-
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var existingUserDetail = store.UserDetails.Find(user.UserId);
+                    var existingUserDetail = store.UserDetails.Find(detail.UserId);
                     if (existingUserDetail != null)
                     {
-                        existingUserDetail.Name = user.Name;
-                        existingUserDetail.Gender = user.Gender;
-                        existingUserDetail.Phone = user.Phone;
-                        existingUserDetail.Address = user.Address;
-                        existingUserDetail.DateOfBirth = user.DateOfBirth;
+                        existingUserDetail.Name = detail.Name;
+                        existingUserDetail.Gender = detail.Gender;
+                        existingUserDetail.Phone = detail.Phone;
+                        existingUserDetail.Address = detail.Address;
+                        existingUserDetail.DateOfBirth = detail.DateOfBirth;
                         store.SaveChanges();
                     }
 
@@ -49,11 +57,17 @@ namespace Store_EF.Controllers
                 }
             }
 
-            return View(user);
+            return View(detail);
         }
 
         public ActionResult UpdatePassword(string userId, string currPassword, string newPassword, string passwordConfirm)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int cuserId = int.Parse(Session["UserId"].ToString());
+            User cuser = store.Users.First(x => x.UserId == cuserId);
+            if (!cuser.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             if (newPassword != passwordConfirm)
             {
                 ModelState.AddModelError("", "Mật khẩu mới không khớp.");
@@ -88,12 +102,18 @@ namespace Store_EF.Controllers
 
         public ActionResult UserManagement(int page = 1)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             int pageSize = 8;
             if (page < 1)
                 page = 1;
             try
             {
-                List<User_> listUsers = store.Users.ToList();
+                List<User> listUsers = store.Users.ToList();
                 // Tính số trang dựa trên tổng số người dùng và kích thước trang
                 int maxPage = (int)Math.Ceiling((double)listUsers.Count / pageSize);
                 if (page > maxPage)
@@ -116,9 +136,15 @@ namespace Store_EF.Controllers
 
         public ActionResult DeleteUser(int id)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             try
             {
-                User_ findUser = store.Users.Find(id);
+                User findUser = store.Users.Find(id);
                 UserDetail findUserDetail = store.UserDetails.Find(id);
                 if (findUser != null && findUserDetail != null)
                 {
@@ -138,9 +164,15 @@ namespace Store_EF.Controllers
 
         public ActionResult AddUser(string email, string password, string role)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             try
             {
-                User_ newUser = new User_
+                User newUser = new User
                 {
                     Email = email,
                     Password = BCrypt.Net.BCrypt.HashPassword(password), // Bạn nên mã hóa mật khẩu trước khi lưu
@@ -160,9 +192,15 @@ namespace Store_EF.Controllers
 
         public ActionResult GetUser(int id)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             try
             {
-                User_ findUser = store.Users.Find(id);
+                User findUser = store.Users.Find(id);
                 return View(findUser);
             }
             catch (Exception ex)
@@ -172,11 +210,17 @@ namespace Store_EF.Controllers
             }
         }
 
-        public ActionResult UpdateUser(User_ user, int id)
+        public ActionResult UpdateUser(User user, int id)
         {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            User cuser = store.Users.First(x => x.UserId == userId);
+            if (!cuser.IsConfirm)
+                return RedirectToAction("Verify", "Home");
             try
             {
-                User_ findUser = store.Users.Find(id);
+                User findUser = store.Users.Find(id);
                 findUser.Email = user.Email;
                 findUser.RoleName = user.RoleName;
 
