@@ -50,16 +50,15 @@ namespace Store_EF.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        static void SendVerifyEmail(object obj)
+        static void SendVerifyEmail(User user, string absoluteUri, string pathUri)
         {
-            var parameters = ((User user, string absoluteUri, string pathUri))obj;
             var message = new MimeMessage();
-            message.To.Add(new MailboxAddress("Khách hàng", parameters.user.Email));
+            message.To.Add(new MailboxAddress("Khách hàng", user.Email));
             message.From.Add(new MailboxAddress("Store EF", GmailHandler.Email));
             message.Subject = "Kích hoạt tài khoản";
             message.Body = new TextPart("plain")
             {
-                Text = $"Vào link sau để xác nhận email: {Regex.Match(parameters.absoluteUri, "^(https?:\\/\\/[^\\/]+)").Value}{parameters.pathUri}"
+                Text = $"Vào link sau để xác nhận email: {Regex.Match(absoluteUri, "^(https?:\\/\\/[^\\/]+)").Value}{pathUri}"
             };
             GmailHandler.SendMail(message);
         }
@@ -92,8 +91,7 @@ namespace Store_EF.Controllers
                 try
                 {
                     store.SaveChanges();
-                    var parameters = (user: user, absoluteUri: Request.Url.AbsoluteUri, pathUri: Url.Action("Verify", "Auth", new { email = user.Email, code = user.UniqueCode }));
-                    new Thread(new ParameterizedThreadStart(SendVerifyEmail)).Start(parameters);
+                    new Thread(() => SendVerifyEmail(user, Request.Url.AbsoluteUri, Url.Action("Verify", "Auth", new { email = user.Email, code = user.UniqueCode }))).Start();
                 }
                 catch (Exception ex)
                 {

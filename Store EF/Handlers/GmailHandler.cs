@@ -14,20 +14,26 @@ namespace Store_EF.Handlers
 
         public static string Email => email;
 
+        static void Auth()
+        {
+            smtp.Connect("smtp.gmail.com", 465, true);
+            smtp.Authenticate(email, password);
+        }
+
         static GmailHandler()
         {
             email = ConfigurationManager.AppSettings["GmailAddress"];
             password = ConfigurationManager.AppSettings["GmailPassword"];
+            Auth();
         }
 
         public static void SendMail(MimeMessage message)
         {
             try
             {
-                smtp.Connect("smtp.gmail.com", 465, true);
-                smtp.Authenticate(email, password);
+                if (!smtp.IsConnected)
+                    Auth();
                 smtp.Send(message);
-                smtp.Disconnect(true);
             }
             catch (Exception ex)
             {
