@@ -24,7 +24,14 @@ namespace Store_EF.Handlers
         {
             email = ConfigurationManager.AppSettings["GmailAddress"];
             password = ConfigurationManager.AppSettings["GmailPassword"];
-            Auth();
+            try
+            {
+                Auth();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         public static void SendMail(MimeMessage message)
