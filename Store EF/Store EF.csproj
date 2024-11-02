@@ -327,6 +327,7 @@
     <Content Include="Public\css\main.css" />
     <Content Include="Public\css\orderdetail.css" />
     <Content Include="Public\css\orderhistory.css" />
+    <Content Include="Public\css\payment.css" />
     <Content Include="Public\css\profile.css" />
     <Content Include="Public\css\reset.css" />
     <Content Include="Public\icons\arrow-right.svg" />
@@ -338,6 +339,7 @@
     <Content Include="Public\imgs\avatar.svg" />
     <Content Include="Public\imgs\banner-sign.png" />
     <Content Include="Public\imgs\cart.svg" />
+    <Content Include="Public\imgs\download.svg" />
     <Content Include="Public\imgs\facebook.svg" />
     <Content Include="Public\imgs\hero.png" />
     <Content Include="Public\imgs\Icon-Google.png" />
@@ -345,6 +347,7 @@
     <Content Include="Public\imgs\logo.png" />
     <Content Include="Public\imgs\logo.svg" />
     <Content Include="Public\imgs\logout.svg" />
+    <Content Include="Public\imgs\MB.png" />
     <Content Include="Public\imgs\my-order.svg" />
     <Content Include="Public\imgs\products\null.png" />
     <Content Include="Public\imgs\profile.svg" />
