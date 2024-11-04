@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+
+}
+
+<style>
+    .CateUpdate {
+        flex-grow: 1;
+        margin-left: 16px;
+        padding:60px;
+    }
+        .CateUpdate > .cate-bard__title {
+            text-align: center;
+        }
+</style>
+<div class="CateUpdate">
+    <div class="cate-bard__title">Sửa danh mục</div>
+    <div class="CateUpdate-main">
+        <form action="@Url.Action("Update", "Categories")" method="post" class="addCateForm">
+            <input type="hidden" name="CategoryId" value="@ViewBag.test.CategoryId" />
+            <label for="updateCateForm-input">Tên danh mục:</label>
+            <input type="text"
+                   id="updateCateForm-input"
+                   name="Name"
+                   value="@ViewBag.test.Name"
+                   placeholder="Nhập tên danh mục" required />
+            <div class="modal-actions">
+                <button type="submit" class="model__btn-add">Sửa</button>
+            </div>
+        </form>
+    </div>
+    
+</div>
+

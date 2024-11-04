@@ -322,6 +322,7 @@
     </Content>
     <Content Include="Public\css\admin.css" />
     <Content Include="Public\css\cart.css" />
+    <Content Include="Public\css\CategoryBrand.css" />
     <Content Include="Public\css\checkout.css" />
     <Content Include="Public\css\grid.css" />
     <Content Include="Public\css\main.css" />
@@ -414,6 +415,8 @@
     <Content Include="Views\Order\Detail.cshtml" />
     <Content Include="Views\Home\Verify.cshtml" />
     <Content Include="Views\Auth\Verify.cshtml" />
+    <Content Include="Views\Categories\Update.cshtml" />
+    <Content Include="Views\Brands\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
