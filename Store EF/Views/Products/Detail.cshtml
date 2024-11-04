@@ -11,7 +11,26 @@
         display: block;
     }
 
-    .prod-preview__img {
+    .product-card__img-wrap {
+        margin-bottom: 12px;
+        width: 100%;
+        height: 120px;
+    }
+
+    .product-card__thumb {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .product-card__title {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 20px;
+    }
+
+    .product__similar img{
+        width: 100% !important;
     }
 
 </style>
@@ -42,7 +61,7 @@
                 <!-- Product review -->
                 <div class="col-5 col-xl-6 col-lg-12">
                     <div class="prod-preview">
-                        @if (ViewBag.Galleries != null)
+                        @*@if (ViewBag.Galleries != null)
                         {
                             <div class="prod-preview__list">
                                 @foreach (Gallery gallery in Galleries)
@@ -65,7 +84,7 @@
                                              class="prod-preview__thumb-img" />
                                 }
                             </div>
-                        }
+                        }*@
                     </div>
                 </div>
                 <!-- Product info -->
@@ -217,231 +236,86 @@
                     <!-- Similar -->
                     <div class="prod-tab__content">
                         <h2 class="prod-tab__content-heading">
-                            Similar items you might like
+                            Các sản phẩm tương tự
                         </h2>
-                        <div class="row row-cols-6 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-2">
-                            <!-- Product item 1 -->
-                            <div class="col">
-                                <article class="product-card">
-                                    <div class="product-card__img-wrap">
-                                        <a href="./product-detail.html">
-                                            <img src="./assets/images/products/product-1.png"
-                                                 alt=""
-                                                 class="product-card__thumb" />
-                                        </a>
-                                        <button class="like-btn product-card__like-btn">
-                                            <img src="./assets/icons/heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon icon" />
-                                            <img src="./assets/icons/red-heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon--liked" />
-                                        </button>
-                                    </div>
-                                    <h3>
-                                        <a href="./product-detail.html"
-                                           class="product-card__title">
-                                            Coffee Beans - Espresso
-                                            Arabica and Robusta Beans
-                                        </a>
-                                    </h3>
-                                    <p class="product-card__brand">
-                                        Lavazza
-                                    </p>
-                                    <div class="product-card__row">
-                                        <span class="product-card__price">$47.00</span>
-                                        <img src="./assets/icons/start.svg"
-                                             alt=""
-                                             class="product-card__start" />
-                                        <span class="product-card__rate">4.3</span>
-                                    </div>
-                                </article>
-                            </div>
-                            <!-- Product item 2 -->
-                            <div class="col">
-                                <article class="product-card">
-                                    <div class="product-card__img-wrap">
-                                        <a href="./product-detail.html">
-                                            <img src="./assets/images/products/product-2.png"
-                                                 alt=""
-                                                 class="product-card__thumb" />
-                                        </a>
-                                        <button class="like-btn product-card__like-btn">
-                                            <img src="./assets/icons/heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon icon" />
-                                            <img src="./assets/icons/red-heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon--liked" />
-                                        </button>
-                                    </div>
-                                    <h3>
-                                        <a href="./product-detail.html"
-                                           class="product-card__title">
-                                            Lavazza Coffee Blends - Try
-                                            the Italian Espresso
-                                        </a>
-                                    </h3>
-                                    <p class="product-card__brand">
-                                        Lavazza
-                                    </p>
-                                    <div class="product-card__row">
-                                        <span class="product-card__price">$53.00</span>
-                                        <img src="./assets/icons/start.svg"
-                                             alt=""
-                                             class="product-card__start" />
-                                        <span class="product-card__rate">3.4</span>
-                                    </div>
-                                </article>
-                            </div>
-                            <!-- Product item 3 -->
-                            <div class="col">
-                                <article class="product-card">
-                                    <div class="product-card__img-wrap">
-                                        <a href="./product-detail.html">
-                                            <img src="./assets/images/products/product-3.png"
-                                                 alt=""
-                                                 class="product-card__thumb" />
-                                        </a>
-                                        <button class="like-btn like-btn--liked product-card__like-btn">
-                                            <img src="./assets/icons/heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon icon" />
-                                            <img src="./assets/icons/red-heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon--liked" />
-                                        </button>
-                                    </div>
-                                    <h3>
-                                        <a href="./product-detail.html"
-                                           class="product-card__title">
-                                            Lavazza - Caffè Espresso
-                                            Black Tin - Ground coffee
-                                        </a>
-                                    </h3>
-                                    <p class="product-card__brand">
-                                        welikecoffee
-                                    </p>
-                                    <div class="product-card__row">
-                                        <span class="product-card__price">$99.99</span>
-                                        <img src="./assets/icons/start.svg"
-                                             alt=""
-                                             class="product-card__start" />
-                                        <span class="product-card__rate">5.0</span>
-                                    </div>
-                                </article>
-                            </div>
-                            <!-- Product item 4 -->
-                            <div class="col">
-                                <article class="product-card">
-                                    <div class="product-card__img-wrap">
-                                        <a href="./product-detail.html">
-                                            <img src="./assets/images/products/product-4.png"
-                                                 alt=""
-                                                 class="product-card__thumb" />
-                                        </a>
-                                        <button class="like-btn product-card__like-btn">
-                                            <img src="./assets/icons/heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon icon" />
-                                            <img src="./assets/icons/red-heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon--liked" />
-                                        </button>
-                                    </div>
-                                    <h3>
-                                        <a href="./product-detail.html"
-                                           class="product-card__title">
-                                            Qualità Oro Mountain Grown -
-                                            Espresso Coffee Beans
-                                        </a>
-                                    </h3>
-                                    <p class="product-card__brand">
-                                        Lavazza
-                                    </p>
-                                    <div class="product-card__row">
-                                        <span class="product-card__price">$38.65</span>
-                                        <img src="./assets/icons/start.svg"
-                                             alt=""
-                                             class="product-card__start" />
-                                        <span class="product-card__rate">4.4</span>
-                                    </div>
-                                </article>
-                            </div>
-                            <!-- Product item 5 -->
-                            <div class="col">
-                                <article class="product-card">
-                                    <div class="product-card__img-wrap">
-                                        <a href="./product-detail.html">
-                                            <img src="./assets/images/products/product-2.png"
-                                                 alt=""
-                                                 class="product-card__thumb" />
-                                        </a>
-                                        <button class="like-btn product-card__like-btn">
-                                            <img src="./assets/icons/heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon icon" />
-                                            <img src="./assets/icons/red-heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon--liked" />
-                                        </button>
-                                    </div>
-                                    <h3>
-                                        <a href="./product-detail.html"
-                                           class="product-card__title">
-                                            Lavazza Coffee Blends - Try
-                                            the Italian Espresso
-                                        </a>
-                                    </h3>
-                                    <p class="product-card__brand">
-                                        Lavazza
-                                    </p>
-                                    <div class="product-card__row">
-                                        <span class="product-card__price">$53.00</span>
-                                        <img src="./assets/icons/start.svg"
-                                             alt=""
-                                             class="product-card__start" />
-                                        <span class="product-card__rate">3.4</span>
-                                    </div>
-                                </article>
-                            </div>
-                            <!-- Product item 6 -->
-                            <div class="col">
-                                <article class="product-card">
-                                    <div class="product-card__img-wrap">
-                                        <a href="./product-detail.html">
-                                            <img src="./assets/images/products/product-3.png"
-                                                 alt=""
-                                                 class="product-card__thumb" />
-                                        </a>
-                                        <button class="like-btn like-btn--liked product-card__like-btn">
-                                            <img src="./assets/icons/heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon icon" />
-                                            <img src="./assets/icons/red-heart.svg"
-                                                 alt=""
-                                                 class="like-btn__icon--liked" />
-                                        </button>
-                                    </div>
-                                    <h3>
-                                        <a href="./product-detail.html"
-                                           class="product-card__title">
-                                            Lavazza - Caffè Espresso
-                                            Black Tin - Ground coffee
-                                        </a>
-                                    </h3>
-                                    <p class="product-card__brand">
-                                        welikecoffee
-                                    </p>
-                                    <div class="product-card__row">
-                                        <span class="product-card__price">$99.99</span>
-                                        <img src="./assets/icons/start.svg"
-                                             alt=""
-                                             class="product-card__start" />
-                                        <span class="product-card__rate">5.0</span>
-                                    </div>
-                                </article>
-                            </div>
+                        <div class="product__list">
+                            <!-- 1 -->
+                            <a class="product__item product__similar" href="#!">
+                                <div class="product__img">
+                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+                                    <div class="product__sale">-7%</div>
+                                </div>
+                                <div class="product__info">
+                                    <h3 class="product__name">Sản phẩm 1</h3>
+                                    <div class="products__price">Giá: 30.000.000</div>
+                                </div>
+                            </a>
+                            <!-- 2 -->
+                            <a class="product__item product__similar" href="#!">
+                                <div class="product__img">
+                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+                                    <div class="product__sale">-7%</div>
+                                </div>
+                                <div class="product__info">
+                                    <h3 class="product__name">Sản phẩm 1</h3>
+                                    <div class="products__price">Giá: 30.000.000</div>
+                                </div>
+                            </a>
+                            <!-- 3 -->
+                            <a class="product__item product__similar" href="#!">
+                                <div class="product__img">
+                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+                                    <div class="product__sale">-7%</div>
+                                </div>
+                                <div class="product__info">
+                                    <h3 class="product__name">Sản phẩm 1</h3>
+                                    <div class="products__price">Giá: 30.000.000</div>
+                                </div>
+                            </a>
+                            <!-- 4 -->
+                            <a class="product__item product__similar" href="#!">
+                                <div class="product__img">
+                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+                                    <div class="product__sale">-7%</div>
+                                </div>
+                                <div class="product__info">
+                                    <h3 class="product__name">Sản phẩm 1</h3>
+                                    <div class="products__price">Giá: 30.000.000</div>
+                                </div>
+                            </a>
+                            <!-- 5 -->
+                            <a class="product__item product__similar" href="#!">
+                                <div class="product__img">
+                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+                                    <div class="product__sale">-7%</div>
+                                </div>
+                                <div class="product__info">
+                                    <h3 class="product__name">Sản phẩm 1</h3>
+                                    <div class="products__price">Giá: 30.000.000</div>
+                                </div>
+                            </a>
+                            <!-- 6 -->
+                            <a class="product__item product__similar" href="#!">
+                                <div class="product__img">
+                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+                                    <div class="product__sale">-7%</div>
+                                </div>
+                                <div class="product__info">
+                                    <h3 class="product__name">Sản phẩm 1</h3>
+                                    <div class="products__price">Giá: 30.000.000</div>
+                                </div>
+                            </a>
+                            <!-- 7 -->
+                            <a class="product__item product__similar" href="#!">
+                                <div class="product__img">
+                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+                                    <div class="product__sale">-7%</div>
+                                </div>
+                                <div class="product__info">
+                                    <h3 class="product__name">Sản phẩm 1</h3>
+                                    <div class="products__price">Giá: 30.000.000</div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
