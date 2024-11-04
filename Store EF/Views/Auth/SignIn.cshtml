@@ -6,6 +6,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .fortgot-password-act {
+        margin-top: 12px;
+        color: #db4444;
+        width: 100%;
+        display: block;
+        text-align: right;
+    }
+
+    .fortgot-password-act:hover {
+        text-decoration: underline;
+    }
+
+</style>
+
 <div class="signup-in">
     <div class="signup-in__sideimg">
         <img src="~/Public/imgs/banner-sign.png" alt="" />
@@ -29,11 +44,10 @@
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>
 
+            @Html.ActionLink("Quên mật khẩu ?", "ForgotPassword", "Auth", new { @class = "fortgot-password-act" })
+
             <div class="signup-in__form-redirect mt-40">
                 <button class="btn btn--signin" type="submit">Đăng nhập</button>
-                <div class="signup-in__form-forget">
-                    <a href="#">Quên mật khẩu</a>
-                </div>
             </div>
         }
 

@@ -281,6 +281,8 @@ BEGIN
 END
 GO
 
+
+
 -- Thêm thương hiệu
 INSERT INTO Brand (Name)
 VALUES 

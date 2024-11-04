@@ -542,12 +542,14 @@ a {
 }
 
 .btn--signin {
-    /* margin-top: 40px; */
     display: flex;
-    padding: 16px 48px;
+    min-width: 128px;
+    padding: 8px;
     justify-content: center;
     align-items: center;
     gap: 10px;
+    font-size: 1.6rem;
+    height: 46px;
 }
 
 .signup-in__form-gg {

@@ -143,5 +143,11 @@ namespace Store_EF.Controllers
             Session.Clear();
             return RedirectToAction("SignIn", "Auth");
         }
+
+        public ActionResult ForgotPassword(string email)
+        {
+            // Logic
+            return View();
+        }
     }
 }

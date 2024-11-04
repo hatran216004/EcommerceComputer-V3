@@ -226,7 +226,7 @@
 .add-product__form-picture-item {
     --square: 100px;
     width: var(--square);
-    max-height: var(--square);
+    height: var(--square);
     cursor: pointer;
     border: 2px dashed #ccc;
     padding: 5px;
@@ -302,7 +302,7 @@
     align-items: center;
     justify-content: flex-end;
 }
-
+.model__btn-add,
 .model__btn-cancel,
 .model__btn-delete {
     padding: 0 20px;
@@ -324,6 +324,11 @@
 
 .model__btn-delete {
     background-color: red;
+    color: white;
+}
+
+.model__btn-add {
+    background-color: deepskyblue;
     color: white;
 }
 
@@ -381,3 +386,4 @@
         .form-add-user button:hover {
             opacity: 0.9;
         }
+
