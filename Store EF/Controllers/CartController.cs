@@ -1,5 +1,4 @@
-﻿using Serilog;
-using Store_EF.Models;
+﻿using Store_EF.Models;
 using System;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
@@ -92,7 +91,7 @@ namespace Store_EF.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.ToString());
+                    Debug.WriteLine(ex);
                 }
                 return RedirectToAction("Index");
             }

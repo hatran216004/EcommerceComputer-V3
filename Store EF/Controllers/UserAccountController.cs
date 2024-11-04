@@ -1,8 +1,8 @@
 ﻿using PagedList;
-using Serilog;
 using Store_EF.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -52,7 +52,7 @@ namespace Store_EF.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.ToString());
+                    Debug.WriteLine(ex);
                     ModelState.AddModelError("", "Lỗi khi cập nhật thông tin!");
                 }
             }
@@ -92,7 +92,7 @@ namespace Store_EF.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.ToString());
+                    Debug.WriteLine(ex);
                     ModelState.AddModelError("", "Lỗi khi cập nhật thông tin!");
                 }
             }
@@ -129,7 +129,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return View();
             }
         }
@@ -157,7 +157,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return RedirectToAction("UserManagement");
             }
         }
@@ -185,7 +185,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return RedirectToAction("UserManagement");
             }
         }
@@ -205,7 +205,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return RedirectToAction("UserManagement");
             }
         }
@@ -230,7 +230,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 TempData["SuccessMessage"] = "Lỗi cmnr...";
                 return RedirectToAction("UserManagement");
             }

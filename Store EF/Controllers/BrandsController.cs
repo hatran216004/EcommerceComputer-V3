@@ -1,7 +1,7 @@
 ﻿using PagedList;
-using Serilog;
 using Store_EF.Models;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -27,7 +27,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return View();
             }
         }
@@ -54,7 +54,7 @@ namespace Store_EF.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(ex.ToString());
+                        Debug.WriteLine(ex);
                         return RedirectToAction("Index");
                     }
                 }
@@ -83,7 +83,7 @@ namespace Store_EF.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.ToString());
+                    Debug.WriteLine(ex);
                     return RedirectToAction("Index");
                 }
 

@@ -1,6 +1,3 @@
-using Serilog;
-using System;
-using System.IO;
 using System.Net;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -14,7 +11,6 @@ namespace Store_EF
         protected void Application_Start()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-            Log.Logger = new LoggerConfiguration().WriteTo.File(Path.Combine(Server.MapPath("~"), $"Logs/{DateTime.Now:dd-MM-yyyy}.txt")).CreateLogger();
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

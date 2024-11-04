@@ -2,6 +2,8 @@
 using Store_EF.Handlers;
 using Store_EF.Models;
 using Store_EF.Models.Extensions;
+using StuceSoftware.RandomStringGenerator;
+using StuceSoftware.RandomStringGenerator.RandomSourceImplementations;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -59,6 +61,19 @@ namespace Store_EF.Controllers
             message.Body = new TextPart("plain")
             {
                 Text = $"Vào link sau để xác nhận email: {Regex.Match(absoluteUri, "^(https?:\\/\\/[^\\/]+)").Value}{pathUri}"
+            };
+            GmailHandler.SendMail(message);
+        }
+
+        static void SendResetPassword(string email, string newPassword)
+        {
+            var message = new MimeMessage();
+            message.To.Add(new MailboxAddress("Khách hàng", email));
+            message.From.Add(new MailboxAddress("Store EF", GmailHandler.Email));
+            message.Subject = "Đặt lại mật khẩu";
+            message.Body = new TextPart("plain")
+            {
+                Text = $"Mật khẩu mới của bạn là: {newPassword}\nVui lòng đổi sang mật khẩu khác sau khi đăng nhập."
             };
             GmailHandler.SendMail(message);
         }
@@ -144,10 +159,39 @@ namespace Store_EF.Controllers
             return RedirectToAction("SignIn", "Auth");
         }
 
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult ForgotPassword(string email)
         {
-            // Logic
-            return View();
+            if (Helpers.IsValidEmail(email))
+            {
+                User user = store.Users.FirstOrDefault(x => x.Email == email);
+                if (user != null)
+                {
+                    var randomStringGenerator = new RandomStringGenerator(new SystemRandomSource());
+                    string newPassword = randomStringGenerator.GetString(CharClasses.Lowercase | CharClasses.Uppercase | CharClasses.Numbers, maxLength: 12);
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                    try
+                    {
+                        store.SaveChanges();
+                        new Thread(() => SendResetPassword(email, newPassword)).Start();
+                    } catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex);
+                    }
+                }
+                return RedirectToAction("SignIn", "Auth");
+            }
+            else
+            {
+                ModelState.AddModelError("email", "Địa chỉ email không hợp lệ!");
+                return View();
+            }
         }
     }
 }
