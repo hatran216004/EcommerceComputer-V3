@@ -1,9 +1,9 @@
 ﻿using PagedList;
-using Serilog;
 using Store_EF.Models;
 using Store_EF.Models.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -43,7 +43,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return View(new List<Product>().ToPagedList(1, pageSize));
             }
         }
@@ -70,7 +70,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return View("Index", new List<Product>().ToPagedList(1, pageSize));
             }
         }
@@ -96,7 +96,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return RedirectToAction("Index");
             }
         }
@@ -120,7 +120,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return RedirectToAction("Index");
             }
         }
@@ -169,7 +169,7 @@ namespace Store_EF.Controllers
                 catch (Exception ex)
                 {
                     store.Products.Remove(p);
-                    Log.Error(ex.ToString());
+                    Debug.WriteLine(ex);
                     return HttpNotFound();
                 }
                 return RedirectToAction("ProductManagement");
@@ -205,7 +205,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return View(new List<Product>().ToPagedList(1, pageSize));
             }
         }
