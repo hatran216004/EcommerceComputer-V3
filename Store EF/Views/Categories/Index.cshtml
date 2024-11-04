@@ -1,7 +1,143 @@
-﻿
+﻿@using Store_EF.Models
+@model PagedList.IPagedList<Category>
+@using PagedList.Mvc;
+@using PagedList;
+@using Store_EF.Models.Extensions;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "CatetgoryManagement";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+    if (ViewBag.MaxPage == null)
+    {
+        ViewBag.MaxPage = 1;
+    }
 }
 
-<h2>Index</h2>
 
+<div class="cate-bard">
+    <div class="cate-bard__title">Quản lý danh mục</div>
+    <div class="cate-bard__btn-add-warp">
+        <div class="addCateBtn cate-bard__btn-add">
+            <img class="" src="~/Public/icons/plus.svg" alt="" />
+            <a href="#">Thêm danh mục mới</a>
+        </div>
+    </div>
+    <table class="cate-bard__table">
+        <thead>
+            <tr>
+                <th>Mã danh mục</th>
+                <th>Tên danh mục</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Category cate in Model)
+            {
+                <tr>
+                    <td>@cate.CategoryId</td>
+                    <td>@cate.Name</td>
+                    <td>
+                        <a href="#" data-id="@cate.CategoryId" class="DeleteElement btn-delete-link">Xóa</a>
+                        <a href="@Url.Action("Update", "Categories", new { id = cate.CategoryId })" class="btn-edit-link">Sửa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!--Phân trang-->
+<div class="pagination" style="width: 100%;">
+    @Html.PagedListPager(
+        Model,
+        page => Url.Action("Index", new { page }),
+        new PagedListRenderOptions
+        {
+            LiElementClasses = new[] { "" },
+            MaximumPageNumbersToDisplay = 5, // Số lượng trang hiển thị
+        }
+    )
+</div>
+
+
+<div id="addCateModal" class="modal">
+    <div class="modal-content">
+        <span class="model__btn-close">&times;</span>
+        <h2>Nhập thông tin</h2>
+        <form action="@Url.Action("Add", "Categories")" method="post" class="addCateForm">
+            <label for="addCateForm-input">Tên danh mục</label>
+            <input type="text"
+                   id="addCateForm-input"
+                   name="name"
+                   placeholder="Nhập tên danh mục" required />
+            <div class="modal-actions">
+                @*<button type="" id="cancelBtn" class="model__btn-cancel">Hủy</button>*@
+                <button type="submit" class="model__btn-add">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="deleteCateModal" class="modal">
+    <div class="modal-content">
+        <span class="model__btn-close">&times;</span>
+        <h2>Xác nhận xóa</h2>
+        <p>Bạn có chắc chắn muốn xóa danh mục này không?</p>
+        <div class="modal-actions">
+            <button id="cancelBtn" class="model__btn-cancel">
+                Hủy
+            </button>
+            <a id="confirmDeleteBtn" href="#" class="model__btn-delete">Xóa</a>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const modal = document.getElementById('deleteCateModal')
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn')
+    const cancelBtn = document.getElementById('cancelBtn')
+    const closeBtns = document.querySelectorAll('.model__btn-close')
+
+    const deleteBtns = document.querySelectorAll('.DeleteElement')
+
+    deleteBtns.forEach((deleteBtn) => {
+        deleteBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            const cateid = deleteBtn.getAttribute('data-id')
+            confirmDeleteBtn.setAttribute('href', `@Url.Action("Detele", "Categories", new { id = "Cateid" })`.replace('Cateid', cateid))
+            modal.classList.add('display')
+        })
+    })
+
+    // Thêm danh mục
+    const addCateBtns = document.querySelectorAll('.addCateBtn')
+    const addCateModal = document.getElementById('addCateModal')
+
+    addCateBtns.forEach((addCateBtn) => {
+        addCateBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            addCateModal.classList.add('display')
+        })
+    })
+
+
+    // Sự kiện đóng modal khi nhấn x hoặc hủy, hoặc nhấn ra ngoài
+    cancelBtn.onclick = function () {
+        modal.classList.remove('display')
+        addCateModal.classList.remove('display')
+    }
+    closeBtns.forEach((closeBtn) => {
+        closeBtn.onclick = function () {
+            modal.classList.remove('display')
+            addCateModal.classList.remove('display')
+        }
+    })
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.classList.remove('display')
+        }
+        if (event.target === addCateModal) {
+            addCateModal.classList.remove('display')
+        }
+    }
+</script>
