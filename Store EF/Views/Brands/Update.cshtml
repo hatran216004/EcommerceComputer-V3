@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+
+}
+
+<style>
+    .CateUpdate {
+        flex-grow: 1;
+        margin-left: 16px;
+        padding: 60px;
+    }
+
+        .CateUpdate > .cate-bard__title {
+            text-align: center;
+        }
+</style>
+<div class="CateUpdate">
+    <div class="cate-bard__title">Sửa danh mục</div>
+    <div class="CateUpdate-main">
+        <form action="@Url.Action("Update", "Brands")" method="post" class="addCateForm">
+            <input type="hidden" name="BrandId" value="@ViewBag.BrandFind.BrandId" />
+            <label for="updateCateForm-input">Tên thương hiệu:</label>
+            <input type="text"
+                   id="updateCateForm-input"
+                   name="Name"
+                   value="@ViewBag.BrandFind.Name"
+                   placeholder="Nhập tên thương hiệu" required />
+            <div class="modal-actions">
+                <button type="submit" class="model__btn-add">Sửa</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
