@@ -8,47 +8,133 @@
     string account = ConfigurationManager.AppSettings["Account"];
     string fullName = ConfigurationManager.AppSettings["FullName"];
 }
+
 @if (Model.Method == "Bank")
 {
-    <img style="display:block; width:500px;height:500px;" src="data:image/png;base64,@Model.QR()" />
-    <p>Chủ tài khoản: @fullName</p>
-    <p>Số tài khoản: @account</p>
-    <p>Ngân hàng: @bank</p>
-    <p>Số tiền: @Helpers.FormattedPrice(Model.Order.TotalPrice())</p>
-    <p>Nội dung: @Model.Code</p>
-    <p>Mã thanh toán này sẽ hết hạn sau @Model.Expiry.ToString("hh:mm") ngày @Model.Expiry.ToString("dd-MM-yyyy")</p>
-    <p>Trạng thái: <span id="status">Chờ thanh toán</span></p>
-    using (Html.BeginForm("Cancel", "CheckOut", FormMethod.Post, new { id = "cancelPayment" })) {
-        <input type="hidden" value="@Model.PaymentId" name="paymentId" />
-        <button type="submit">Huỷ thanh toán</button>
-    }
-    <table>
-        <tr>
-            <th>Tên sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Đơn giá</th>
-        </tr>
-        @foreach (OrderDetail detail in Model.Order.OrderDetails)
-        {
-            <tr>
-                <td>@detail.Product.Title</td>
-                <td>@detail.Quantity</td>
-                <th>@Helpers.FormattedPrice(detail.Price)</th>
-            </tr>
+    @*<img style="display:block; width:500px;height:500px;" src="data:image/png;base64,@Model.QR()" />
+        <p>Chủ tài khoản: @fullName</p>
+        <p>Số tài khoản: @account</p>
+        <p>Ngân hàng: @bank</p>
+        <p>Số tiền: @Helpers.FormattedPrice(Model.Order.TotalPrice())</p>
+        <p>Nội dung: @Model.Code</p>
+        <p>Mã thanh toán này sẽ hết hạn sau @Model.Expiry.ToString("hh:mm") ngày @Model.Expiry.ToString("dd-MM-yyyy")</p>
+        <p>Trạng thái: <span id="status">Chờ thanh toán</span></p>
+        using (Html.BeginForm("Cancel", "CheckOut", FormMethod.Post, new { id = "cancelPayment" })) {
+            <input type="hidden" value="@Model.PaymentId" name="paymentId" />
+            <button type="submit">Huỷ thanh toán</button>
         }
-    </table>
+        <table>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+            </tr>
+            @foreach (OrderDetail detail in Model.Order.OrderDetails)
+            {
+                <tr>
+                    <td>@detail.Product.Title</td>
+                    <td>@detail.Quantity</td>
+                    <th>@Helpers.FormattedPrice(detail.Price)</th>
+                </tr>
+            }
+        </table>*@
+
+    <div class="payment">
+        <div class="payment__pay">
+            <div class="payment__pay-status">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" style="color: green" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"></path>
+                </svg>
+                <span>Đặt hàng thành công</span>
+            </div>
+            <div class="payment__pay-idorder">Mã đơn hàng: @Model.Order.OrderId</div>
+            <div class="payment__pay-guid">
+                <p>Hướng dẫn thanh toán qua chuyển khoản ngân hàng</p>
+            </div>
+            <div class="payment__pay-method">
+                <div class="payment__pay-method__qr">
+                    <div class="payment__pay-method__qr-title">
+                        Cách 1: Mở app ngân hàng và quét mã QR
+                    </div>
+                    <img src="data:image/png;base64,@Model.QR()"
+                         alt=""
+                         class="payment__pay-method__qr-img" />
+                    @*<a class="payment__pay-method__qr-down" href="#">
+                        <img src="~/Public/Imgs/download.svg" alt="" />Tải ảnh
+                        QR
+                    </a>*@
+                    <div class="payment__pay-method__qr-status">
+                        Trạng thái: <span id="status">Chờ thanh toán...</span>
+                    </div>
+                </div>
+                <div class="payment__pay-method__transfer">
+                    <div class="payment__pay-method__transfer-title">
+                        Cách 2: Chuyển khoản thủ công theo thông tin
+                    </div>
+                    <div class="payment__pay-method__transfer-logobank">
+                        <img src="~/Public/Imgs/MB.png" alt="" />
+                        <div>Ngân hàng MBBank</div>
+                    </div>
+                    <table class="payment__pay-method__transfer-info">
+                        <tbody>
+                            <tr>
+                                <td>Chủ tài khoản:</td>
+                                <td><b>@fullName</b></td>
+                            </tr>
+                            <tr>
+                                <td>Số TK:</td>
+                                <td><b>@bank</b></td>
+                            </tr>
+                            <tr>
+                                <td>Số tiền:</td>
+                                <td><b>@Helpers.FormattedPrice(Model.Order.TotalPrice())</b></td>
+                            </tr>
+                            <tr>
+                                <td>Nội dung chuyển khoản:</td>
+                                <td><b>@Model.Code</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="payment__pay-method__transfer-note">
+                        Lưu ý: Vui lòng giữ nguyên nội dung chuyển khoản để hệ thống tự động xác nhận thanh toán.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="payment__info-order">
+            <div class="payment__info-header">Thông tin đơn hàng</div>
+            <div class="payment__info-product-list">
+                @foreach (OrderDetail detail in Model.Order.OrderDetails)
+                {
+                    <div class="payment__info-block payment__info-product">
+                        <span class="payment__info-product-title ellipsis">
+                            @detail.Product.Title
+                        </span>
+                        <span class="payment__info-order-quantity">x @detail.Quantity</span>
+                        <span class="payment__info-product-price">@Helpers.FormattedPrice(detail.Price)</span>
+                    </div>
+                }
+            </div>
+            <div class="payment__info-block payment__info-product-total">
+                <span>Tổng:</span>
+                <span class="payment__info-product-total-price">@Helpers.FormattedPrice(Model.Order.TotalPrice())</span>
+            </div>
+        </div>
+    </div>
+
     <script>
         function startSSE() {
             var source = new EventSource('@Url.Action("Status", "CheckOut", new { code = Model.Code })');
             source.onmessage = function (event) {
                 const statusEle = document.getElementById("status");
-                const cancelPayment = document.getElementById("cancelPayment");
+                //const cancelPayment = document.getElementById("cancelPayment");
                 if (event.data == 'Succeeded') {
-                    cancelPayment.style.visibility = "hidden"
+                    //cancelPayment.style.visibility = "hidden"
                     statusEle.innerText = "Thanh toán thành công";
                     source.close();
                 } else if (event.data == 'Failed') {
-                    cancelPayment.style.visibility = "hidden"
+                    //cancelPayment.style.visibility = "hidden"
                     statusEle.innerText = "Thanh toán thất bại";
                     source.close();
                 }

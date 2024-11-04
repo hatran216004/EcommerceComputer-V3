@@ -1,0 +1,183 @@
+﻿/* Payment */
+.payment {
+    margin-top: 16px;
+    display: flex;
+}
+
+.payment__pay {
+    width: 60%;
+}
+
+.payment__info-order {
+    width: 30%;
+    background-color: #f8f9fa;
+}
+
+.payment__pay-status {
+    display: flex;
+    align-items: center;
+}
+
+    .payment__pay-status img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .payment__pay-status span {
+        font-size: 3.5rem;
+        font-weight: 600;
+        margin-left: 16px;
+    }
+
+.payment__pay-idorder {
+    margin-top: 8px;
+    opacity: 0.5;
+}
+
+.payment__pay-guid {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 48px;
+}
+
+    .payment__pay-guid p {
+        width: fit-content;
+        margin: 0 auto;
+        font-size: 1.6rem;
+        padding: 16px 0;
+    }
+
+.payment__pay-method {
+    margin-top: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+}
+
+.payment__pay-method__qr {
+    padding: 8px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.payment__pay-method__qr-title {
+    margin-bottom: 16px;
+}
+
+.payment__pay-method__qr-img {
+    width: 80%;
+}
+
+.payment__pay-method__qr-down {
+    margin: 8px 0 16px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+}
+
+    .payment__pay-method__qr-down img {
+        width: 14px;
+        margin-right: 8px;
+    }
+
+.payment__pay-method__qr-status {
+    margin-bottom: 16px;
+    font-size: 1.6rem;
+}
+
+.payment__pay-method__transfer {
+    width: 50%;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+}
+
+.payment__pay-method__transfer-title {
+    margin-bottom: 16px;
+}
+
+.payment__pay-method__transfer-logobank {
+    margin-bottom: 16px;
+}
+
+    .payment__pay-method__transfer-logobank img {
+        width: 140px;
+    }
+
+    .payment__pay-method__transfer-logobank div {
+        font-size: 1.6rem;
+        font-weight: 600;
+    }
+
+.payment__pay-method__transfer-info {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+    .payment__pay-method__transfer-info tr {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .payment__pay-method__transfer-info td {
+        padding: 8px;
+    }
+
+        .payment__pay-method__transfer-info td > b {
+            font-weight: 600;
+        }
+
+.payment__pay-method__transfer-note {
+    padding: 8px;
+    background-color: #f8f9fa;
+}
+
+.payment__info-order {
+    width: 40%;
+    padding: 0 16px;
+}
+
+.payment__info-header {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.payment__info-block {
+    background-color: #fff;
+    padding: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 1);
+    display: flex;
+}
+
+.payment__info-product-title {
+    width: 50%;
+}
+
+.payment__info-order-quantity {
+    margin-left: 16px;
+    width: 10%;
+}
+
+.payment__info-product-price {
+    flex-grow: 1;
+    text-align: right;
+}
+
+.payment__info-product-total {
+    justify-content: space-between;
+}
+
+    .payment__info-product-total span:first-child {
+        font-weight: 600;
+    }
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
