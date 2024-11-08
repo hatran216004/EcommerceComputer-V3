@@ -390,5 +390,39 @@ namespace Store_EF.Controllers
             TempData["SuccessMessage"] = "Cập nhật sản phẩm thành công!";
             return RedirectToAction("ProductManagement");
         }
+
+
+        public ActionResult UpdatePromo ()
+        {
+            ViewBag.Categories = store.Categories.ToList();
+            ViewBag.Brands = store.Brands.ToList();
+            ViewBag.Products = store.Products.ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePromo(Nullable<int> brandID, Nullable<int> categoryID, Nullable<int> percent,  Nullable<int> price )
+        {
+            try
+            {
+                int rowsAffected = store.UpdatePromoPrice(brandID, categoryID, percent, price);
+
+                if (rowsAffected > 0)
+                {
+                    TempData["SuccessMessage"] = "Cập nhật giá khuyến mãi thành công cho " + rowsAffected + " sản phẩm";
+                }
+                else
+                {
+                    TempData["SuccessMessage"] = "Không có sản phẩm nào được cập nhật. ";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Lỗi khi cập nhật giá khuyến mãi: " + ex.Message;
+            }
+
+            return RedirectToAction("UpdatePromo", "Products");
+        }
+
     }
 }

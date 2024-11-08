@@ -421,6 +421,7 @@
     <Content Include="Views\Categories\Update.cshtml" />
     <Content Include="Views\Brands\Update.cshtml" />
     <Content Include="Views\Auth\ForgotPassword.cshtml" />
+    <Content Include="Views\Products\UpdatePromo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

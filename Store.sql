@@ -281,6 +281,67 @@ BEGIN
 END
 GO
 
+GO
+CREATE OR ALTER FUNCTION GetProductDiscountPercent (@ProductId INT)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @DiscountPercent INT;
+    SELECT @DiscountPercent = 
+        CASE 
+            WHEN PromoPrice IS NULL THEN 0
+            ELSE (100 * (Price - PromoPrice)) / Price
+        END
+    FROM Product
+    WHERE ProductId = @ProductId;
+    RETURN @DiscountPercent;
+END;
+GO
+
+GO
+CREATE OR ALTER PROCEDURE UpdatePromoPrice
+    @BrandId INT = NULL,
+    @CategoryId INT = NULL,
+    @DiscountPercent INT = NULL, 
+    @DiscountMoney INT = NULL 
+AS
+BEGIN
+    IF @BrandId IS NULL AND @CategoryId IS NULL
+    BEGIN
+        RAISERROR('Cần ít nhất một giá trị cho @BrandId hoặc @CategoryId.', 16, 1);
+        RETURN;
+    END
+
+    IF @DiscountPercent IS NOT NULL AND (@DiscountPercent <= 0 OR @DiscountPercent > 100)
+    BEGIN
+        RAISERROR('DiscountPercent phải nằm trong khoảng từ 1 đến 100.', 16, 1);
+        RETURN;
+    END
+
+	IF @DiscountMoney IS NOT NULL AND (@DiscountMoney <= 1000)
+    BEGIN
+        RAISERROR('DiscountMoney phải lớn hơn 1.000 VND.', 16, 1);
+        RETURN;
+    END
+
+    IF @DiscountPercent IS NULL AND @DiscountMoney IS NULL
+    BEGIN
+        RAISERROR('Cần ít nhất một giá trị @DiscountPercent hoặc @DiscountMoney.', 16, 1);
+        RETURN;
+    END
+
+    UPDATE Product
+    SET PromoPrice = CASE 
+                        WHEN @DiscountPercent IS NOT NULL THEN Price - (Price * @DiscountPercent / 100)
+                        WHEN @DiscountMoney IS NOT NULL THEN Price - @DiscountMoney
+                     END,
+        UpdatedAt = GETDATE()
+    WHERE
+        (@CategoryId IS NULL OR CategoryId = @CategoryId)
+        AND (@BrandId IS NULL OR BrandId = @BrandId);
+END;
+GO
+
 
 
 -- Thêm thương hiệu
@@ -300,3 +361,5 @@ VALUES
 ('Tablet'),
 ('Monitor'),
 ('Accessory')
+
+

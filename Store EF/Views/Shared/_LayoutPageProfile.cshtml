@@ -51,14 +51,6 @@
                         <h5 class="admin-nav__heading">Quản trị viên</h5>
                         <ul class="side-nav">
                             <li>
-                                <a href="@Url.Action("ProductManagement", "Products")">
-                                    <svg>
-                                        <use xlink:href="img/icons.svg#icon-map"></use>
-                                    </svg>
-                                    Quản lý sản phẩm
-                                </a>
-                            </li>
-                            <li>
                                 <a href="@Url.Action("UserManagement", "UserAccount")">
                                     <svg>
                                         <use xlink:href="img/icons.svg#icon-users"></use>
@@ -67,11 +59,27 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="@Url.Action("ProductManagement", "Products")">
+                                    <svg>
+                                        <use xlink:href="img/icons.svg#icon-map"></use>
+                                    </svg>
+                                    Quản lý sản phẩm
+                                </a>
+                            </li>
+                            <li>
                                 <a href="@Url.Action("Index", "Categories")">
                                     <svg>
                                         <use xlink:href="img/icons.svg#icon-users"></use>
                                     </svg>
                                     Quản lý danh mục
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Brands")">
+                                    <svg>
+                                        <use xlink:href="img/icons.svg#icon-users"></use>
+                                    </svg>
+                                    Quản lý thương hiệu
                                 </a>
                             </li>
                         </ul>

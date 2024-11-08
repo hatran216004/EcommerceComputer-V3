@@ -62,7 +62,7 @@
                             <div class="product__img">
                                 <img src="~/Public/imgs/Products/@p.Thumbnail(store)" alt="" />
                                 @{
-                                    double result = p.DiscountPercentage();
+                                    var result = p.DiscountPercentage();
                                     if (result != 0)
                                     {
                                         <div class="product__sale">-@result%</div>
