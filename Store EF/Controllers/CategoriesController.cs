@@ -1,12 +1,9 @@
 ﻿using PagedList;
-using Serilog;
 using Store_EF.Models;
-using Store_EF.Models.Extensions;
 using System;
-using System.Drawing.Printing;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace Store_EF.Controllers
@@ -31,7 +28,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 return View();
             }
         }
@@ -57,7 +54,7 @@ namespace Store_EF.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Log.Error(ex.ToString());
+                        Debug.WriteLine(ex);
                         return RedirectToAction("Index");
                     }
                 }
@@ -85,12 +82,12 @@ namespace Store_EF.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.ToString());
+                    Debug.WriteLine(ex);
                     return RedirectToAction("Index");
                 }
 
             }
-            else 
+            else
             {
                 TempData["FailMessage"] = "Category is being used with the product!";
                 return RedirectToAction("Index");
@@ -100,7 +97,7 @@ namespace Store_EF.Controllers
         {
             Category cate = store.Categories.FirstOrDefault(t => t.CategoryId == id);
             ViewBag.test = cate;
-            return View("Update"); 
+            return View("Update");
         }
         [HttpPost]
         public ActionResult Update(Category cate)
@@ -108,7 +105,7 @@ namespace Store_EF.Controllers
             Category tmpCate = store.Categories.FirstOrDefault(t => t.CategoryId == cate.CategoryId);
             tmpCate.Name = cate.Name;
             store.SaveChanges();
-            return RedirectToAction("Index"); 
+            return RedirectToAction("Index");
         }
     }
 }

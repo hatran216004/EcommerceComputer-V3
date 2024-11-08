@@ -1,5 +1,5 @@
-﻿using Serilog;
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -94,7 +94,7 @@ namespace Store_EF.Models.Extensions
             catch (Exception ex)
             {
                 store.Products.Remove(p);
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 productId = 0;
                 return false;
             }
@@ -135,7 +135,7 @@ namespace Store_EF.Models.Extensions
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                Debug.WriteLine(ex);
                 productId = 0;
                 return false;
             }
