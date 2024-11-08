@@ -79,7 +79,7 @@
       <HintPath>..\packages\MimeKit.4.8.0\lib\net47\MimeKit.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.3\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
     </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -275,6 +275,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StoreDb.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\SupportEntities.cs" />
     <Compile Include="Models\User.cs">
       <DependentUpon>StoreDb.tt</DependentUpon>
     </Compile>
