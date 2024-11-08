@@ -51,8 +51,10 @@ namespace Store_EF.Models.Extensions
 
         public static double DiscountPercentage(this Product p)
         {
+            StoreEntities db = new StoreEntities();
+            var result = db.GetProductDiscountPercent(p.ProductId);
             if (p.PromoPrice.HasValue)
-                return Math.Round((double)(p.Price - p.PromoPrice.Value) / p.Price * 100);
+                return result;
             else
                 return 0;
         }

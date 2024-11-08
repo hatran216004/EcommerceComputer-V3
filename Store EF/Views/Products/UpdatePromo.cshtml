@@ -1,0 +1,149 @@
+﻿@using Store_EF.Models;
+@using Store_EF;
+@model Product
+@using Store_EF.Models.Extensions;
+@{
+    ViewBag.Title = "UpdatePromo";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+    StoreEntities store = new StoreEntities();
+
+}
+
+<div class="add-product__main">
+    <div class="add-product__header">
+        <div class="add-product__title">Cập nhật giá</div>
+    </div>
+    <form action="@Url.Action("UpdatePromo", "Products")" method="post" class="add-product__form">
+        <div class="add-product__form-info">
+            <div class="add-product__form-info-title add-product__form-info-title--center">
+                Cập nhật khuyến mãi
+            </div>
+            <div class="add-product__form-info-detail">
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label"
+                           for="price">
+                        Khuyến mãi
+                    </label>
+                    <input id="typePromotion"
+                           class="add-product__form-text"
+                           type="number"
+                           name="price"
+                           placeholder="" />
+                    <div class="add-product__radios">
+                        <label for="radioPercent">Phần trăm</label>
+                        <input id="radioPercent" type="radio" name="typePromotion" value="percent" checked />
+
+                        <label for="radioMoney">VND</label>
+                        <input id="radioMoney" type="radio" name="typePromotion" value="vnd" />
+                    </div>
+                </div>
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label"
+                           for="category">Danh mục</label>
+                    <select class="add-product__form-text"
+                            name="categoryID"
+                            id="categoryID">
+                        <option value="">Rỗng</option>
+                        @{
+                            foreach (Category c in ViewBag.Categories)
+                            {
+                                <option value="@c.CategoryId">@c.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label"
+                           for="category">Thương hiệu</label>
+                    <select class="add-product__form-text"
+                            name="brandID"
+                            id="brandID">
+                        <option value="">Rỗng</option>
+                        @{
+                            foreach (Brand c in ViewBag.Brands)
+                            {
+                                <option value="@c.BrandId">@c.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="add-product__action add-product__action--center">
+                <button>Xác nhận</button>
+            </div>
+        </div>
+
+        <div class="add-product__form-info add-product__form-info--center">
+            <div class="add-product__form-info-title add-product__form-info-title--center">
+                Danh sách sản phẩm
+            </div>
+
+            <div class="add-product__form-list">
+                @foreach (Product p in ViewBag.Products)
+                {
+                    <div data-brandid="@p.BrandId" data-categoryid="@p.CategoryId" class="add-product__form-product">
+                        <div class="add-product__form-product-thumbnail">
+                            <img src="~/Public/Imgs/Products/@p.Thumbnail(store)" alt="" />
+                        </div>
+                        <div class="add-product__form-product-title ellipsis">@p.Title</div>
+                        <div class="add-product__form-product-prices">
+                            <div class="add-product__form-product-promo">@p.PromoPrice</div>
+                            <div class="add-product__form-product-price">@p.Price</div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    const inputElement = document.getElementById('typePromotion')
+    const radioButtonPersent = document.getElementById('radioPercent')
+    const radioButtonMoney = document.getElementById('radioMoney')
+    const brandIDElement = document.getElementById('brandID');
+    const categoryIDElement = document.getElementById('categoryID');
+    const productList = document.querySelectorAll(".add-product__form-product");
+
+    function updatePlaceholder() {
+        if (radioButtonPersent.checked) {
+            inputElement.placeholder = 'Nhập phần trăm 1-100'
+            inputElement.name = "percent"
+            inputElement.max = '100'
+            inputElement.min = '0'
+        } else if (radioButtonMoney.checked) {
+            inputElement.placeholder = 'Nhập giá trị VND >= 1.000'
+            inputElement.name = "price"
+            inputElement.removeAttribute('max')
+            inputElement.min = '1000'
+        }
+    }
+
+    radioButtonPersent.addEventListener('change', updatePlaceholder)
+    radioButtonMoney.addEventListener('change', updatePlaceholder)
+
+    updatePlaceholder()
+
+    function filterProducts() {
+        const selectedBrandID = brandIDElement.value;
+        const selectedCategoryID = categoryIDElement.value;
+
+        productList.forEach(product => {
+            const productBrandID = product.getAttribute("data-brandid");
+            const productCategoryID = product.getAttribute("data-categoryid");
+
+            const brandMatch = !selectedBrandID || productBrandID === selectedBrandID;
+            const categoryMatch = !selectedCategoryID || productCategoryID === selectedCategoryID;
+            if (brandMatch && categoryMatch) {
+                product.classList.remove("hidden");
+            } else {
+                product.classList.add("hidden");
+            }
+        });
+    }
+
+    brandIDElement.addEventListener("change", filterProducts);
+    categoryIDElement.addEventListener("change", filterProducts);
+
+</script>

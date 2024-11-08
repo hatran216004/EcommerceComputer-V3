@@ -14,7 +14,9 @@ namespace Store_EF.Models
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
-    
+    using System.Data.SqlClient;
+    using System.Data;
+
     public partial class StoreEntities : DbContext
     {
         public StoreEntities()
@@ -47,5 +49,28 @@ namespace Store_EF.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdatePaymentStatus", userIdParameter);
         }
+
+        public virtual int GetProductDiscountPercent(int productId)
+        {
+            var productIdParameter = new SqlParameter("@ProductId", SqlDbType.Int);
+            productIdParameter.Value = productId;
+            string query = "SELECT dbo.GetProductDiscountPercent(@ProductId) AS DiscountPercent";
+            var result = ((IObjectContextAdapter)this).ObjectContext
+                         .ExecuteStoreQuery<int>(query, productIdParameter)
+                         .FirstOrDefault();
+            return result;
+        }
+        public virtual int UpdatePromoPrice(int? brandId, int? categoryId, int? discountPercent, int? discountMoney)
+        {
+            var brandIdParameter = brandId.HasValue ? new SqlParameter("@BrandId", brandId) : new SqlParameter("@BrandId", DBNull.Value);
+            var categoryIdParameter = categoryId.HasValue ? new SqlParameter("@CategoryId", categoryId) : new SqlParameter("@CategoryId", DBNull.Value);
+            var discountPercentParameter = discountPercent.HasValue ? new SqlParameter("@DiscountPercent", discountPercent) : new SqlParameter("@DiscountPercent", DBNull.Value);
+            var discountMoneyParameter = discountMoney.HasValue ? new SqlParameter("@DiscountMoney", discountMoney) : new SqlParameter("@DiscountMoney", DBNull.Value);
+
+            return this.Database.ExecuteSqlCommand(
+                "EXEC UpdatePromoPrice @BrandId, @CategoryId, @DiscountPercent, @DiscountMoney",
+                brandIdParameter, categoryIdParameter, discountPercentParameter, discountMoneyParameter);
+        }
+
     }
 }
