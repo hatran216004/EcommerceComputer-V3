@@ -17,15 +17,18 @@
 }
 
 .pm__btn-add-warp {
+    display: flex;
+    width: 100%;
     padding: 4px;
-    width: fit-content;
     border-radius: 10px;
     cursor: pointer;
 }
-
-    .pm__btn-add-warp:hover {
-        opacity: 0.9;
-    }
+.pm__btn-add + .pm__btn-add {
+    margin-left: 16px;
+}
+.pm__btn-add-warp:hover {
+    opacity: 0.9;
+}
 
 .pm__btn-add {
     display: flex;
@@ -99,12 +102,16 @@
     -webkit-line-clamp: 2;
     white-space: pre-wrap;
 }
-
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 /* add product page */
 
 .add-product__main {
     margin-left: 16px;
-    flex-grow: 1;
+    width: 74%;
 }
 
 .add-product__header {
@@ -128,7 +135,6 @@
 
     .add-product__action button {
         color: #fff;
-        /*        background-color:blue;*/
         padding: 16px 0;
         width: 100%;
         cursor: pointer;
@@ -251,6 +257,70 @@
         object-fit: cover;
     }
 
+/* Update procduct */
+.add-product__radios {
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+    .add-product__radios label {
+        margin-right: 8px;
+    }
+
+    .add-product__radios input {
+        margin: -2px 16px 0 0;
+    }
+.add-product__action--center {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.add-product__form-info-title--center {
+    text-align: center;
+}
+
+.add-product__form-info + .add-product__form-info {
+    border-left: none;
+}
+
+.add-product__form-list {
+    overflow: hidden;
+    overflow-y: auto;
+    margin-right: -8px;
+    height: 460px;
+}
+
+.add-product__form-product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-right: 8px;
+}
+
+.add-product__form-product-thumbnail img {
+    width: 80px;
+    margin-right: 8px;
+}
+.add-product__form-product-title {
+    width: 50%;
+}
+.add-product__form-product-prices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-grow: 1;
+}
+.add-product__form-product-price {
+    text-decoration: line-through;
+    opacity: 0.5;
+    font-size: 1.4rem;
+}
+.hidden {
+    display: none;
+}
 /*Modal*/
 .modal {
     position: fixed;

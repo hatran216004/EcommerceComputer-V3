@@ -130,7 +130,7 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="DateOfBirth" Type="date" />
         </EntityType>
-        <Association Name="FK__Cart__ProductId__59C55456">
+        <Association Name="FK__Cart__ProductId__5535A963">
           <End Role="Product" Type="Self.Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -144,7 +144,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Cart__UserId__58D1301D">
+        <Association Name="FK__Cart__UserId__5441852A">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
@@ -156,7 +156,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Gallery__Product__55009F39">
+        <Association Name="FK__Gallery__Product__5070F446">
           <End Role="Product" Type="Self.Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -170,7 +170,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Order__UserId__607251E5">
+        <Association Name="FK__Order__UserId__5BE2A6F2">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -182,7 +182,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Order__6442E2C9">
+        <Association Name="FK__OrderDeta__Order__5FB337D6">
           <End Role="Order" Type="Self.Order" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -196,7 +196,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Produ__65370702">
+        <Association Name="FK__OrderDeta__Produ__60A75C0F">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -208,7 +208,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Payment__OrderId__690797E6">
+        <Association Name="FK__Payment__OrderId__6477ECF3">
           <End Role="Order" Type="Self.Order" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -222,7 +222,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product__BrandId__503BEA1C">
+        <Association Name="FK__Product__BrandId__4BAC3F29">
           <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -234,7 +234,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product__Categor__51300E55">
+        <Association Name="FK__Product__Categor__4CA06362">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -246,7 +246,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__ProductI__756D6ECB">
+        <Association Name="FK__Review__ProductI__70DDC3D8">
           <End Role="Product" Type="Self.Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -260,7 +260,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__UserId__74794A92">
+        <Association Name="FK__Review__UserId__6FE99F9F">
           <End Role="User" Type="Self.User" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -274,7 +274,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserDetai__UserI__43D61337">
+        <Association Name="FK__UserDetai__UserI__3F466844">
           <End Role="User" Type="Self.User" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -314,51 +314,51 @@
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Cart__ProductId__59C55456" Association="Self.FK__Cart__ProductId__59C55456">
+          <AssociationSet Name="FK__Cart__ProductId__5535A963" Association="Self.FK__Cart__ProductId__5535A963">
             <End Role="Product" EntitySet="Product" />
             <End Role="Cart" EntitySet="Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK__Cart__UserId__58D1301D" Association="Self.FK__Cart__UserId__58D1301D">
+          <AssociationSet Name="FK__Cart__UserId__5441852A" Association="Self.FK__Cart__UserId__5441852A">
             <End Role="User" EntitySet="User" />
             <End Role="Cart" EntitySet="Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK__Gallery__Product__55009F39" Association="Self.FK__Gallery__Product__55009F39">
+          <AssociationSet Name="FK__Gallery__Product__5070F446" Association="Self.FK__Gallery__Product__5070F446">
             <End Role="Product" EntitySet="Product" />
             <End Role="Gallery" EntitySet="Gallery" />
           </AssociationSet>
-          <AssociationSet Name="FK__Order__UserId__607251E5" Association="Self.FK__Order__UserId__607251E5">
+          <AssociationSet Name="FK__Order__UserId__5BE2A6F2" Association="Self.FK__Order__UserId__5BE2A6F2">
             <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Order__6442E2C9" Association="Self.FK__OrderDeta__Order__6442E2C9">
+          <AssociationSet Name="FK__OrderDeta__Order__5FB337D6" Association="Self.FK__OrderDeta__Order__5FB337D6">
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Produ__65370702" Association="Self.FK__OrderDeta__Produ__65370702">
+          <AssociationSet Name="FK__OrderDeta__Produ__60A75C0F" Association="Self.FK__OrderDeta__Produ__60A75C0F">
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Payment__OrderId__690797E6" Association="Self.FK__Payment__OrderId__690797E6">
+          <AssociationSet Name="FK__Payment__OrderId__6477ECF3" Association="Self.FK__Payment__OrderId__6477ECF3">
             <End Role="Order" EntitySet="Order" />
             <End Role="Payment" EntitySet="Payment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product__BrandId__503BEA1C" Association="Self.FK__Product__BrandId__503BEA1C">
+          <AssociationSet Name="FK__Product__BrandId__4BAC3F29" Association="Self.FK__Product__BrandId__4BAC3F29">
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product__Categor__51300E55" Association="Self.FK__Product__Categor__51300E55">
+          <AssociationSet Name="FK__Product__Categor__4CA06362" Association="Self.FK__Product__Categor__4CA06362">
             <End Role="Category" EntitySet="Category" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__ProductI__756D6ECB" Association="Self.FK__Review__ProductI__756D6ECB">
+          <AssociationSet Name="FK__Review__ProductI__70DDC3D8" Association="Self.FK__Review__ProductI__70DDC3D8">
             <End Role="Product" EntitySet="Product" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__UserId__74794A92" Association="Self.FK__Review__UserId__74794A92">
+          <AssociationSet Name="FK__Review__UserId__6FE99F9F" Association="Self.FK__Review__UserId__6FE99F9F">
             <End Role="User" EntitySet="User" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserDetai__UserI__43D61337" Association="Self.FK__UserDetai__UserI__43D61337">
+          <AssociationSet Name="FK__UserDetai__UserI__3F466844" Association="Self.FK__UserDetai__UserI__3F466844">
             <End Role="User" EntitySet="User" />
             <End Role="UserDetail" EntitySet="UserDetail" />
           </AssociationSet>
