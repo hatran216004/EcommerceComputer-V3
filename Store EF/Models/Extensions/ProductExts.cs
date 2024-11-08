@@ -23,8 +23,9 @@ namespace Store_EF.Models.Extensions
             }
         }
 
-        public static string Thumbnail(this Product p, StoreEntities store)
+        public static string Thumbnail(this Product p)
         {
+            StoreEntities store = new StoreEntities();
             try
             {
                 var primaryGallery = store.Galleries.FirstOrDefault(x => x.IsPrimary == true && x.ProductId == p.ProductId);
