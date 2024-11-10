@@ -23,8 +23,9 @@ namespace Store_EF.Models.Extensions
             }
         }
 
-        public static string Thumbnail(this Product p, StoreEntities store)
+        public static string Thumbnail(this Product p)
         {
+            StoreEntities store = new StoreEntities();
             try
             {
                 var primaryGallery = store.Galleries.FirstOrDefault(x => x.IsPrimary == true && x.ProductId == p.ProductId);
@@ -48,15 +49,21 @@ namespace Store_EF.Models.Extensions
             }
         }
 
-
-        public static double DiscountPercentage(this Product p)
+        public static int CountReviews(this Product p)
         {
-            StoreEntities db = new StoreEntities();
-            var result = db.GetProductDiscountPercent(p.ProductId);
-            if (p.PromoPrice.HasValue)
-                return result;
-            else
-                return 0;
+            SupportEntities support = new SupportEntities();
+            return support.CountReviews(p.ProductId);
+        }
+        public static int DiscountPercentage(this Product p)
+        {
+            SupportEntities support = new SupportEntities();
+            return support.GetProductDiscountPercent(p.ProductId);
+        }
+
+        public static double StartAVG(this Product p)
+        {
+            SupportEntities support = new SupportEntities();
+            return support.StarAVG(p.ProductId);
         }
 
         public static string FormattedPrice(this Product p, bool original = false, int quantity = 1)

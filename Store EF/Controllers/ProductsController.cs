@@ -92,6 +92,7 @@ namespace Store_EF.Controllers
                 if (p == null)
                     return RedirectToAction("Index");
                 ViewBag.Galleries = store.Galleries.Where(x => x.ProductId == p.ProductId);
+                ViewBag.Similar = store.Products.Where(x => x.CategoryId == p.CategoryId).ToList().OrderByDescending(x => x.DiscountPercentage()).Take(7);
                 return View(p);
             }
             catch (Exception ex)

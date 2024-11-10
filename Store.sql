@@ -282,24 +282,24 @@ END
 GO
 
 GO
-CREATE OR ALTER FUNCTION GetProductDiscountPercent (@ProductId INT)
+CREATE OR ALTER FUNCTION GetProductDiscountPercent(@ProductId INT)
 RETURNS INT
 AS
 BEGIN
-    DECLARE @DiscountPercent INT;
+    DECLARE @DiscountPercent INT
     SELECT @DiscountPercent = 
         CASE 
             WHEN PromoPrice IS NULL THEN 0
             ELSE (100 * (Price - PromoPrice)) / Price
         END
     FROM Product
-    WHERE ProductId = @ProductId;
-    RETURN @DiscountPercent;
-END;
+    WHERE ProductId = @ProductId
+    RETURN @DiscountPercent
+END
 GO
 
 GO
-CREATE OR ALTER PROCEDURE UpdatePromoPrice
+CREATE OR ALTER PROC UpdatePromoPrice
     @BrandId INT = NULL,
     @CategoryId INT = NULL,
     @DiscountPercent INT = NULL, 
@@ -342,7 +342,28 @@ BEGIN
 END;
 GO
 
+GO
+CREATE OR ALTER PROC CountReviews @ProductId INT
+AS
+BEGIN
+	DECLARE @Count INT = (SELECT COUNT(*) FROM Review WHERE ProductId = @ProductId)
+	RETURN @Count
+END
+GO
 
+DECLARE @Out Int
+EXEC @Out = CountReviews 1
+SELECT @Out
+
+GO
+CREATE OR ALTER FUNCTION StarAVG (@ProductId INT)
+RETURNS FLOAT
+AS
+BEGIN
+	DECLARE @Out FLOAT = (SELECT AVG(CAST(Rating AS float)) FROM Review WHERE ProductId = @ProductId)
+	RETURN @Out
+END
+GO
 
 -- Thêm thương hiệu
 INSERT INTO Brand (Name)

@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = Model.Title;
     IEnumerable<Gallery> Galleries = ViewBag.Galleries;
+    StoreEntities store = new StoreEntities();
 }
 
 <style>
@@ -61,7 +62,7 @@
                 <!-- Product review -->
                 <div class="col-5 col-xl-6 col-lg-12">
                     <div class="prod-preview">
-                        @*@if (ViewBag.Galleries != null)
+                        @if (ViewBag.Galleries != null)
                         {
                             <div class="prod-preview__list">
                                 @foreach (Gallery gallery in Galleries)
@@ -84,7 +85,7 @@
                                              class="prod-preview__thumb-img" />
                                 }
                             </div>
-                        }*@
+                        }
                     </div>
                 </div>
                 <!-- Product info -->
@@ -101,7 +102,7 @@
                                              alt=""
                                              class="prod-property__icon" />
                                         <h4 class="prod-property__title">
-                                            (3.5) 1100 reviews
+                                            (@Model.StartAVG()) @Model.CountReviews() bình luận
                                         </h4>
                                     </div>
                                     <label for=""
@@ -239,83 +240,25 @@
                             Các sản phẩm tương tự
                         </h2>
                         <div class="product__list">
-                            <!-- 1 -->
-                            <a class="product__item product__similar" href="#!">
-                                <div class="product__img">
-                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                                    <div class="product__sale">-7%</div>
-                                </div>
-                                <div class="product__info">
-                                    <h3 class="product__name">Sản phẩm 1</h3>
-                                    <div class="products__price">Giá: 30.000.000</div>
-                                </div>
-                            </a>
-                            <!-- 2 -->
-                            <a class="product__item product__similar" href="#!">
-                                <div class="product__img">
-                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                                    <div class="product__sale">-7%</div>
-                                </div>
-                                <div class="product__info">
-                                    <h3 class="product__name">Sản phẩm 1</h3>
-                                    <div class="products__price">Giá: 30.000.000</div>
-                                </div>
-                            </a>
-                            <!-- 3 -->
-                            <a class="product__item product__similar" href="#!">
-                                <div class="product__img">
-                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                                    <div class="product__sale">-7%</div>
-                                </div>
-                                <div class="product__info">
-                                    <h3 class="product__name">Sản phẩm 1</h3>
-                                    <div class="products__price">Giá: 30.000.000</div>
-                                </div>
-                            </a>
-                            <!-- 4 -->
-                            <a class="product__item product__similar" href="#!">
-                                <div class="product__img">
-                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                                    <div class="product__sale">-7%</div>
-                                </div>
-                                <div class="product__info">
-                                    <h3 class="product__name">Sản phẩm 1</h3>
-                                    <div class="products__price">Giá: 30.000.000</div>
-                                </div>
-                            </a>
-                            <!-- 5 -->
-                            <a class="product__item product__similar" href="#!">
-                                <div class="product__img">
-                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                                    <div class="product__sale">-7%</div>
-                                </div>
-                                <div class="product__info">
-                                    <h3 class="product__name">Sản phẩm 1</h3>
-                                    <div class="products__price">Giá: 30.000.000</div>
-                                </div>
-                            </a>
-                            <!-- 6 -->
-                            <a class="product__item product__similar" href="#!">
-                                <div class="product__img">
-                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                                    <div class="product__sale">-7%</div>
-                                </div>
-                                <div class="product__info">
-                                    <h3 class="product__name">Sản phẩm 1</h3>
-                                    <div class="products__price">Giá: 30.000.000</div>
-                                </div>
-                            </a>
-                            <!-- 7 -->
-                            <a class="product__item product__similar" href="#!">
-                                <div class="product__img">
-                                    <img src="https://plus.unsplash.com/premium_photo-1729532979763-d9b4ba75f5a6?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                                    <div class="product__sale">-7%</div>
-                                </div>
-                                <div class="product__info">
-                                    <h3 class="product__name">Sản phẩm 1</h3>
-                                    <div class="products__price">Giá: 30.000.000</div>
-                                </div>
-                            </a>
+                            @foreach (Product p in ViewBag.Similar)
+                            {
+                                <a class="product__item product__similar" href="@Url.Action("Detail", "Products", new { Id = p.ProductId })">
+                                    <div class="product__img">
+                                        <img src="~/Public/imgs/Products/@p.Thumbnail()" alt="" />
+                                        @{
+                                            var result = p.DiscountPercentage();
+                                            if (result != 0)
+                                            {
+                                                <div class="product__sale">-@result%</div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">@p.Title</h3>
+                                        <div class="products__price">Giá: @p.FormattedPrice()</div>
+                                    </div>
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Word\Year 3\Semester 1\Project\Store EF\Models\StoreDb.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Ngoc Cuong\Source\Repos\EcommerceComputer-V3\Store EF\Models\StoreDb.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
