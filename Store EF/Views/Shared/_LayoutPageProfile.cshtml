@@ -15,6 +15,7 @@
     <link href="~/Public/css/cart.css" rel="stylesheet" />
     <link href="~/Public/css/admin.css" rel="stylesheet" />
     <link href="~/Public/css/CategoryBrand.css" rel="stylesheet" />
+    <link href="~/Public/css/ordermanagement.css" rel="stylesheet" />
     <style>
         .main {
             margin-top: 40px;
@@ -79,6 +80,14 @@
                                         <use xlink:href="img/icons.svg#icon-users"></use>
                                     </svg>
                                     Quản lý thương hiệu
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Management", "Order")">
+                                    <svg>
+                                        <use xlink:href="img/icons.svg#icon-users"></use>
+                                    </svg>
+                                    Quản lý đơn hàng
                                 </a>
                             </li>
                         </ul>

@@ -20,6 +20,17 @@ namespace Store_EF.Controllers
             return View(store.Orders.Where(x => x.UserId == userId).OrderByDescending(x => x.CreatedAt));
         }
 
+        public ActionResult Management()
+        {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
+            return View(store.Orders.OrderByDescending(x => x.CreatedAt));
+        }
+
         public ActionResult Invoice(int id = 0)
         {
             if (Session["UserId"] == null)
@@ -52,7 +63,14 @@ namespace Store_EF.Controllers
             User user = store.Users.First(x => x.UserId == userId);
             if (!user.IsConfirm)
                 return RedirectToAction("Verify", "Home");
-            Order detail = store.Orders.FirstOrDefault(x => x.OrderId == id && x.UserId == userId);
+            Order detail;
+            if (user.RoleName == "Admin")
+            {
+                detail = store.Orders.FirstOrDefault(x => x.OrderId == id);
+            } else
+            {
+                detail = store.Orders.FirstOrDefault(x => x.OrderId == id && x.UserId == userId);
+            }
             if (detail == null)
                 return RedirectToAction("Index");
             return View(detail);
