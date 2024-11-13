@@ -15,7 +15,8 @@ CREATE TABLE [User] (
     PasswordChangedAt DATETIME2,
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
 	IsConfirm BIT NOT NULL DEFAULT 0,
-	UniqueCode CHAR(64) NOT NULL UNIQUE
+	UniqueCode CHAR(64) NOT NULL UNIQUE,
+	IsActive BIT NOT NULL DEFAULT 1
 )
 
 CREATE TABLE UserDetail (
@@ -343,7 +344,8 @@ END;
 GO
 
 GO
-CREATE OR ALTER PROC CountReviews @ProductId INT
+CREATE OR ALTER FUNCTION CountReviews(@ProductId INT)
+RETURNS INT
 AS
 BEGIN
 	DECLARE @Count INT = (SELECT COUNT(*) FROM Review WHERE ProductId = @ProductId)
@@ -364,6 +366,30 @@ BEGIN
 	RETURN @Out
 END
 GO
+
+GO
+CREATE OR ALTER PROC ChangeActiveState(@UserId INT)
+AS
+BEGIN
+	DECLARE @CurrState BIT = (SELECT IsActive FROM [User] WHERE UserId = @UserId)
+	IF @CurrState = 1
+		BEGIN
+			UPDATE [User]
+			SET IsActive = 0
+			WHERE UserId = @UserId
+		END
+	ELSE
+		BEGIN
+			UPDATE [User]
+			SET IsActive = 1
+			WHERE UserId = @UserId
+		END
+END
+GO
+
+DECLARE @Out BIT
+EXEC @Out = ChangeActiveState 28
+SELECT @Out
 
 -- Thêm thương hiệu
 INSERT INTO Brand (Name)
