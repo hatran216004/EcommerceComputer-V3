@@ -135,9 +135,16 @@ namespace Store_EF.Controllers
                 user = store.Users.Where(x => x.Email.Equals(email)).First();
                 if (BCrypt.Net.BCrypt.Verify(password, user.Password))
                 {
-                    Session["UserId"] = user.UserId;
-                    Session["Email"] = user.Email;
-                    Session["RoleName"] = user.RoleName;
+                    if (user.IsActive)
+                    {
+                        Session["UserId"] = user.UserId;
+                        Session["Email"] = user.Email;
+                        Session["RoleName"] = user.RoleName;
+                    } else
+                    {
+                        ModelState.AddModelError("Error", "Tài khoản đã bị vô hiệu hoá.");
+                        return View();
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else

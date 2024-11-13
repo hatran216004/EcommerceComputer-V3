@@ -39,7 +39,17 @@
                             <td class="pm__table-item">@p.RoleName</td>
                             <td class="pm__table-item">
                                 <button class="btn-delete-link" data-id="@p.UserId">Xóa</button>
-                                <a href="@Url.Action("GetUser", "UserAccount", new { id = p.UserId })" class="btn-edit-link">Sửa</a>
+                                <a href="@Url.Action("GetUser", "UserAccount", new { id = p.UserId })" class="btn-delete-link">Sửa</a>
+                                <form style="display: inline" action="@Url.Action("ChangeActiveState", "UserAccount")" method="post">
+                                    <input type="hidden" value="@p.UserId" name="userId" />
+                                    @if (p.IsActive)
+                                    {
+                                        <button class="btn-edit-link" type="submit">Đóng</button>
+                                    } else
+                                    {
+                                        <button class="btn-edit-link" type="submit">Mở</button>
+                                    }
+                                </form>
                             </td>
                         </tr>
                     }

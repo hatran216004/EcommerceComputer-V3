@@ -118,6 +118,7 @@
           <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsConfirm" Type="bit" Nullable="false" />
           <Property Name="UniqueCode" Type="char" MaxLength="64" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -291,10 +292,10 @@
         <Function Name="CountReviews" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProductId" Type="int" Mode="In" />
         </Function>
-		<Function Name="GetProductDiscountPercent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-			<Parameter Name="ProductId" Type="int" Mode="In" />
-		</Function>
         <Function Name="GetPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetProductDiscountPercent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="ProductId" Type="int" Mode="In" />
         </Function>
         <Function Name="PaymentFailed" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -585,6 +586,7 @@
           <NavigationProperty Name="Orders" Relationship="StoreModel.FK__Order__UserId__607251E5" FromRole="User" ToRole="Order" />
           <NavigationProperty Name="Reviews" Relationship="StoreModel.FK__Review__UserId__74794A92" FromRole="User" ToRole="Review" />
           <NavigationProperty Name="UserDetail" Relationship="StoreModel.FK__UserDetai__UserI__43D61337" FromRole="User" ToRole="UserDetail" />
+          <Property Name="IsActive" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -872,6 +874,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="StoreModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="UniqueCode" ColumnName="UniqueCode" />
                 <ScalarProperty Name="IsConfirm" ColumnName="IsConfirm" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />

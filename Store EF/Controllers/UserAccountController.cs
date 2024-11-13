@@ -134,6 +134,23 @@ namespace Store_EF.Controllers
             }
         }
 
+        public ActionResult ChangeActiveState(int userId = 0)
+        {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int currUserId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == currUserId);
+            if (user.RoleName == "Admin")
+            {
+                SupportEntities support = new SupportEntities();
+                support.ChangeActiveState(userId);
+                return RedirectToAction("UserManagement");
+            } else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         public ActionResult DeleteUser(int id)
         {
             if (Session["UserId"] == null)
