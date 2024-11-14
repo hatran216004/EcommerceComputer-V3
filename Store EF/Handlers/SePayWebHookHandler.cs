@@ -38,7 +38,7 @@ namespace Store_EF.Handlers
                                 if (curr.Amount == sePay.TransferAmount)
                                     curr.Status = "Succeeded";
                                 else
-                                    curr.Status = "Failed";
+                                    curr.Status = "Refunding";
                                 try
                                 {
                                     store.SaveChanges();

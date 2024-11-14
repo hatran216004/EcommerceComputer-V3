@@ -96,7 +96,7 @@ CREATE TABLE Payment (
 	Amount MONEY DEFAULT 0 CHECK (Amount >= 0),
 	Code VARCHAR(20),
 	Method VARCHAR(10) NOT NULL DEFAULT 'Cash' CHECK (Method IN ('Cash', 'Bank')),
-	[Status] VARCHAR(20) NOT NULL DEFAULT 'Waitting' CHECK (Status IN ('Waitting', 'Succeeded', 'Failed')),
+	[Status] VARCHAR(20) NOT NULL DEFAULT 'Waitting',
 	PaymentDate DATETIME2 CHECK (PaymentDate <= GETDATE()),
 	Expiry DATETIME2 NOT NULL DEFAULT DATEADD(day, 1, GETDATE()) CHECK (Expiry >= GETDATE()),
 	TransactionId VARCHAR(20),
@@ -273,10 +273,46 @@ BEGIN
 			FROM inserted
 			WHERE Payment.OrderId = inserted.OrderId 
 		END
+	ELSE IF (@Status = 'Accepted')
+		BEGIN
+			UPDATE [Order]
+			SET [Status] = N'Thanh toán chấp nhận'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+			DECLARE @PaymentId1 INT = (SELECT PaymentId FROM inserted)
+			EXEC PaymentFailed @PaymentId1			
+			UPDATE Payment
+			SET Expiry = GETDATE()
+			FROM inserted
+			WHERE Payment.OrderId = inserted.OrderId 
+		END
+	ELSE IF (@Status = 'Refunding')
+		BEGIN
+			UPDATE [Order]
+			SET [Status] = N'Thanh toán đang hoàn tiền'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+			DECLARE @PaymentId2 INT = (SELECT PaymentId FROM inserted)
+			EXEC PaymentFailed @PaymentId2			
+			UPDATE Payment
+			SET Expiry = GETDATE()
+			FROM inserted
+			WHERE Payment.OrderId = inserted.OrderId 
+		END
+	ELSE IF (@Status = 'Refunded')
+		BEGIN
+			UPDATE [Order]
+			SET [Status] = N'Thanh toán đã hoàn tiền'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+			DECLARE @PaymentId3 INT = (SELECT PaymentId FROM inserted)
+			EXEC PaymentFailed @PaymentId3			
+			UPDATE Payment
+			SET Expiry = GETDATE()
+			FROM inserted
+			WHERE Payment.OrderId = inserted.OrderId 
+		END
 	ELSE
 		BEGIN
 			UPDATE [Order]
-			SET [Status] = N'Thanh toán thành công'
+			SET [Status] = N'Thanh toán chờ duyệt'
 			WHERE OrderId = (SELECT OrderId FROM inserted)
 		END
 END
@@ -353,12 +389,10 @@ BEGIN
 END
 GO
 
-DECLARE @Out Int
-EXEC @Out = CountReviews 1
-SELECT @Out
+SELECT dbo.CountReviews(4)
 
 GO
-CREATE OR ALTER FUNCTION StarAVG (@ProductId INT)
+CREATE OR ALTER FUNCTION StarAVG(@ProductId INT)
 RETURNS FLOAT
 AS
 BEGIN
@@ -366,6 +400,8 @@ BEGIN
 	RETURN @Out
 END
 GO
+
+SELECT dbo.StarAVG(4)
 
 GO
 CREATE OR ALTER PROC ChangeActiveState(@UserId INT)

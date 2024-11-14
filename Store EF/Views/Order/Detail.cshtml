@@ -134,19 +134,29 @@
         </div>
     </div>
     <div class="orderdetail__bill-warp">
-        <div class="orderdetail-bottom">
-            <button class="btn orderdetail-btn">Đã nhận hàng</button>
-            <button class="btn orderdetail-btn">Hoàn tiền</button>
-        </div>
-        <div class="orderdetail__bill">
-            @*<div class="orderdetail__bill-item">
-                <span>Tổng tiền hàng: </span>
-                <span class="orderdetail__bill-item-price totalPrices">@Helpers.FormattedPrice(Model.TotalPrice())</span>
+        @if (payment.Status == "Succeeded")
+        {
+            <div class="orderdetail-bottom">
+                <form class="btn orderdetail-btn" action="@Url.Action("Accept", "Order")" method="post">
+                    <input type="hidden" name="orderId" value="@Model.OrderId" />
+                    <button class="btn orderdetail-btn" type="submit">Đã nhận hàng</button>
+                </form>
+                <form class="btn orderdetail-btn" action="@Url.Action("Refund", "Order")" method="post">
+                    <input type="hidden" name="orderId" value="@Model.OrderId" />
+                    <button class="btn orderdetail-btn" type="submit">Hoàn tiền</button>
+                </form>
             </div>
-            <div class="orderdetail__bill-item">
-                <span>Vận chuyển: </span>
-                <span class="orderdetail__bill-item-price shippingFee">@Helpers.FormattedPrice(0)</span>
-            </div>*@
+        }
+        @if (payment.Status == "Refunding" && user.RoleName == "Admin")
+        {
+            <div class="orderdetail-bottom">
+                <form class="btn orderdetail-btn" action="@Url.Action("Refund", "Order")" method="post">
+                    <input type="hidden" name="orderId" value="@Model.OrderId" />
+                    <button class="btn orderdetail-btn" type="submit">Đã hoàn tiền</button>
+                </form>
+            </div>
+        }
+        <div class="orderdetail__bill">
             <div class="orderdetail__bill-item">
                 <span>Thành tiền: </span>
                 <span class="orderdetail__bill-item-price finalPrices">@Helpers.FormattedPrice(Model.TotalPrice())</span>
@@ -154,20 +164,3 @@
         </div>
     </div>
 </div>
-
-@*<script>
-    const priceCurrElements = document.querySelectorAll(
-        '.orderdetail__info-product-price-curr'
-    )
-    const totalPricesElement = document.querySelector('.totalPrices')
-    const shippingFeeElement = document.querySelector('.shippingFee')
-    const finalPricesElement = document.querySelector('.finalPrices')
-    let sum = 0
-    console.log(parseInt(priceCurrElements[0].innerText))
-    priceCurrElements.forEach((priceCurrElement) => {
-        sum += parseInt(priceCurrElement.innerText)
-    })
-    totalPricesElement.innerText = sum + 'đ'
-    finalPricesElement.innerText =
-        sum + parseInt(shippingFeeElement.innerText) + 'đ'
-</script>*@
