@@ -101,6 +101,7 @@ namespace Store_EF.Controllers
                     RoleName = "User",
                     UniqueCode = email.GenUniqueWithSalt(),
                     CreatedAt = DateTime.Now,
+                    IsActive = true
                 };
                 store.Users.Add(user);
                 try
