@@ -178,7 +178,7 @@
 
 .orderdetail__bill-warp {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .orderdetail__bill {
@@ -199,3 +199,15 @@
     .orderdetail__bill-item:last-child {
         border-bottom: none;
     }
+
+
+.orderdetail-bottom {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.orderdetail-btn {
+    height: 100%;
+    font-size: 16px;
+}
