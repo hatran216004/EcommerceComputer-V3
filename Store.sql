@@ -15,7 +15,8 @@ CREATE TABLE [User] (
     PasswordChangedAt DATETIME2,
     CreatedAt DATETIME2 NOT NULL DEFAULT GETDATE(),
 	IsConfirm BIT NOT NULL DEFAULT 0,
-	UniqueCode CHAR(64) NOT NULL UNIQUE
+	UniqueCode CHAR(64) NOT NULL UNIQUE,
+	IsActive BIT NOT NULL DEFAULT 1
 )
 
 CREATE TABLE UserDetail (
@@ -95,7 +96,7 @@ CREATE TABLE Payment (
 	Amount MONEY DEFAULT 0 CHECK (Amount >= 0),
 	Code VARCHAR(20),
 	Method VARCHAR(10) NOT NULL DEFAULT 'Cash' CHECK (Method IN ('Cash', 'Bank')),
-	[Status] VARCHAR(20) NOT NULL DEFAULT 'Waitting' CHECK (Status IN ('Waitting', 'Succeeded', 'Failed')),
+	[Status] VARCHAR(20) NOT NULL DEFAULT 'Waitting',
 	PaymentDate DATETIME2 CHECK (PaymentDate <= GETDATE()),
 	Expiry DATETIME2 NOT NULL DEFAULT DATEADD(day, 1, GETDATE()) CHECK (Expiry >= GETDATE()),
 	TransactionId VARCHAR(20),
@@ -272,10 +273,46 @@ BEGIN
 			FROM inserted
 			WHERE Payment.OrderId = inserted.OrderId 
 		END
+	ELSE IF (@Status = 'Accepted')
+		BEGIN
+			UPDATE [Order]
+			SET [Status] = N'Thanh toán chấp nhận'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+			DECLARE @PaymentId1 INT = (SELECT PaymentId FROM inserted)
+			EXEC PaymentFailed @PaymentId1			
+			UPDATE Payment
+			SET Expiry = GETDATE()
+			FROM inserted
+			WHERE Payment.OrderId = inserted.OrderId 
+		END
+	ELSE IF (@Status = 'Refunding')
+		BEGIN
+			UPDATE [Order]
+			SET [Status] = N'Thanh toán đang hoàn tiền'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+			DECLARE @PaymentId2 INT = (SELECT PaymentId FROM inserted)
+			EXEC PaymentFailed @PaymentId2			
+			UPDATE Payment
+			SET Expiry = GETDATE()
+			FROM inserted
+			WHERE Payment.OrderId = inserted.OrderId 
+		END
+	ELSE IF (@Status = 'Refunded')
+		BEGIN
+			UPDATE [Order]
+			SET [Status] = N'Thanh toán đã hoàn tiền'
+			WHERE OrderId = (SELECT OrderId FROM inserted)
+			DECLARE @PaymentId3 INT = (SELECT PaymentId FROM inserted)
+			EXEC PaymentFailed @PaymentId3			
+			UPDATE Payment
+			SET Expiry = GETDATE()
+			FROM inserted
+			WHERE Payment.OrderId = inserted.OrderId 
+		END
 	ELSE
 		BEGIN
 			UPDATE [Order]
-			SET [Status] = N'Thanh toán thành công'
+			SET [Status] = N'Thanh toán chờ duyệt'
 			WHERE OrderId = (SELECT OrderId FROM inserted)
 		END
 END
@@ -343,7 +380,8 @@ END;
 GO
 
 GO
-CREATE OR ALTER PROC CountReviews @ProductId INT
+CREATE OR ALTER FUNCTION CountReviews(@ProductId INT)
+RETURNS INT
 AS
 BEGIN
 	DECLARE @Count INT = (SELECT COUNT(*) FROM Review WHERE ProductId = @ProductId)
@@ -351,12 +389,10 @@ BEGIN
 END
 GO
 
-DECLARE @Out Int
-EXEC @Out = CountReviews 1
-SELECT @Out
+SELECT dbo.CountReviews(4)
 
 GO
-CREATE OR ALTER FUNCTION StarAVG (@ProductId INT)
+CREATE OR ALTER FUNCTION StarAVG(@ProductId INT)
 RETURNS FLOAT
 AS
 BEGIN
@@ -364,6 +400,32 @@ BEGIN
 	RETURN @Out
 END
 GO
+
+SELECT dbo.StarAVG(4)
+
+GO
+CREATE OR ALTER PROC ChangeActiveState(@UserId INT)
+AS
+BEGIN
+	DECLARE @CurrState BIT = (SELECT IsActive FROM [User] WHERE UserId = @UserId)
+	IF @CurrState = 1
+		BEGIN
+			UPDATE [User]
+			SET IsActive = 0
+			WHERE UserId = @UserId
+		END
+	ELSE
+		BEGIN
+			UPDATE [User]
+			SET IsActive = 1
+			WHERE UserId = @UserId
+		END
+END
+GO
+
+DECLARE @Out BIT
+EXEC @Out = ChangeActiveState 28
+SELECT @Out
 
 -- Thêm thương hiệu
 INSERT INTO Brand (Name)

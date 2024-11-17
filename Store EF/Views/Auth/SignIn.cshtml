@@ -44,11 +44,12 @@
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>
 
-            @Html.ActionLink("Quên mật khẩu ?", "ForgotPassword", new {}, new { @class = "fortgot-password-act" })
+            @Html.ActionLink("Quên mật khẩu ?", "ForgotPassword", new { }, new { @class = "fortgot-password-act" })
 
             <div class="signup-in__form-redirect mt-40">
                 <button class="btn btn--signin" type="submit">Đăng nhập</button>
             </div>
+            @Html.ValidationMessage("Error", new { @class = "text-danger" })
         }
 
     </div>

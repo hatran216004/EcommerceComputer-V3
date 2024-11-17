@@ -5,30 +5,47 @@
     ViewBag.Title = "OrderDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
     StoreEntities store = new StoreEntities();
+    int userId = int.Parse(Session["UserId"].ToString());
+    User user = store.Users.First(x => x.UserId == userId);
     Payment payment = Model.Payments.First(x => x.OrderId == Model.OrderId);
 }
 
 <div class="orderdetail">
     <div class="orderdetail__header">
-        <a href="@Url.Action("Index", "Order")" class="orderdetail__header-back">
-            <img src="~/Public/icons/agnle-left.svg" alt="" />
-            <span>Trở lại</span>
-        </a>
-        <div class="orderdetail__header-detail">
-            <span>Mã đơn hàng: @Model.OrderId</span>
-            <span>|</span>
+        @if (user.RoleName == "Admin")
+        {
+            <a href="@Url.Action("Management", "Order")" class="orderdetail__header-back">
+                <img src="~/Public/icons/agnle-left.svg" alt="" />
+                <span>Trở lại</span>
+            </a>
+        }
+        else
+        {
+            <a href="@Url.Action("Index", "Order")" class="orderdetail__header-back">
+                <img src="~/Public/icons/agnle-left.svg" alt="" />
+                <span>Trở lại</span>
+            </a>
+        }
+    <div class="orderdetail__header-detail">
+        <span>Mã đơn hàng: @Model.OrderId</span>
+        <span>|</span>
+        @if (payment.Status == "Succeeded")
+        {
+            <span class="orderdetail__header-detail-status" style="color:green">
+                @Model.Status
+            </span>
+        }
+        else
+        {
+
             <span class="orderdetail__header-detail-status">
                 @Model.Status
             </span>
-        </div>
+        }
+    </div>
     </div>
 
     <div class="orderdetail-line"></div>
-    @*<div class="orderdetail__rebuy">
-        <span>Cảm ơn bạn đã mua hàng!</span>
-        <a href="#" class="orderdetail__rebuy-btn">Mua Lại</a>
-    </div>*@
-
     <div class="orderdetail__info">
         <div class="orderdetail__info-user">
             <div class="orderdetail__info-user-header">
@@ -72,6 +89,19 @@
                     @Model.Address
                 </span>
             </div>
+            @if (user.RoleName == "Admin")
+            {
+                <hr />
+                <div class="orderdetail__info-user-header">
+                    Thông tin người đặt
+                </div>
+                <div class="orderdetail__info-user-name">
+                    <span>@Model.User.UserDetail.Name</span>
+                </div>
+                <div class="orderdetail__info-user-address">
+                    <span>@Model.User.UserDetail.Phone - @Model.User.Email</span>
+                </div>
+            }
         </div>
         <div class="orderdetail__info-product">
             <div class="orderdetail__info-product-header">
@@ -104,15 +134,29 @@
         </div>
     </div>
     <div class="orderdetail__bill-warp">
-        <div class="orderdetail__bill">
-            @*<div class="orderdetail__bill-item">
-                <span>Tổng tiền hàng: </span>
-                <span class="orderdetail__bill-item-price totalPrices">@Helpers.FormattedPrice(Model.TotalPrice())</span>
+        @if (payment.Status == "Succeeded")
+        {
+            <div class="orderdetail-bottom">
+                <form class="btn orderdetail-btn" action="@Url.Action("Accept", "Order")" method="post">
+                    <input type="hidden" name="orderId" value="@Model.OrderId" />
+                    <button class="btn orderdetail-btn" type="submit">Đã nhận hàng</button>
+                </form>
+                <form class="btn orderdetail-btn" action="@Url.Action("Refund", "Order")" method="post">
+                    <input type="hidden" name="orderId" value="@Model.OrderId" />
+                    <button class="btn orderdetail-btn" type="submit">Hoàn tiền</button>
+                </form>
             </div>
-            <div class="orderdetail__bill-item">
-                <span>Vận chuyển: </span>
-                <span class="orderdetail__bill-item-price shippingFee">@Helpers.FormattedPrice(0)</span>
-            </div>*@
+        }
+        @if (payment.Status == "Refunding" && user.RoleName == "Admin")
+        {
+            <div class="orderdetail-bottom">
+                <form class="btn orderdetail-btn" action="@Url.Action("Refund", "Order")" method="post">
+                    <input type="hidden" name="orderId" value="@Model.OrderId" />
+                    <button class="btn orderdetail-btn" type="submit">Đã hoàn tiền</button>
+                </form>
+            </div>
+        }
+        <div class="orderdetail__bill">
             <div class="orderdetail__bill-item">
                 <span>Thành tiền: </span>
                 <span class="orderdetail__bill-item-price finalPrices">@Helpers.FormattedPrice(Model.TotalPrice())</span>
@@ -120,20 +164,3 @@
         </div>
     </div>
 </div>
-
-@*<script>
-    const priceCurrElements = document.querySelectorAll(
-        '.orderdetail__info-product-price-curr'
-    )
-    const totalPricesElement = document.querySelector('.totalPrices')
-    const shippingFeeElement = document.querySelector('.shippingFee')
-    const finalPricesElement = document.querySelector('.finalPrices')
-    let sum = 0
-    console.log(parseInt(priceCurrElements[0].innerText))
-    priceCurrElements.forEach((priceCurrElement) => {
-        sum += parseInt(priceCurrElement.innerText)
-    })
-    totalPricesElement.innerText = sum + 'đ'
-    finalPricesElement.innerText =
-        sum + parseInt(shippingFeeElement.innerText) + 'đ'
-</script>*@

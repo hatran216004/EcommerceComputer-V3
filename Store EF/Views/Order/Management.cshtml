@@ -1,0 +1,36 @@
+﻿@using Store_EF.Models.Extensions
+@using Store_EF.Models
+@model IEnumerable<Order>
+@{
+    ViewBag.Title = "Management";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+}
+
+<div class="order-history-container">
+    <h2 class="cate-bard__title">Lịch sử Đơn hàng</h2>
+    <table class="order-table">
+        <thead>
+            <tr>
+                <th>Mã Đơn hàng</th>
+                <th>Khách hàng</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Ngày đặt</th>
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Order o in Model)
+            {
+                <tr>
+                    <td>@o.OrderId</td>
+                    <td>@o.User.UserDetail.Name (@o.User.UserId)</td>
+                    <td>@o.TotalPrice</td>
+                    <td>@o.Status</td>
+                    <td>@o.CreatedAt</td>
+                    <td><a class="btn-detail" href="@Url.Action("Detail", "Order", new { id = o.OrderId })">Xem chi tiết</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

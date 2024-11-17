@@ -17,9 +17,9 @@ namespace Store_EF.Models
             conn = new SqlConnection(Database.Connection.ConnectionString);
         }
 
-        public virtual int CountReviews(int productId = 0)
+        public int CountReviews(int productId = 0)
         {
-            SqlCommand cmd = new SqlCommand($"DECLARE @Out Int\r\nEXEC @Out = CountReviews {productId}\r\nSELECT @Out", conn);
+            SqlCommand cmd = new SqlCommand($"SELECT dbo.CountReviews({productId})", conn);
             cmd.CommandType = System.Data.CommandType.Text;
             try
             {
@@ -36,7 +36,7 @@ namespace Store_EF.Models
             return 0;
         }
 
-        public virtual int GetProductDiscountPercent(int productId = 0)
+        public int GetProductDiscountPercent(int productId = 0)
         {
             SqlCommand cmd = new SqlCommand($"SELECT dbo.GetProductDiscountPercent({productId})", conn);
             cmd.CommandType = System.Data.CommandType.Text;
@@ -56,7 +56,7 @@ namespace Store_EF.Models
             return 0;
         }
 
-        public virtual double StarAVG(int productId = 0)
+        public double StarAVG(int productId = 0)
         {
             SqlCommand cmd = new SqlCommand($"SELECT dbo.StarAVG({productId})", conn);
             cmd.CommandType = System.Data.CommandType.Text;
@@ -74,6 +74,28 @@ namespace Store_EF.Models
                 Debug.WriteLine(ex);
             }
             return 0;
+        }
+
+        public bool ChangeActiveState(int userId)
+        {
+            SqlCommand cmd = new SqlCommand($"DECLARE @Out BIT\nEXEC @Out = ChangeActiveState {userId}\nSELECT @Out", conn);
+            cmd.CommandType = System.Data.CommandType.Text;
+            try
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                    conn.Open();
+                int rows = cmd.ExecuteNonQuery();
+                if (conn.State == System.Data.ConnectionState.Open)
+                    conn.Close();
+                if (rows > 0)
+                    return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return false;
+            }
         }
     }
 }
