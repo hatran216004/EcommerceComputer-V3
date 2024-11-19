@@ -333,6 +333,7 @@
     <Content Include="Public\icons\heart.svg" />
     <Content Include="Public\icons\plus.svg" />
     <Content Include="Public\icons\red-heart.svg" />
+    <Content Include="Public\icons\star.svg" />
     <Content Include="Public\imgs\avatar.svg" />
     <Content Include="Public\imgs\banner-sign.png" />
     <Content Include="Public\imgs\cart.svg" />
