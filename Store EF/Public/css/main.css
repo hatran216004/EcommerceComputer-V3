@@ -242,6 +242,7 @@ a {
 /* product */
 .product {
     margin-top: 100px;
+    
 }
 
 .product__list {
@@ -252,8 +253,11 @@ a {
 }
 
 .product__item {
+    height: 100%;
     border-radius: 4px;
     cursor: pointer;
+    display:flex;
+    flex-direction:column;
 }
 
 .product__img {
@@ -322,6 +326,10 @@ a {
     border-radius: 0 0 4px 4px;
     border: 1px solid #e8ebee;
     border-top: none;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    justify-content:space-between;
 }
 
 .products__price,
@@ -922,6 +930,8 @@ a {
     font-size: 1.8rem;
     font-weight: 500;
     line-height: 144.444%;
+    display: flex;
+    align-items: center;
 }
 
 .prod-property__desc {
