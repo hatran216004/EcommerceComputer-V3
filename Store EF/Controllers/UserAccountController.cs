@@ -1,5 +1,6 @@
 ﻿using PagedList;
 using Store_EF.Models;
+using Store_EF.Models.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -193,7 +194,11 @@ namespace Store_EF.Controllers
                 {
                     Email = email,
                     Password = BCrypt.Net.BCrypt.HashPassword(password), // Bạn nên mã hóa mật khẩu trước khi lưu
-                    RoleName = role
+                    RoleName = role,
+                    CreatedAt = DateTime.Now,
+                    IsActive = true,
+                    UniqueCode = email.GenUniqueWithSalt(),
+                    IsConfirm = false
                 };
                 store.Users.Add(newUser);
                 store.SaveChanges();
