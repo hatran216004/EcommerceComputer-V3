@@ -1,5 +1,6 @@
-﻿using System;
-using Store_EF.Models;
+﻿using Store_EF.Models;
+using Store_EF.Models.Extensions;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
@@ -42,8 +43,13 @@ namespace Store_EF.Controllers
             if (order != null)
             {
                 Payment payment = order.Payments.First();
-                if (payment.Status == "Succeeded")
+                if ((payment.Status == "Succeeded" && payment.Method == "Bank") || (payment.Status == "Waitting" && payment.Method == "Cash"))
                 {
+                    if (payment.Method == "Cash")
+                    {
+                        payment.PaymentDate = DateTime.Now;
+                        payment.Amount = order.TotalPrice();
+                    }
                     payment.Status = "Accepted";
                     try
                     {
@@ -71,10 +77,12 @@ namespace Store_EF.Controllers
                 if (payment.Status == "Refunding")
                 {
                     payment.Status = "Refunded";
-                } else if (payment.Status == "Succeeded")
+                }
+                else if (payment.Status == "Succeeded")
                 {
                     payment.Status = "Refunding";
-                } else
+                }
+                else
                 {
                     return RedirectToAction("Index");
                 }
@@ -83,7 +91,8 @@ namespace Store_EF.Controllers
                     store.SaveChanges();
                     return RedirectToAction("Detail", "Order", new { id = orderId });
                 }
-                catch (Exception ex) { 
+                catch (Exception ex)
+                {
                     Debug.WriteLine(ex);
                 }
             }
@@ -126,7 +135,8 @@ namespace Store_EF.Controllers
             if (user.RoleName == "Admin")
             {
                 detail = store.Orders.FirstOrDefault(x => x.OrderId == id);
-            } else
+            }
+            else
             {
                 detail = store.Orders.FirstOrDefault(x => x.OrderId == id && x.UserId == userId);
             }

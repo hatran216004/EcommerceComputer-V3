@@ -33,6 +33,7 @@ namespace Store_EF.Models
         public System.DateTime UpdatedAt { get; set; }
         public Nullable<int> BrandId { get; set; }
         public Nullable<int> CategoryId { get; set; }
+        public string Spec { get; set; }
     
         public virtual Brand Brand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

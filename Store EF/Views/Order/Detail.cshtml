@@ -67,13 +67,25 @@
                     </div>
                 </div>
             }
-            else if (payment.Status == "Failed" || payment.Expiry < DateTime.Now)
+            else if (payment.Status == "Failed" || (payment.Expiry < DateTime.Now && payment.Status == "Waitting"))
             {
                 <div class="orderdetail__info-user-name">
                     Đơn hàng đã huỷ
                     <div class="orderdetail__info-user-address">
                         <span>@payment.Expiry.ToString("HH:mm dd-MM-yyyy")</span>
                     </div>
+                </div>
+            }
+            else if (payment.Status == "Accepted")
+            {
+                <div class="orderdetail__info-user-name">
+                    Đơn hàng đã được nhận
+                </div>
+            }
+            else
+            {
+                <div class="orderdetail__info-user-name">
+                    Đơn hàng đã hoàn tiền
                 </div>
             }
             <hr />
@@ -126,7 +138,6 @@
                         </div>
                         <div class="orderdetail__info-product-price">
                             <span class="orderdetail__info-product-price-curr">@Helpers.FormattedPrice(detail.TotalPrice())</span>
-                            @*<span class="orderdetail__info-product-price-old">10000.000 <span>đ</span></span>*@
                         </div>
                     </div>
                 }
@@ -153,6 +164,15 @@
                 <form class="btn orderdetail-btn" action="@Url.Action("Refund", "Order")" method="post">
                     <input type="hidden" name="orderId" value="@Model.OrderId" />
                     <button class="btn orderdetail-btn" type="submit">Đã hoàn tiền</button>
+                </form>
+            </div>
+        }
+        @if (payment.Status == "Waitting" && payment.Method == "Cash" && user.RoleName == "Admin")
+        {
+            <div class="orderdetail-bottom">
+                <form class="btn orderdetail-btn" action="@Url.Action("Accept", "Order")" method="post">
+                    <input type="hidden" name="orderId" value="@Model.OrderId" />
+                    <button class="btn orderdetail-btn" type="submit">Đã nhận tiền & Đưa hàng</button>
                 </form>
             </div>
         }

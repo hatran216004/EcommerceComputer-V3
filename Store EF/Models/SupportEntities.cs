@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Store_EF.Models;
+using System;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
-using System.Web;
+using System.IO;
 
 namespace Store_EF.Models
 {
@@ -15,6 +14,70 @@ namespace Store_EF.Models
         public SupportEntities() : base("name=StoreEntities")
         {
             conn = new SqlConnection(Database.Connection.ConnectionString);
+        }
+
+        public Nullable<Backup> BackupDB(string name, string desc, string folderPath, bool differential = false)
+        {
+            string type = "FULL";
+            DateTime now = DateTime.Now;
+            string fP = Path.Combine(folderPath, $"{now:yyyyMMddTHHmmss}.bak");
+            string query = $"BACKUP DATABASE {conn.Database} TO DISK = N'{fP}' WITH NAME = N'{name}', DESCRIPTION = N'{desc}'";
+            if (differential)
+            {
+                query += ", DIFFERENTIAL";
+                type = "DIFFERENTIAL";
+            }
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.CommandType = System.Data.CommandType.Text;
+            try
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                    conn.Open();
+                int test = cmd.ExecuteNonQuery();
+                if (conn.State == System.Data.ConnectionState.Open)
+                    conn.Close();
+                return new Backup() { 
+                    CreatedAt = now,
+                    Name = name,
+                    Desc = desc,
+                    Path = fP,
+                    Type = type,
+                };
+            } catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
+        public Nullable<Backup> BackupLog(string name, string desc, string folderPath)
+        {
+            DateTime now = DateTime.Now;
+            string fP = Path.Combine(folderPath, $"{now:yyyyMMddTHHmmss}.trn");
+            string query = $"BACKUP LOG {conn.Database} TO DISK = N'{fP}' WITH NAME = N'{name}', DESCRIPTION = N'{desc}'";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.CommandType = System.Data.CommandType.Text;
+            try
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                    conn.Open();
+                int test = cmd.ExecuteNonQuery();
+                if (conn.State == System.Data.ConnectionState.Open)
+                    conn.Close();
+                return new Backup()
+                {
+                    CreatedAt = now,
+                    Name = name,
+                    Desc = desc,
+                    Path = fP,
+                    Type = "LOG",
+                };
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;
+            }
         }
 
         public int CountReviews(int productId = 0)
@@ -29,7 +92,8 @@ namespace Store_EF.Models
                 if (conn.State == System.Data.ConnectionState.Open)
                     conn.Close();
                 return result;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
@@ -67,7 +131,7 @@ namespace Store_EF.Models
                 object result = cmd.ExecuteScalar();
                 if (conn.State == System.Data.ConnectionState.Open)
                     conn.Close();
-                return (double)result;
+                return double.Parse(result.ToString());
             }
             catch (Exception ex)
             {
