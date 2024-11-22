@@ -31,7 +31,7 @@ namespace Store_EF.Controllers
             if (!Directory.Exists(Path.GetDirectoryName(fP)))
                 Directory.CreateDirectory(Path.GetDirectoryName(fP));
             if (!System.IO.File.Exists(fP))
-                System.IO.File.Create(fP);
+                System.IO.File.Create(fP).Close();
             return View(JsonConvert.DeserializeObject<IEnumerable<Backup>>(System.IO.File.ReadAllText(fP)));
         }
 
@@ -47,13 +47,18 @@ namespace Store_EF.Controllers
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
             string fP = Path.Combine(Server.MapPath("~"), FILEPATH);
-            var memory = new MemoryStream();
-            var writer = new StreamWriter(memory);
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            var history = JsonConvert.DeserializeObject<IEnumerable<Backup>>(System.IO.File.ReadAllText(fP));
+            if (history != null)
             {
-                csv.WriteRecords(JsonConvert.DeserializeObject<IEnumerable<Backup>>(System.IO.File.ReadAllText(fP)));
+                var memory = new MemoryStream();
+                var writer = new StreamWriter(memory);
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteRecords(history);
+                }
+                return File(memory.ToArray(), "application/json", "backup.csv");
             }
-            return File(memory.ToArray(), "application/json", "backup.csv");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
