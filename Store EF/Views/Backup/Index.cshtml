@@ -1,0 +1,130 @@
+﻿@using Store_EF.Models
+@model IEnumerable<Backup>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+}
+
+<style>
+    .pm__table-item:nth-child(n) {
+        width: unset
+    }
+</style>
+
+<div class="pm__main">
+    <div class="pm__title">Backup Database</div>
+    <div class="pm__btn-add">
+        <a id="CreateBK" href="#">Tạo Backup Ngay</a>
+    </div>
+    <div class="pm__btn-add">
+        <a href="@Url.Action("Export", "Backup")">Xuất file</a>
+    </div>
+
+    <table class="pm__table">
+        <thead>
+            <tr>
+                <th class="pm__table-title"
+                    scope="col" width="200px">
+                    Thời gian tạo
+                </th>
+                <th class="pm__table-title"
+                    scope="col">
+                    Tên
+                </th>
+                <th class="pm__table-title"
+                    scope="col">
+                    Mô tả
+                </th>
+                <th class="pm__table-title"
+                    scope="col">
+                    Đường dẫn
+                </th>
+                <th class="pm__table-title" scope="col" width="160px">
+                    Loại backup
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (Backup b in Model)
+                {
+                    <tr>
+                        <td class="pm__table-item" scope="row">@b.CreatedAt</td>
+                        <td class="pm__table-item">@b.Name</td>
+                        <td class="pm__table-item">@b.Desc</td>
+                        <td class="pm__table-item">@b.Path</td>
+                        <td class="pm__table-item" style="text-transform:capitalize">@b.Type.ToLower()</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="addBKModal" class="modal">
+    <div class="modal-content">
+        <span class="model__btn-close">&times;</span>
+        <h2>Nhập thông tin</h2>
+        <form action="@Url.Action("Create", "Backup")" method="post" class="addCateForm">
+            <label for="addCateForm-input">Tên bản sao lưu</label>
+            <input type="text"
+                   id="addCateForm-input"
+                   name="name"
+                   required />
+            <label for="addCateForm-input">Mô tả</label> <br />
+            <textarea style="
+                            width: 100%;
+                            height: 60px;
+                            margin: 8px 0;
+                            resize: none;
+                            background-color: #e9f0fd;
+                            outline: none;
+                            border: none;
+                        "
+                      name="desc"
+                      id=""
+                      required></textarea>
+
+            <label required for="">Thư mục lưu trữ</label>
+            <input name="folderPath" type="text" />
+
+            <div style="margin-top: 8px">
+                <label for="addCateForm-input">Loại backup</label>
+                <select name="type">
+                    <option value="Full">Full</option>
+                    <option value="Differential">Differential</option>
+                    <option value="Log">Log</option>
+                </select>
+                <div class="modal-actions">
+                    <button type="submit" class="model__btn-add">
+                        Tạo
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const CreateBKBtn = document.getElementById('CreateBK')
+    const addBackupModal = document.getElementById('addBKModal')
+    const closeBtn = document.querySelectorAll('.model__btn-close')
+
+    CreateBKBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        addBackupModal.classList.add('display')
+    })
+
+    closeBtn.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            addBackupModal.classList.remove('display')
+        })
+    })
+
+    window.onclick = function (event) {
+        if (event.target === addBackupModal) {
+            addBackupModal.classList.remove('display')
+        }
+    }
+</script>

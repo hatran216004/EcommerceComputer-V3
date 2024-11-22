@@ -93,6 +93,7 @@
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="BrandId" Type="int" />
           <Property Name="CategoryId" Type="int" />
+          <Property Name="Spec" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
@@ -289,7 +290,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="CountReviews" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="CountReviews" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="ProductId" Type="int" Mode="In" />
         </Function>
         <Function Name="GetPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
@@ -555,6 +556,7 @@
           <NavigationProperty Name="Galleries" Relationship="StoreModel.FK__Gallery__Product__55009F39" FromRole="Product" ToRole="Gallery" />
           <NavigationProperty Name="OrderDetails" Relationship="StoreModel.FK__OrderDeta__Produ__65370702" FromRole="Product" ToRole="OrderDetail" />
           <NavigationProperty Name="Reviews" Relationship="StoreModel.FK__Review__ProductI__756D6ECB" FromRole="Product" ToRole="Review" />
+          <Property Name="Spec" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
@@ -847,6 +849,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="StoreModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Spec" ColumnName="Spec" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="BrandId" ColumnName="BrandId" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />

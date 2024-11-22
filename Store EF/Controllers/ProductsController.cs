@@ -48,8 +48,6 @@ namespace Store_EF.Controllers
             }
         }
 
-
-
         public ActionResult Search(string product, int page = 1)
         {
             if (Session["UserId"] != null)
@@ -393,7 +391,7 @@ namespace Store_EF.Controllers
         }
 
 
-        public ActionResult UpdatePromo ()
+        public ActionResult UpdatePromo()
         {
             ViewBag.Categories = store.Categories.ToList();
             ViewBag.Brands = store.Brands.ToList();
@@ -402,7 +400,7 @@ namespace Store_EF.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdatePromo(Nullable<int> brandID, Nullable<int> categoryID, Nullable<int> percent,  Nullable<int> price )
+        public ActionResult UpdatePromo(Nullable<int> brandID, Nullable<int> categoryID, Nullable<int> percent, Nullable<int> price)
         {
             try
             {

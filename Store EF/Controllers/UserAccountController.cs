@@ -146,7 +146,8 @@ namespace Store_EF.Controllers
                 SupportEntities support = new SupportEntities();
                 support.ChangeActiveState(userId);
                 return RedirectToAction("UserManagement");
-            } else
+            }
+            else
             {
                 return RedirectToAction("Index", "Home");
             }

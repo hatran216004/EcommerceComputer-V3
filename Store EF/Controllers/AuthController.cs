@@ -141,7 +141,8 @@ namespace Store_EF.Controllers
                         Session["UserId"] = user.UserId;
                         Session["Email"] = user.Email;
                         Session["RoleName"] = user.RoleName;
-                    } else
+                    }
+                    else
                     {
                         ModelState.AddModelError("Error", "Tài khoản đã bị vô hiệu hoá.");
                         return View();
@@ -188,7 +189,8 @@ namespace Store_EF.Controllers
                     {
                         store.SaveChanges();
                         new Thread(() => SendResetPassword(email, newPassword)).Start();
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         Debug.WriteLine(ex);
                     }

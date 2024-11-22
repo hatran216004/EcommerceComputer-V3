@@ -102,50 +102,10 @@
                                              alt=""
                                              class="prod-property__icon" />
                                         <h4 class="prod-property__title">
-                                            <img src="~/Public/icons/star.svg" alt="Alternate Text" style="width: 24px; margin-right:4px; margin-top:-1px"/>
-                                            (@Model.StartAVG()) @Model.CountReviews() Bình luần
+                                            (@Model.StartAVG() <img src="~/Public/icons/star.svg" alt="Alternate Text" style="height:16px; margin:0 4px; margin-top:-1px" />) @Model.CountReviews() Bình luận
                                         </h4>
                                     </div>
-                                    <label for=""
-                                           class="form__label prod-info__label">Số lượng</label>
-                                    <div class="filter__form-group">
-                                        <div class="form__select-wrap" style="width:fit-content">
-
-                                            <div class="form__select prod-info__select" style="width: 50px;">
-                                                <input name="quantity" id="quantityInput" value="1" max="@Model.Stock" min="1" type="number" style="width:50px; padding:8px; text-align:center" />
-                                                <div class="cart__main-quantity-btn">
-                                                    <img id="Increase" src="/Public/icons/Drop-Up-Small.svg" alt="Increase quantity">
-                                                    <img id="Decrease" src="/Public/icons/Drop-Down-Small.svg" alt="Decrease quantity">
-                                                </div>
-                                            </div>
-                                            @*<div class="form__select prod-info__select"
-                                                 style="--width: 147px">
-                                                500g
-                                                <img src="./assets/icons/select-arrow.svg"
-                                                     class="form__select-arrow icon"
-                                                     alt="" />
-                                            </div>
-                                            <div class="form__select prod-info__select">
-                                                Gram
-                                                <img src="./assets/icons/select-arrow.svg"
-                                                     class="form__select-arrow icon"
-                                                     alt="" />
-                                            </div>*@
-                                        </div>
-                                    </div>
-                                    @*<div class="filter__form-group">
-                                        <div class="form__tags">
-                                            <button class="form__tag prod-info__tag">
-                                                Small
-                                            </button>
-                                            <button class="form__tag prod-info__tag">
-                                                Medium
-                                            </button>
-                                            <button class="form__tag prod-info__tag">
-                                                Large
-                                            </button>
-                                        </div>
-                                    </div>*@
+                                    @Html.Raw(Model.Spec)
                                 </div>
 
                                 <div class="col-7 col-xxl-6 col-xl-12">
@@ -158,9 +118,8 @@
                                             <h4 class="prod-property__title">
                                                 @if(Model.CategoryId != null)
                                                 {
-                                                    @Model.Category.Name;
-                                                }
-                              
+                                                    <span>Loại: @Model.Category.Name</span>
+                                                }                              
                                             </h4>
                                         </div>
 
@@ -172,29 +131,11 @@
                                                 <h4 class="prod-property__title">
                                                     @if (Model.BrandId != null)
                                                     {
-                                                        @Model.Brand.Name;
+                                                        <span>Thương hiệu: @Model.Brand.Name</span>
                                                     }
                                                 </h4>
-                                                @*<p class="prod-property__desc">
-                                                    From $6 for 1-3 days
-                                                </p>*@
                                             </div>
                                         </div>
-
-                                        @*<div class="prod-property">
-                                            <img src="./assets/icons/bag.svg"
-                                                 alt=""
-                                                 class="prod-property__icon icon" />
-                                            <div>
-                                                <h4 class="prod-property__title">
-                                                    Pickup
-                                                </h4>
-                                                <p class="prod-property__desc">
-                                                    Out of 2 store,
-                                                    today
-                                                </p>
-                                            </div>
-                                        </div>*@
                                         
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
@@ -207,14 +148,6 @@
                                                 <button class="btn btn--primary prod-info__add-to-cart" type="submit">
                                                     Thêm vào giỏ hàng
                                                 </button>
-                                                @*<button class="like-btn prod-info__like-btn">
-                                                    <img src=""
-                                                         alt=""
-                                                         class="like-btn__icon icon" />
-                                                    <img src=""
-                                                         alt=""
-                                                         class="like-btn__icon--liked" />
-                                                </button>*@
                                             </div>
                                         </div>
                                     </div>
@@ -241,7 +174,7 @@
                         <div class="row">
                             <div class="col-8 col-xl-10 col-lg-12">
                                 <div class="text-content prod-tab__text-content">
-                                    <p>@Model.Description</p>
+                                    @Html.Raw(@Model.Description)
                                 </div>
                             </div>
                         </div>
@@ -252,9 +185,6 @@
 
                     <!-- Similar -->
                     <div class="prod-tab__content">
-                        <h2 class="prod-tab__content-heading">
-                            Các sản phẩm tương tự
-                        </h2>
                         <div class="product__list">
                             @foreach (Product p in ViewBag.Similar)
                             {
@@ -289,12 +219,6 @@
     const imgItems = document.querySelectorAll('.prod-preview__thumb-img');
     const imgLarge = document.querySelector('.prod-preview__img');
 
-    const quantityInput = document.getElementById('quantityInput');
-    const increaseBtn = document.getElementById('Increase');
-    const decreaseBtn = document.getElementById('Decrease');
-    const max = parseInt(quantityInput.getAttribute('max'), 10) || Infinity;
-    const min = parseInt(quantityInput.getAttribute('min'), 10) || 1;
-
     prodTabItems.forEach((item, index) => {
         item.addEventListener('click', () => {
             const prodTabItemActive = document.querySelector('.prod-tab__item--active');
@@ -317,20 +241,4 @@
             imgLarge.setAttribute('src', url)
         })
     })
-
-    increaseBtn.addEventListener('click', () => {
-        let currentValue = parseInt(quantityInput.value, 10) || 0;
-        if (currentValue < max) {
-            quantityInput.value = currentValue + 1;
-        }
-    });
-
-    decreaseBtn.addEventListener('click', () => {
-        let currentValue = parseInt(quantityInput.value, 10) || 0;
-        if (currentValue > min) {
-            quantityInput.value = currentValue - 1;
-        }
-    });
-
-
 </script>
