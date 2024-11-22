@@ -13,6 +13,8 @@ namespace Store_EF
 {
     public static class Helpers
     {
+        public const string FILEPATH = "App_Data/backup.json";
+
         public static string FormattedPrice(int price)
         {
             NumberFormatInfo nfi = new CultureInfo("vi-VN", false).NumberFormat;
