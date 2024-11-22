@@ -5,3 +5,5 @@ obj
 Logs
 PublishProfiles
 /Store EF/Web.config
+/Store EF/Public/Imgs/Products
+/Store EF/Web.config

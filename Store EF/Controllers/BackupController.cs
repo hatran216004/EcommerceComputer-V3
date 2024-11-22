@@ -1,19 +1,17 @@
-﻿using Store_EF.Models;
+﻿using CsvHelper;
+using Newtonsoft.Json;
+using Store_EF.Models;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System;
-using System.Globalization;
-using CsvHelper;
 
 namespace Store_EF.Controllers
 {
     public class BackupController : Controller
     {
-        const string FILEPATH = "App_Data/backup.json";
-
         StoreEntities store = new StoreEntities();
         SupportEntities support = new SupportEntities();
 
@@ -27,11 +25,11 @@ namespace Store_EF.Controllers
                 return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
-            string fP = Path.Combine(Server.MapPath("~"), FILEPATH);
+            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILEPATH);
             if (!Directory.Exists(Path.GetDirectoryName(fP)))
                 Directory.CreateDirectory(Path.GetDirectoryName(fP));
             if (!System.IO.File.Exists(fP))
-                System.IO.File.Create(fP);
+                System.IO.File.Create(fP).Close();
             return View(JsonConvert.DeserializeObject<IEnumerable<Backup>>(System.IO.File.ReadAllText(fP)));
         }
 
@@ -46,14 +44,19 @@ namespace Store_EF.Controllers
                 return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
-            string fP = Path.Combine(Server.MapPath("~"), FILEPATH);
-            var memory = new MemoryStream();
-            var writer = new StreamWriter(memory);
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILEPATH);
+            var history = JsonConvert.DeserializeObject<IEnumerable<Backup>>(System.IO.File.ReadAllText(fP));
+            if (history != null)
             {
-                csv.WriteRecords(JsonConvert.DeserializeObject<IEnumerable<Backup>>(System.IO.File.ReadAllText(fP)));
+                var memory = new MemoryStream();
+                var writer = new StreamWriter(memory);
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteRecords(history);
+                }
+                return File(memory.ToArray(), "application/json", "backup.csv");
             }
-            return File(memory.ToArray(), "application/json", "backup.csv");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -67,7 +70,7 @@ namespace Store_EF.Controllers
                 return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
-            string fP = Path.Combine(Server.MapPath("~"), FILEPATH);
+            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILEPATH);
             List<Backup> data = JsonConvert.DeserializeObject<List<Backup>>(System.IO.File.ReadAllText(fP));
             if (data == null)
                 data = new List<Backup>();

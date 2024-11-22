@@ -1,5 +1,4 @@
-﻿using Store_EF.Models;
-using System;
+﻿using System;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -36,14 +35,16 @@ namespace Store_EF.Models
                 int test = cmd.ExecuteNonQuery();
                 if (conn.State == System.Data.ConnectionState.Open)
                     conn.Close();
-                return new Backup() { 
+                return new Backup()
+                {
                     CreatedAt = now,
                     Name = name,
                     Desc = desc,
                     Path = fP,
                     Type = type,
                 };
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 return null;

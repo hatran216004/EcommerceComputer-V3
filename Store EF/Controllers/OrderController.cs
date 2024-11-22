@@ -112,7 +112,7 @@ namespace Store_EF.Controllers
                 return RedirectToAction("Index");
             else
             {
-                Payment payment = store.Payments.FirstOrDefault(x => x.OrderId == id && x.Status == "Succeeded");
+                Payment payment = store.Payments.FirstOrDefault(x => x.OrderId == id && x.Status == "Accepted");
                 if (payment == null)
                     return RedirectToAction("Index");
                 else
