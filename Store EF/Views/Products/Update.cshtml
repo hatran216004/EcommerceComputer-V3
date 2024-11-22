@@ -29,6 +29,10 @@
                     <label for="description">Mô tả sản phẩm</label>
                     @Html.TextAreaFor(m => m.Description, new { @class = "add-product__form-area" })
                 </div>
+                <div class="add-product__form-group">
+                    <label for="description">Cấu hình sản phẩm</label>
+                    @Html.TextAreaFor(m => m.Spec, new { @class = "add-product__form-area--larger" })
+                </div>
             </div>
 
             <div class="add-product__form-info-title">
@@ -38,6 +42,10 @@
                 <div class="add-product__form-group">
                     <label class="add-product__form-label" for="price">Giá sản phẩm</label>
                     @Html.TextBoxFor(x => x.Price, new { @type = "number", @min = 1000, @class = "add-product__form-text" })
+                </div>
+                <div class="add-product__form-group">
+                    <label class="add-product__form-label" for="price">Giá khuyễn mãi</label>
+                    @Html.TextBoxFor(x => x.PromoPrice, new { @type = "number", @min = 1000, @class = "add-product__form-text" })
                 </div>
                 <div class="add-product__form-group">
                     <label class="add-product__form-label" for="price">Số lượng</label>

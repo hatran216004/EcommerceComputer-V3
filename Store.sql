@@ -193,7 +193,7 @@ END
 GO
 
 GO
-CREATE OR ALTER TRIGGER Tri_AddOderDetail ON OrderDetail
+CREATE OR ALTER TRIGGER Tri_AddOrderDetail ON OrderDetail
 AFTER INSERT
 AS
 BEGIN
@@ -346,25 +346,21 @@ AS
 BEGIN
     IF @BrandId IS NULL AND @CategoryId IS NULL
     BEGIN
-        RAISERROR('Cần ít nhất một giá trị cho @BrandId hoặc @CategoryId.', 16, 1);
         RETURN;
     END
 
     IF @DiscountPercent IS NOT NULL AND (@DiscountPercent <= 0 OR @DiscountPercent > 100)
     BEGIN
-        RAISERROR('DiscountPercent phải nằm trong khoảng từ 1 đến 100.', 16, 1);
         RETURN;
     END
 
 	IF @DiscountMoney IS NOT NULL AND (@DiscountMoney <= 1000)
     BEGIN
-        RAISERROR('DiscountMoney phải lớn hơn 1.000 VND.', 16, 1);
         RETURN;
     END
 
     IF @DiscountPercent IS NULL AND @DiscountMoney IS NULL
     BEGIN
-        RAISERROR('Cần ít nhất một giá trị @DiscountPercent hoặc @DiscountMoney.', 16, 1);
         RETURN;
     END
 
@@ -379,6 +375,8 @@ BEGIN
         AND (@BrandId IS NULL OR BrandId = @BrandId);
 END;
 GO
+
+
 
 GO
 CREATE OR ALTER FUNCTION CountReviews(@ProductId INT)

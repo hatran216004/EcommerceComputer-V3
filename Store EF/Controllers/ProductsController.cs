@@ -175,7 +175,7 @@ namespace Store_EF.Controllers
             }
             else
             {
-                ModelState.AddModelError("Err", "Thêm sản phẩm thất bại");
+                ModelState.AddModelError("Err", "Add failed product");
                 return Add();
             }
         }
@@ -225,7 +225,7 @@ namespace Store_EF.Controllers
 
                 if (product == null)
                 {
-                    ModelState.AddModelError("DeleteError", "Đã xảy ra lỗi khi xóa sản phẩm");
+                    ModelState.AddModelError("DeleteError", "An error occurred while deleting the product.");
                     return RedirectToAction("ProductManagement");
                 }
                 store.Products.Remove(product);
@@ -235,7 +235,7 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("DeleteError", "Đã xảy ra lỗi khi xóa sản phẩm: " + ex.Message);
+                ModelState.AddModelError("DeleteError", "An error occurred while deleting the product.: " + ex.Message);
                 return RedirectToAction("ProductManagement");
             }
         }
@@ -257,7 +257,7 @@ namespace Store_EF.Controllers
 
             if (product == null)
             {
-                TempData["UpdateError"] = "Không tìm thấy sản phẩm để cập nhật.";
+                TempData["UpdateError"] = "No products found to update.";
                 return RedirectToAction("ProductManagement");
             }
             return View(product);
@@ -308,7 +308,7 @@ namespace Store_EF.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TempData["ErrorMessage"] = "Lỗi khi lưu thumbnail: " + ex.Message;
+                    TempData["ErrorMessage"] = "Error saving thumbnail: " + ex.Message;
                     return RedirectToAction("ProductManagement");
                 }
             }
@@ -335,7 +335,7 @@ namespace Store_EF.Controllers
                             }
                             catch (Exception ex)
                             {
-                                TempData["ErrorMessage"] = "Lỗi khi lưu ảnh gallery: " + ex.Message;
+                                TempData["ErrorMessage"] = "Error saving gallery image: " + ex.Message;
                                 return RedirectToAction("ProductManagement");
                             }
                         }
@@ -369,7 +369,7 @@ namespace Store_EF.Controllers
                         }
                         catch (Exception ex)
                         {
-                            TempData["ErrorMessage"] = "Lỗi khi lưu ảnh mới: " + ex.Message;
+                            TempData["ErrorMessage"] = "Error saving new image: " + ex.Message;
                             return RedirectToAction("ProductManagement");
                         }
                     }
@@ -382,11 +382,11 @@ namespace Store_EF.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Lỗi khi lưu thay đổi vào cơ sở dữ liệu: " + ex.Message;
+                TempData["ErrorMessage"] = "Error saving changes to database: " + ex.Message;
                 return RedirectToAction("ProductManagement");
             }
 
-            TempData["SuccessMessage"] = "Cập nhật sản phẩm thành công!";
+            TempData["SuccessMessage"] = "Product updated successfully!";
             return RedirectToAction("ProductManagement");
         }
 
@@ -408,16 +408,16 @@ namespace Store_EF.Controllers
 
                 if (rowsAffected > 0)
                 {
-                    TempData["SuccessMessage"] = "Cập nhật giá khuyến mãi thành công cho " + rowsAffected + " sản phẩm";
+                    TempData["SuccessMessage"] = "Successfully updated promotional prices for " + rowsAffected + " products";
                 }
                 else
                 {
-                    TempData["SuccessMessage"] = "Không có sản phẩm nào được cập nhật. ";
+                    TempData["SuccessMessage"] = "No products have been updated. ";
                 }
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "Lỗi khi cập nhật giá khuyến mãi: " + ex.Message;
+                TempData["ErrorMessage"] = "Error updating promotional price: " + ex.Message;
             }
 
             return RedirectToAction("UpdatePromo", "Products");
