@@ -21,12 +21,16 @@
             <div class="add-product__form-info-base">
                 <div class="add-product__form-group">
                     <label class="add-product__form-label"
-                            for="productName">Tên sản phẩm</label>
+                           for="productName">Tên sản phẩm</label>
                     @Html.TextBoxFor(m => m.Title, new { @class = "add-product__form-text" })
                 </div>
                 <div class="add-product__form-group">
                     <label for="description">Mô tả sản phẩm</label>
                     @Html.TextAreaFor(m => m.Description, new { @class = "add-product__form-area" })
+                </div>
+                <div class="add-product__form-group">
+                    <label for="description">Cấu hình sản phẩm</label>
+                    @Html.TextAreaFor(m => m.Spec, new { @class = "add-product__form-area--larger" })
                 </div>
             </div>
 

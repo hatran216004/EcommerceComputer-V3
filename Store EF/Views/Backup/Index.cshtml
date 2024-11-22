@@ -13,12 +13,15 @@
 
 <div class="pm__main">
     <div class="pm__title">Backup Database</div>
-    <div class="pm__btn-add">
-        <a id="CreateBK" href="#">Tạo Backup Ngay</a>
+    <div style="display:flex">
+        <div class="pm__btn-add">
+            <a id="CreateBK" href="#">Tạo Backup Ngay</a>
+        </div>
+        <div class="pm__btn-add">
+            <a href="@Url.Action("Export", "Backup")">Xuất file</a>
+        </div>
     </div>
-    <div class="pm__btn-add">
-        <a href="@Url.Action("Export", "Backup")">Xuất file</a>
-    </div>
+
 
     <table class="pm__table">
         <thead>
