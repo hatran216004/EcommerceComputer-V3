@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -161,6 +163,34 @@ namespace Store_EF.Models
                 Debug.WriteLine(ex);
                 return false;
             }
+        }
+
+        public IEnumerable<ViewReport> GetViewReport()
+        {
+            List<ViewReport> result = new List<ViewReport>();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ViewReport", conn);
+            cmd.CommandType = System.Data.CommandType.Text;
+            try
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                    conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read()) { 
+                    ViewReport v = new ViewReport() { 
+                        Month = reader.GetInt32(0),
+                        Year = reader.GetInt32(1),
+                        TotalIncome = reader.GetInt32(2),
+                        TotalSold = reader.GetInt32(3),
+                    };
+                    result.Add(v);
+                }
+                if (conn.State == System.Data.ConnectionState.Open)
+                    conn.Close();
+            }
+            catch (Exception ex) { 
+                Debug.WriteLine(ex);
+            }
+            return result;
         }
     }
 }

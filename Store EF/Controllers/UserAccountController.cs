@@ -161,6 +161,8 @@ namespace Store_EF.Controllers
             User user = store.Users.First(x => x.UserId == userId);
             if (!user.IsConfirm)
                 return RedirectToAction("Verify", "Home");
+            if (user.RoleName != "Admin")
+                return RedirectToAction("Index", "Home");
             try
             {
                 User findUser = store.Users.Find(id);
@@ -189,6 +191,8 @@ namespace Store_EF.Controllers
             User user = store.Users.First(x => x.UserId == userId);
             if (!user.IsConfirm)
                 return RedirectToAction("Verify", "Home");
+            if (user.RoleName != "Admin")
+                return RedirectToAction("Index", "Home");
             try
             {
                 User newUser = new User
@@ -241,6 +245,8 @@ namespace Store_EF.Controllers
             User cuser = store.Users.First(x => x.UserId == userId);
             if (!cuser.IsConfirm)
                 return RedirectToAction("Verify", "Home");
+            if (cuser.RoleName != "Admin")
+                return RedirectToAction("Index", "Home");
             try
             {
                 User findUser = store.Users.Find(id);
@@ -257,6 +263,21 @@ namespace Store_EF.Controllers
                 TempData["SuccessMessage"] = "Lỗi cmnr...";
                 return RedirectToAction("UserManagement");
             }
+        }
+
+        public ActionResult GetViewReport()
+        {
+            if (Session["UserId"] == null)
+                return RedirectToAction("SignIn", "Auth");
+            int userId = int.Parse(Session["UserId"].ToString());
+            User user = store.Users.First(x => x.UserId == userId);
+            if (!user.IsConfirm)
+                return RedirectToAction("Verify", "Home");
+            if (user.RoleName != "Admin")
+                return RedirectToAction("Index", "Home");
+            SupportEntities support = new SupportEntities();
+            var result = support.GetViewReport();
+            return View(result);
         }
     }
 }
