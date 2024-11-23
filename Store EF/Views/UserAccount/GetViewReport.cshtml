@@ -1,0 +1,36 @@
+﻿@using Store_EF.Models
+@model IEnumerable<ViewReport>
+@{
+    ViewBag.Title = "GetViewReport";
+    Layout = "~/Views/Shared/_LayoutPageProfile.cshtml";
+}
+
+<div class="cate-bard">
+    <div class="cate-bard__title"
+         style="display: block; text-align: center; margin: 24px">
+        Thống kê doanh thu
+    </div>
+
+    <table class="cate-bard__table">
+        <thead>
+            <tr>
+                <th style="width: 15%; color: #fff; background-color: #000; font-weight: bold;">Năm</th>
+                <th style="width: 15%; color: #fff; background-color: #000; font-weight: bold;">Tháng</th>
+                <th style="width: 20%; color: #fff; background-color: #000; font-weight: bold;">Số lượng bán</th>
+                <th style="width: 30%; color: #fff; background-color: #000; font-weight: bold;">Tổng tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ViewReport v in Model)
+            {
+                <tr>
+                    <td>@v.Year</td>
+                    <td>@v.Month</td>
+                    <td>@v.TotalSold</td>
+                    <td>@Helpers.FormattedPrice(v.TotalIncome)</td>
+                </tr>
+            } 
+        </tbody>
+    </table>
+</div>
+

@@ -13,7 +13,9 @@ namespace Store_EF
 {
     public static class Helpers
     {
-        public const string FILEPATH = "App_Data/backup.json";
+        public const string FILE_PATH = "App_Data/backup.json";
+
+        public const int BACKUP_HOUR = 2;
 
         public static string FormattedPrice(int price)
         {

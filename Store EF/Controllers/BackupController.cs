@@ -25,7 +25,7 @@ namespace Store_EF.Controllers
                 return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
-            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILEPATH);
+            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILE_PATH);
             if (!Directory.Exists(Path.GetDirectoryName(fP)))
                 Directory.CreateDirectory(Path.GetDirectoryName(fP));
             if (!System.IO.File.Exists(fP))
@@ -44,7 +44,7 @@ namespace Store_EF.Controllers
                 return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
-            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILEPATH);
+            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILE_PATH);
             var history = JsonConvert.DeserializeObject<IEnumerable<Backup>>(System.IO.File.ReadAllText(fP));
             if (history != null)
             {
@@ -70,7 +70,7 @@ namespace Store_EF.Controllers
                 return RedirectToAction("Verify", "Home");
             if (!Helpers.IsUserAdmin(userId, store))
                 return RedirectToAction("Index");
-            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILEPATH);
+            string fP = Path.Combine(Server.MapPath("~"), Helpers.FILE_PATH);
             List<Backup> data = JsonConvert.DeserializeObject<List<Backup>>(System.IO.File.ReadAllText(fP));
             if (data == null)
                 data = new List<Backup>();

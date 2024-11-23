@@ -28,12 +28,12 @@ namespace Store_EF
             new BackgroudHandler(() =>
             {
                 var now = DateTime.Now;
-                if (now.Hour == 23 && now.Minute == 7)
+                if (now.Hour == Helpers.BACKUP_HOUR)
                 {
                     SupportEntities support = new SupportEntities();
                     string day = now.DayOfWeek.ToString();
                     string folderPath = "E:\\Backup";
-                    string fP = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), Path.GetFileName(Helpers.FILEPATH));
+                    string fP = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), Path.GetFileName(Helpers.FILE_PATH));
                     if (!Directory.Exists(Path.GetDirectoryName(fP)))
                     {
                         Directory.CreateDirectory(Path.GetDirectoryName(fP));
@@ -50,31 +50,32 @@ namespace Store_EF
                     }
                     if (now.DayOfWeek == DayOfWeek.Monday)
                     {
-                        db = support.BackupDB($"Db {day}", $"Regular full backups on {day}", folderPath);
+                        db = support.BackupDB($"Db {day}", $"Regular full backups on {day} at {now}", folderPath);
                     }
                     else
                     {
                         if (data.Count == 0)
                         {
-                            db = support.BackupDB($"Db {day}", $"Regular full backups on {day}", folderPath);
+                            db = support.BackupDB($"Db {day}", $"Regular full backups on {day} at {now}", folderPath);
                         }
                         else
                         {
-                            db = support.BackupDB($"Db {day}", $"Regular differential backups on {day}", folderPath, true);
+                            db = support.BackupDB($"Db {day}", $"Regular differential backups on {day} at {now}", folderPath, true);
                         }
                     }
                     if (db.HasValue)
                     {
                         data.Add(db.Value);
                     }
-                    Backup? log = support.BackupLog($"Log {day}", $"Regular log backups on {day}", folderPath);
+                    Backup? log = support.BackupLog($"Log {day}", $"Regular log backups on {day} at {now}", folderPath);
                     if (log.HasValue)
                     {
                         data.Add(log.Value);
                     }
                     File.WriteAllText(fP, JsonConvert.SerializeObject(data));
                 }
-                Thread.Sleep(1000 * 60);
+                DateTime next = new DateTime(now.Year, now.Month, now.Day + 1, Helpers.BACKUP_HOUR, 0, 0);
+                Thread.Sleep(next - now);
             }).Start();
         }
     }
