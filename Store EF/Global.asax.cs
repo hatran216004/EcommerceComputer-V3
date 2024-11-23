@@ -28,54 +28,44 @@ namespace Store_EF
             new BackgroudHandler(() =>
             {
                 var now = DateTime.Now;
-                if (now.Hour == Helpers.BACKUP_HOUR)
+                if (now.Hour == Helpers.BACKUP_HOUR || now.Hour % 6 == 0)
                 {
                     SupportEntities support = new SupportEntities();
                     string day = now.DayOfWeek.ToString();
                     string folderPath = "E:\\Backup";
                     string fP = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), Path.GetFileName(Helpers.FILE_PATH));
                     if (!Directory.Exists(Path.GetDirectoryName(fP)))
-                    {
                         Directory.CreateDirectory(Path.GetDirectoryName(fP));
-                    }
                     if (!File.Exists(fP))
-                    {
                         File.Create(fP).Close();
-                    }
                     List<Backup> data = JsonConvert.DeserializeObject<List<Backup>>(File.ReadAllText(fP));
-                    Backup? db;
                     if (data == null)
-                    {
                         data = new List<Backup>();
-                    }
-                    if (now.DayOfWeek == DayOfWeek.Monday)
+
+                    if (now.Hour == Helpers.BACKUP_HOUR)
                     {
-                        db = support.BackupDB($"Db {day}", $"Regular full backups on {day} at {now}", folderPath);
-                    }
-                    else
-                    {
-                        if (data.Count == 0)
-                        {
+                        Backup? db;
+                        if (now.DayOfWeek == DayOfWeek.Monday)
                             db = support.BackupDB($"Db {day}", $"Regular full backups on {day} at {now}", folderPath);
-                        }
                         else
                         {
-                            db = support.BackupDB($"Db {day}", $"Regular differential backups on {day} at {now}", folderPath, true);
+                            if (data.Count == 0)
+                                db = support.BackupDB($"Db {day}", $"Regular full backups on {day} at {now}", folderPath);
+                            else
+                                db = support.BackupDB($"Db {day}", $"Regular differential backups on {day} at {now}", folderPath, true);
                         }
+                        if (db.HasValue)
+                            data.Add(db.Value);
                     }
-                    if (db.HasValue)
+                    else if (now.Hour % 6 == 0)
                     {
-                        data.Add(db.Value);
-                    }
-                    Backup? log = support.BackupLog($"Log {day}", $"Regular log backups on {day} at {now}", folderPath);
-                    if (log.HasValue)
-                    {
-                        data.Add(log.Value);
+                        Backup? log = support.BackupLog($"Log {day} at {now}", $"Regular log backups on {day} at {now}", folderPath);
+                        if (log.HasValue)
+                            data.Add(log.Value);
                     }
                     File.WriteAllText(fP, JsonConvert.SerializeObject(data));
                 }
-                DateTime next = new DateTime(now.Year, now.Month, now.Day + 1, Helpers.BACKUP_HOUR, 0, 0);
-                Thread.Sleep(next - now);
+                Thread.Sleep(TimeSpan.FromHours(1));
             }).Start();
         }
     }
