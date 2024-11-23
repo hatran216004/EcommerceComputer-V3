@@ -376,8 +376,6 @@ BEGIN
 END;
 GO
 
-
-
 GO
 CREATE OR ALTER FUNCTION CountReviews(@ProductId INT)
 RETURNS INT
@@ -426,6 +424,14 @@ DECLARE @Out BIT
 EXEC @Out = ChangeActiveState 28
 SELECT @Out
 
+GO
+CREATE OR ALTER VIEW ViewReport AS 
+SELECT MONTH(O.CreatedAt) [Month], YEAR(O.CreatedAt) [Year], SUM(O.TotalPrice) TotalIncome, SUM(D.Quantity) TotalSold FROM [Order] O 
+JOIN Payment P ON O.OrderId = P.OrderId 
+JOIN OrderDetail D ON O.OrderId = D.OrderId 
+WHERE P.Status = 'Accepted' GROUP BY MONTH(O.CreatedAt), YEAR(O.CreatedAt)
+GO
+
 -- Thêm thương hiệu
 INSERT INTO Brand (Name)
 VALUES 
@@ -443,5 +449,3 @@ VALUES
 ('Tablet'),
 ('Monitor'),
 ('Accessory')
-
-
