@@ -3,6 +3,7 @@ using Store_EF.Handlers;
 using Store_EF.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -32,7 +33,7 @@ namespace Store_EF
                 {
                     SupportEntities support = new SupportEntities();
                     string day = now.DayOfWeek.ToString();
-                    string folderPath = "E:\\Backup";
+                    string folderPath = ConfigurationManager.AppSettings["FolderBackupPath"];
                     string fP = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), Path.GetFileName(Helpers.FILE_PATH));
                     if (!Directory.Exists(Path.GetDirectoryName(fP)))
                         Directory.CreateDirectory(Path.GetDirectoryName(fP));
