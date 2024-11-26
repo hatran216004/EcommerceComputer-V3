@@ -48,8 +48,10 @@ namespace Store_EF.Controllers
             }
         }
 
-        public ActionResult Search(string product, int page = 1)
+        public ActionResult Search(string product = "", int page = 1)
         {
+            if (product.Length == 0)
+                return RedirectToAction("Index");
             if (Session["UserId"] != null)
             {
                 int userId = int.Parse(Session["UserId"].ToString());
@@ -62,7 +64,7 @@ namespace Store_EF.Controllers
                 page = 1;
             try
             {
-                var products = store.Products.Where(x => x.Stock != 0).ToList().Where(c => Regex.IsMatch(c.Title.ToLower(), $"({product})"));
+                var products = store.Products.Where(x => x.Stock != 0).ToList().Where(c => c.Title.ToLower().Contains(product.ToLower()));
                 ViewBag.MaxPage = products.MaxPage(pageSize);
                 return View("Index", products.OrderByDescending(x => x.CreatedAt).ToPagedList(page, pageSize));
             }

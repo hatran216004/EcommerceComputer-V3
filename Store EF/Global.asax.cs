@@ -28,12 +28,15 @@ namespace Store_EF
 
             new BackgroudHandler(() =>
             {
+                int backupHour = Helpers.BackupHour();
+                string folderPath = Helpers.FolderBackupPath();
+                if (backupHour == -1 || folderPath.Length == 0)
+                    return;
                 var now = DateTime.Now;
-                if (now.Hour == Helpers.BACKUP_HOUR || now.Hour % 6 == 0)
+                if (now.Hour == backupHour || now.Hour % 6 == 0)
                 {
                     SupportEntities support = new SupportEntities();
                     string day = now.DayOfWeek.ToString();
-                    string folderPath = ConfigurationManager.AppSettings["FolderBackupPath"];
                     string fP = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), Path.GetFileName(Helpers.FILE_PATH));
                     if (!Directory.Exists(Path.GetDirectoryName(fP)))
                         Directory.CreateDirectory(Path.GetDirectoryName(fP));
@@ -43,7 +46,7 @@ namespace Store_EF
                     if (data == null)
                         data = new List<Backup>();
 
-                    if (now.Hour == Helpers.BACKUP_HOUR)
+                    if (now.Hour == backupHour)
                     {
                         Backup? db;
                         if (now.DayOfWeek == DayOfWeek.Monday)

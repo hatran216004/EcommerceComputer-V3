@@ -59,7 +59,9 @@
     <div class="hero__inner">
         <div class="hero__left">
             <ul>
-                @foreach(Category c in store.Categories) { 
+                <li><a href="@Url.Action("Index", "Products")">Tất cả</a></li>
+                @foreach (Category c in store.Categories)
+                {
                     <li><a href="@Url.Action("Index", "Products", new { category = c.Name })">@c.Name</a></li>
                 }
             </ul>
