@@ -87,8 +87,15 @@
                         </div>
                         <div class="add-product__form-product-title ellipsis">@p.Title</div>
                         <div class="add-product__form-product-prices">
-                            <div class="add-product__form-product-promo">@p.PromoPrice</div>
-                            <div class="add-product__form-product-price">@p.Price</div>
+                            @if (p.PromoPrice.HasValue)
+                            {
+                                <div class="add-product__form-product-promo">@Helpers.FormattedPrice(p.PromoPrice.Value)</div>
+                                <div class="add-product__form-product-price">@Helpers.FormattedPrice(p.Price)</div>
+                            }
+                            else
+                            {
+                                <div class="add-product__form-product-promo">@Helpers.FormattedPrice(p.Price)</div>
+                            }
                         </div>
                     </div>
                 }

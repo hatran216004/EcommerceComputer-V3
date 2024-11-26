@@ -1,5 +1,8 @@
-﻿using Store_EF.Models;
+﻿using Microsoft.Ajax.Utilities;
+using Store_EF.Models;
 using System;
+using System.Configuration;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -15,7 +18,25 @@ namespace Store_EF
     {
         public const string FILE_PATH = "App_Data/backup.json";
 
-        public const int BACKUP_HOUR = 2;
+        public static int BackupHour()
+        {
+            int backupHour;
+            if (int.TryParse(ConfigurationManager.AppSettings["BackupHour"], out backupHour))
+            {
+                if (backupHour >= 0 && backupHour <= 23)
+                    return backupHour;
+            }
+            return -1;
+        }
+
+        public static string FolderBackupPath()
+        {
+            string result = ConfigurationManager.AppSettings["FolderBackupPath"];
+            if (result.IsNullOrWhiteSpace())
+                return string.Empty;
+            else
+                return result;
+        }
 
         public static string FormattedPrice(int price)
         {
