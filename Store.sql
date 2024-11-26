@@ -3,6 +3,70 @@ GO
 USE Store
 GO
 
+CREATE LOGIN Admin WITH PASSWORD = 'Admin@123';  
+CREATE USER Admin FOR LOGIN Admin;  
+
+CREATE LOGIN UserManager WITH PASSWORD = '123';  
+CREATE USER UserManager FOR LOGIN UserManager;  
+
+CREATE LOGIN ProductManager WITH PASSWORD = '123';  
+CREATE USER ProductManager FOR LOGIN ProductManager;  
+
+CREATE LOGIN OrderManager WITH PASSWORD = '123';  
+CREATE USER OrderManager FOR LOGIN OrderManager;
+
+CREATE ROLE AdminRole;
+CREATE ROLE UserManagerRole;
+CREATE ROLE ProductManagerRole;
+CREATE ROLE OrderManagerRole;
+
+EXEC sp_addrolemember 'db_owner', 'AdminRole';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON [User] TO UserManagerRole;
+GRANT SELECT, INSERT, UPDATE, DELETE ON UserDetail TO UserManagerRole;
+
+GRANT SELECT ON Brand TO UserManagerRole;
+GRANT SELECT ON Category TO UserManagerRole;
+GRANT SELECT ON Product TO UserManagerRole;
+GRANT SELECT ON [Order] TO UserManagerRole;
+GRANT SELECT ON OrderDetail TO UserManagerRole;
+GRANT SELECT ON Cart TO UserManagerRole;
+GRANT SELECT ON Review TO UserManagerRole;
+GRANT SELECT ON Payment TO UserManagerRole;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON Product TO ProductManagerRole;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Brand TO ProductManagerRole;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Category TO ProductManagerRole;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Gallery TO ProductManagerRole;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Cart TO ProductManagerRole;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Review TO ProductManagerRole;
+
+GRANT SELECT ON [User] TO ProductManagerRole;
+GRANT SELECT ON UserDetail TO ProductManagerRole;
+GRANT SELECT ON [Order] TO ProductManagerRole;
+GRANT SELECT ON OrderDetail TO ProductManagerRole;
+GRANT SELECT ON Payment TO ProductManagerRole;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON [Order] TO OrderManagerRole;
+GRANT SELECT, INSERT, UPDATE, DELETE ON OrderDetail TO OrderManagerRole;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Payment TO OrderManagerRole;
+
+GRANT SELECT ON [User] TO OrderManagerRole;
+GRANT SELECT ON UserDetail TO OrderManagerRole;
+GRANT SELECT ON Product TO OrderManagerRole;
+GRANT SELECT ON Brand TO OrderManagerRole;
+GRANT SELECT ON Category TO OrderManagerRole;
+GRANT SELECT ON Cart TO OrderManagerRole;
+GRANT SELECT ON Review TO OrderManagerRole;
+
+EXEC sp_addrolemember 'AdminRole', 'Admin';
+
+EXEC sp_addrolemember 'UserManagerRole', 'UserManager';
+
+EXEC sp_addrolemember 'ProductManagerRole', 'ProductManager';
+
+EXEC sp_addrolemember 'OrderManagerRole', 'OrderManager';
+
 DBCC USEROPTIONS
 ALTER DATABASE Store SET READ_COMMITTED_SNAPSHOT ON
 ALTER DATABASE Store SET RECOVERY FULL
@@ -445,8 +509,8 @@ VALUES
 -- Thêm danh mục sản phẩm
 INSERT INTO Category (Name)
 VALUES 
-('Laptop'),
-('Desktop'),
-('Tablet'),
-('Monitor'),
-('Accessory')
+('Laptop văn phòng'),
+('Laptop gaming'),
+('Laptop workstation'),
+('Laptop đồ họa'),
+('Laptop AI')

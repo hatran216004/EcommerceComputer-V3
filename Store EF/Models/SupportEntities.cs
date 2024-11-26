@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
@@ -175,8 +174,10 @@ namespace Store_EF.Models
                 if (conn.State == System.Data.ConnectionState.Closed)
                     conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read()) { 
-                    ViewReport v = new ViewReport() { 
+                while (reader.Read())
+                {
+                    ViewReport v = new ViewReport()
+                    {
                         Month = reader.GetInt32(0),
                         Year = reader.GetInt32(1),
                         TotalIncome = reader.GetInt32(2),
@@ -187,7 +188,8 @@ namespace Store_EF.Models
                 if (conn.State == System.Data.ConnectionState.Open)
                     conn.Close();
             }
-            catch (Exception ex) { 
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex);
             }
             return result;
