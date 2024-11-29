@@ -105,7 +105,7 @@
                                             @{
                                                 double star = Model.StarAVG();
                                             }
-                                            (@(star.ToString().Contains(".") ? string.Format("{0:F1}", star) : star) <img src="~/Public/icons/star.svg" alt="Alternate Text" style="height:16px; margin:0 4px; margin-top:-1px" />) @Model.CountReviews() Bình luận
+                                            (@(star != Math.Round(star, 0) ? Math.Round(star, 1) : star) <img src="~/Public/icons/star.svg" alt="Alternate Text" style="height:16px; margin:0 4px; margin-top:-1px" />) @Model.CountReviews() Bình luận
                                         </h4>
                                     </div>
                                     @*@Html.Raw(Model.Spec)*@
