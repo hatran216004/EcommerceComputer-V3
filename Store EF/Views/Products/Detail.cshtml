@@ -105,7 +105,8 @@
                                             (@Model.StartAVG() <img src="~/Public/icons/star.svg" alt="Alternate Text" style="height:16px; margin:0 4px; margin-top:-1px" />) @Model.CountReviews() Bình luận
                                         </h4>
                                     </div>
-                                    @Html.Raw(Model.Spec)
+                                    @*@Html.Raw(Model.Spec)*@
+                                    <div style="margin-top:24px; line-height:24px" id="spec-container"></div>
                                 </div>
 
                                 <div class="col-7 col-xxl-6 col-xl-12">
@@ -241,4 +242,13 @@
             imgLarge.setAttribute('src', url)
         })
     })
+
+
+    let spec = "@Model.Spec";
+
+    // Xử lý chuỗi: tách theo dấu ", " và xuống dòng
+    let formattedSpec = spec.split(", ").join("<br>");
+
+    // Hiển thị chuỗi vào HTML
+    document.getElementById("spec-container").innerHTML = formattedSpec;
 </script>
