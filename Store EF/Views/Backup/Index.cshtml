@@ -53,7 +53,7 @@
                 foreach (Backup b in Model)
                 {
                     <tr>
-                        <td class="pm__table-item" scope="row">@b.CreatedAt</td>
+                        <td class="pm__table-item" scope="row">@b.CreatedAt.ToString("dd-MM-yyyy HH:mm")</td>
                         <td class="pm__table-item">@b.Name</td>
                         <td class="pm__table-item">@b.Desc</td>
                         <td class="pm__table-item">@b.Path</td>
