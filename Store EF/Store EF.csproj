@@ -340,6 +340,7 @@
     <Content Include="Public\css\payment.css" />
     <Content Include="Public\css\profile.css" />
     <Content Include="Public\css\reset.css" />
+    <Content Include="Public\icons\agnle-left.svg" />
     <Content Include="Public\icons\arrow-right.svg" />
     <Content Include="Public\icons\Drop-Down-Small.svg" />
     <Content Include="Public\icons\Drop-Up-Small.svg" />

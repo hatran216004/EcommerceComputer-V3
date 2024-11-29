@@ -60,7 +60,7 @@ namespace Store_EF.Models.Extensions
             return support.GetProductDiscountPercent(p.ProductId);
         }
 
-        public static double StartAVG(this Product p)
+        public static double StarAVG(this Product p)
         {
             SupportEntities support = new SupportEntities();
             return support.StarAVG(p.ProductId);
