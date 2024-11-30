@@ -215,11 +215,15 @@ a {
         line-height: 150%;
         cursor: pointer;
     }
+        .hero__left li > a {
+            display:block;
+            width: 100%;
+        }
 
-    .hero__left ul {
-        height: 100%;
-        margin-right: 20px;
-    }
+        .hero__left ul {
+            height: 100%;
+            margin-right: 20px;
+        }
 
     .hero__left li:hover {
         color: #fff;
