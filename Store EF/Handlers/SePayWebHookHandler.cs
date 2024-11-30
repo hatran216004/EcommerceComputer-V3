@@ -34,8 +34,8 @@ namespace Store_EF.Handlers
                             {
                                 curr.TransactionId = sePay.ReferenceCode;
                                 curr.PaymentDate = sePay.TransactionDate;
-                                curr.Amount = curr.Order.TotalPrice();
-                                if (curr.Amount == sePay.TransferAmount)
+                                curr.Amount = sePay.TransferAmount;
+                                if (curr.Amount == curr.Order.TotalPrice())
                                     curr.Status = "Succeeded";
                                 else
                                     curr.Status = "Refunding";
