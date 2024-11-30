@@ -431,7 +431,7 @@ BEGIN
 
     UPDATE Product
     SET PromoPrice = CASE 
-                        WHEN @DiscountPercent IS NOT NULL THEN Price - (Price * @DiscountPercent / 100)
+                        WHEN @DiscountPercent IS NOT NULL THEN CAST(Price as bigint) - (CAST(Price as bigint) * @DiscountPercent / 100)
                         WHEN @DiscountMoney IS NOT NULL THEN Price - @DiscountMoney
                      END,
         UpdatedAt = GETDATE()
