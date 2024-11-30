@@ -164,7 +164,7 @@ CREATE TABLE Payment (
 	Method VARCHAR(10) NOT NULL DEFAULT 'Cash' CHECK (Method IN ('Cash', 'Bank')),
 	[Status] VARCHAR(20) NOT NULL DEFAULT 'Waitting',
 	PaymentDate DATETIME2 CHECK (PaymentDate <= GETDATE()),
-	Expiry DATETIME2 NOT NULL DEFAULT DATEADD(day, 1, GETDATE()) CHECK (Expiry >= GETDATE()),
+	Expiry DATETIME2 NOT NULL DEFAULT DATEADD(day, 1, GETDATE()),
 	TransactionId VARCHAR(20),
 	Bank VARCHAR(20),
 	Account VARCHAR(20)
@@ -295,7 +295,7 @@ AS
 BEGIN
 	DECLARE @Status VARCHAR(20) = (SELECT [Status] FROM Payment WHERE PaymentId = @PaymentId)
 	DECLARE @OrderId INT = (SELECT OrderId FROM Payment WHERE PaymentId = @PaymentId)
-	IF (@Status = 'Failed')
+	IF (@Status = 'Failed' OR @Status = 'Refunding')
 		BEGIN
 			DECLARE TMP CURSOR LOCAL SCROLL STATIC
 			FOR SELECT ProductId, Quantity FROM OrderDetail WHERE OrderId = @OrderId

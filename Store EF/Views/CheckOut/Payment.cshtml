@@ -11,34 +11,6 @@
 
 @if (Model.Method == "Bank")
 {
-    @*<img style="display:block; width:500px;height:500px;" src="data:image/png;base64,@Model.QR()" />
-        <p>Chủ tài khoản: @fullName</p>
-        <p>Số tài khoản: @account</p>
-        <p>Ngân hàng: @bank</p>
-        <p>Số tiền: @Helpers.FormattedPrice(Model.Order.TotalPrice())</p>
-        <p>Nội dung: @Model.Code</p>
-        <p>Mã thanh toán này sẽ hết hạn sau @Model.Expiry.ToString("hh:mm") ngày @Model.Expiry.ToString("dd-MM-yyyy")</p>
-        <p>Trạng thái: <span id="status">Chờ thanh toán</span></p>
-        using (Html.BeginForm("Cancel", "CheckOut", FormMethod.Post, new { id = "cancelPayment" })) {
-            <input type="hidden" value="@Model.PaymentId" name="paymentId" />
-            <button type="submit">Huỷ thanh toán</button>
-        }
-        <table>
-            <tr>
-                <th>Tên sản phẩm</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
-            </tr>
-            @foreach (OrderDetail detail in Model.Order.OrderDetails)
-            {
-                <tr>
-                    <td>@detail.Product.Title</td>
-                    <td>@detail.Quantity</td>
-                    <th>@Helpers.FormattedPrice(detail.Price)</th>
-                </tr>
-            }
-        </table>*@
-
     <div class="payment">
         <div class="payment__pay">
             <div class="payment__pay-status">
@@ -59,10 +31,6 @@
                     <img src="data:image/png;base64,@Model.QR()"
                          alt=""
                          class="payment__pay-method__qr-img" />
-                    @*<a class="payment__pay-method__qr-down" href="#">
-                        <img src="~/Public/Imgs/download.svg" alt="" />Tải ảnh
-                        QR
-                    </a>*@
                     <div class="payment__pay-method__qr-status">
                         Trạng thái: <span id="status">Chờ thanh toán...</span>
                     </div>
@@ -133,14 +101,14 @@
             var source = new EventSource('@Url.Action("Status", "CheckOut", new { code = Model.Code })');
             source.onmessage = function (event) {
                 const statusEle = document.getElementById("status");
-                //const cancelPayment = document.getElementById("cancelPayment");
                 if (event.data == 'Succeeded') {
-                    //cancelPayment.style.visibility = "hidden"
                     statusEle.innerText = "Thanh toán thành công";
                     source.close();
                 } else if (event.data == 'Failed') {
-                    //cancelPayment.style.visibility = "hidden"
                     statusEle.innerText = "Thanh toán thất bại";
+                    source.close();
+                } else if (event.data == 'Refunding') {
+                    statusEle.innerText = "Thanh toán thất bại (Sai số tiền)";
                     source.close();
                 }
             };

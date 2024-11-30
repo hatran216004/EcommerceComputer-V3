@@ -152,20 +152,8 @@ namespace Store_EF.Controllers
                 switch (payment.Status)
                 {
                     case "Succeeded":
-                        {
-                            try
-                            {
-                                Response.Write($"data: {payment.Status}\n\n");
-                                Response.Flush();
-                                Response.End();
-                            }
-                            catch
-                            {
-                                return new HttpStatusCodeResult(200);
-                            }
-                        }
-                        break;
                     case "Failed":
+                    case "Refunding":
                         {
                             try
                             {
@@ -180,7 +168,7 @@ namespace Store_EF.Controllers
                         }
                         break;
                 }
-                if (payment.Status == "Succeeded" || payment.Status == "Failed" || !Response.IsClientConnected)
+                if (payment.Status == "Succeeded" || payment.Status == "Failed" || payment.Status == "Refunding" || !Response.IsClientConnected)
                     break;
                 Thread.Sleep(1000);
             }
