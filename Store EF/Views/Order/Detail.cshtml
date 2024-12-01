@@ -82,10 +82,16 @@
                     Đơn hàng đã được nhận
                 </div>
             }
-            else
+            else if (payment.Status == "Refunded")
             {
                 <div class="orderdetail__info-user-name">
                     Đơn hàng đã hoàn tiền
+                </div>
+            }
+            else if (payment.Status == "Refunding")
+            {
+                <div class="orderdetail__info-user-name">
+                    Đang chờ đơn hàng hoàn tiền
                 </div>
             }
             <hr />

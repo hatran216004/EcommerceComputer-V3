@@ -77,18 +77,9 @@
                                             </span>
                                             <span class="orderhis__list-mini__item-product__info-quantity">x @detail.Quantity</span>
                                         </div>
-                                        @if (detail.Product.PromoPrice == null)
-                                        {
-                                            <span class="orderhis__list-mini__item-product__info-price">
-                                                @detail.Product.FormattedPrice(false)
-                                            </span>
-                                        }
-                                        else
-                                        {<span class="orderhis__list-mini__item-product__info-price">
-
-                                                <span class="orderhis__list-price--origin">@detail.Product.FormattedPrice(true)</span>@detail.Product.FormattedPrice(false)
-                                            </span>
-                                        }
+                                        <span class="orderhis__list-mini__item-product__info-price">
+                                            @Helpers.FormattedPrice(detail.Price)
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -135,18 +126,9 @@
                                                 </span>
                                                 <span class="orderhis__list-mini__item-product__info-quantity">x @detail.Quantity</span>
                                             </div>
-                                            @if (detail.Product.PromoPrice == null)
-                                            {
-                                                <span class="orderhis__list-mini__item-product__info-price">
-                                                    @detail.Product.FormattedPrice(false)
-                                                </span>
-                                            }
-                                            else
-                                            {<span class="orderhis__list-mini__item-product__info-price">
-
-                                                    <span class="orderhis__list-price--origin">@detail.Product.FormattedPrice(true)</span>@detail.Product.FormattedPrice(false)
-                                                </span>
-                                            }
+                                            <span class="orderhis__list-mini__item-product__info-price">
+                                                @Helpers.FormattedPrice(detail.Price)
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -190,18 +172,9 @@
                                                 </span>
                                                 <span class="orderhis__list-mini__item-product__info-quantity">x @detail.Quantity</span>
                                             </div>
-                                            @if (detail.Product.PromoPrice == null)
-                                            {
-                                                <span class="orderhis__list-mini__item-product__info-price">
-                                                    @detail.Product.FormattedPrice(false)
-                                                </span>
-                                            }
-                                            else
-                                            {<span class="orderhis__list-mini__item-product__info-price">
-
-                                                    <span class="orderhis__list-price--origin">@detail.Product.FormattedPrice(true)</span>@detail.Product.FormattedPrice(false)
-                                                </span>
-                                            }
+                                            <span class="orderhis__list-mini__item-product__info-price">
+                                                @Helpers.FormattedPrice(detail.Price)
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -245,18 +218,9 @@
                                                 </span>
                                                 <span class="orderhis__list-mini__item-product__info-quantity">x @detail.Quantity</span>
                                             </div>
-                                            @if (detail.Product.PromoPrice == null)
-                                            {
-                                                <span class="orderhis__list-mini__item-product__info-price">
-                                                    @detail.Product.FormattedPrice(false)
-                                                </span>
-                                            }
-                                            else
-                                            {<span class="orderhis__list-mini__item-product__info-price">
-
-                                                    <span class="orderhis__list-price--origin">@detail.Product.FormattedPrice(true)</span>@detail.Product.FormattedPrice(false)
-                                                </span>
-                                            }
+                                            <span class="orderhis__list-mini__item-product__info-price">
+                                                @Helpers.FormattedPrice(detail.Price)
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -278,23 +242,23 @@
 </div>
 
 <script>
-            const navitemElements = document.querySelectorAll(
-                '.orderhis_nav__item'
-            );
-            const orderHistoryContents = document.querySelectorAll('.orderhis_nav__content')
+const navitemElements = document.querySelectorAll(
+    '.orderhis_nav__item'
+);
+const orderHistoryContents = document.querySelectorAll('.orderhis_nav__content')
 
-            navitemElements.forEach((navitem, index) => {
-                navitem.addEventListener('click', () => {
-                    // Item
-                    const itemActive = document.querySelector('.orderhis_nav__item--active')
-                    itemActive.classList.remove('orderhis_nav__item--active');
-                    navitem.classList.add('orderhis_nav__item--active');
+navitemElements.forEach((navitem, index) => {
+    navitem.addEventListener('click', () => {
+        // Item
+        const itemActive = document.querySelector('.orderhis_nav__item--active')
+        itemActive.classList.remove('orderhis_nav__item--active');
+        navitem.classList.add('orderhis_nav__item--active');
 
-                    // Content
-                    const contentActive = document.querySelector('.orderhis_nav__content--active')
-                    contentActive.classList.remove('orderhis_nav__content--active')
-                    orderHistoryContents[index].classList.add('orderhis_nav__content--active')
-                });
-            });
+        // Content
+        const contentActive = document.querySelector('.orderhis_nav__content--active')
+        contentActive.classList.remove('orderhis_nav__content--active')
+        orderHistoryContents[index].classList.add('orderhis_nav__content--active')
+    });
+});
 </script>
 
