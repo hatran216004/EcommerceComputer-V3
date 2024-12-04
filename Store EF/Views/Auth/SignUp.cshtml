@@ -19,13 +19,13 @@
         {
             @Html.ValidationSummary(true);
             <div class="signup-in__form-item">
-                <label class="signup-in__form-item-label" for="email">Email</label>
+                <label class="signup-in__form-item-label" for="email" style="width:80px">Email</label>
                 @Html.TextBoxFor(m => m.Email, new { @class = "signup-in__form-item-input", id = "email" })
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
 
             <div class="signup-in__form-item">
-                <label class="signup-in__form-item-label" for="password">Mật khẩu</label>
+                <label class="signup-in__form-item-label" for="password" style="width:80px">Mật khẩu</label>
                 @Html.PasswordFor(m => m.Password, new { @class = "signup-in__form-item-input", id = "password" })
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>

@@ -33,13 +33,13 @@
         @using (Html.BeginForm("SignIn", "Auth", FormMethod.Post, new { @class = "signup-in__form-group" }))
         {
             <div class="signup-in__form-item">
-                @Html.LabelFor(m => m.Email, new { @class = "signup-in__form-item-label", @for = "email" })
+                @Html.LabelFor(m => m.Email, new { @class = "signup-in__form-item-label", @for = "email", @style = "width:80px" })
                 @Html.TextBoxFor(m => m.Email, new { @class = "signup-in__form-item-input", id = "email", type = "text" })
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
 
             <div class="signup-in__form-item">
-                @Html.LabelFor(m => m.Password, new { @class = "signup-in__form-item-label", @for = "password" })
+                @Html.LabelFor(m => m.Password, new { @class = "signup-in__form-item-label", @for = "password", @style = "width:80px" })
                 @Html.PasswordFor(m => m.Password, new { @class = "signup-in__form-item-input", id = "password" })
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>
