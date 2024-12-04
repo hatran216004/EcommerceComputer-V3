@@ -20,12 +20,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/Toastify.min.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
-    <div class="container">
-        @RenderBody()
-    </div>
+    <div class="layout">
+        @Html.Partial("_Header")
+        <div class="container">
+            @RenderBody()
+        </div>
 
-    @Html.Partial("_Footer")
+        @Html.Partial("_Footer")
+    </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

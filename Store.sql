@@ -463,7 +463,31 @@ BEGIN
 END
 GO
 
-SELECT dbo.StarAVG(4)
+GO
+CREATE OR ALTER FUNCTION CurrentPayment(@UserId INT)
+RETURNS INT
+AS
+BEGIN
+	IF (SELECT Count(UserId) FROM [User] WHERE UserId = @UserId) = 0
+		RETURN 0
+	
+	DECLARE TMP CURSOR LOCAL SCROLL STATIC
+	FOR SELECT PaymentId FROM [User] JOIN [Order] ON [Order].UserId = [User].UserId JOIN Payment P ON P.OrderId = [Order].OrderId WHERE [User].UserId = @UserId
+	OPEN TMP
+	DECLARE @PaymentId INT
+	FETCH NEXT FROM TMP INTO @PaymentId
+	WHILE (@@FETCH_STATUS=0)
+	BEGIN
+		IF (SELECT [Status] FROM Payment WHERE PaymentId = @PaymentId) = 'Waitting' AND (SELECT Expiry FROM Payment WHERE PaymentId = @PaymentId) >= GETDATE()	
+			RETURN @PaymentId
+		FETCH NEXT FROM TMP INTO @PaymentId
+	END
+	CLOSE TMP
+	DEALLOCATE TMP
+
+	RETURN 0
+END
+GO
 
 GO
 CREATE OR ALTER PROC ChangeActiveState(@UserId INT)
@@ -484,10 +508,6 @@ BEGIN
 		END
 END
 GO
-
-DECLARE @Out BIT
-EXEC @Out = ChangeActiveState 28
-SELECT @Out
 
 GO
 CREATE OR ALTER VIEW ViewReport AS 
