@@ -9,6 +9,9 @@
 
 }
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+
 <div class="add-product__main">
     <div class="add-product__header">
         <div class="add-product__title">Cập nhật giá</div>
@@ -154,3 +157,39 @@
     categoryIDElement.addEventListener("change", filterProducts);
 
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
+@{
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+}
+
+@if (successMessage != null)
+{
+    <script>
+        Toastify({
+            text: `@successMessage`,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#4CAF50", // Màu nền thông báo thành công
+            className: "info",
+        }).showToast();
+    </script>
+}
+
+@if (errorMessage != null)
+{
+    <script>
+        Toastify({
+            text: `@errorMessage`,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#FF0000", // Màu nền thông báo lỗi
+            className: "error",
+        }).showToast();
+    </script>
+}
