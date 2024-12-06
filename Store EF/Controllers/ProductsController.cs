@@ -15,7 +15,7 @@ namespace Store_EF.Controllers
     {
         StoreEntities store = new StoreEntities();
 
-        public ActionResult Index(int page = 1, string category = "", string brand = "")
+        public ActionResult Index(int page = 1, string category = "", int brand = 0, int minPrice = 0, int maxPrice = 0)
         {
             if (Session["UserId"] != null)
             {
@@ -32,11 +32,23 @@ namespace Store_EF.Controllers
                 var products = store.Products.Where(x => x.Stock != 0);
                 if (category.Length != 0)
                     products = products.Where(x => x.Category.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
-                if (brand.Length != 0)
-                    products = products.Where(x => x.Brand.Name.Equals(brand, StringComparison.OrdinalIgnoreCase));
+                if (brand != 0)
+                    products = products.Where(x => x.BrandId == brand);
+                if (maxPrice > minPrice)
+                {
+                    List<Product> tmp = new List<Product>();
+                    foreach (var product in products) { 
+                        if (product.AutoPrice() >= minPrice && product.AutoPrice() <= maxPrice)
+                            tmp.Add(product);
+                    }
+                    products = tmp.AsQueryable();
+                }
                 int maxPage = products.ToList().MaxPage(pageSize);
                 if (page > maxPage)
                     page = maxPage;
+                ViewBag.Brand = brand;
+                ViewBag.MinPrice = minPrice;
+                ViewBag.MaxPrice = maxPrice;
                 ViewBag.MaxPage = maxPage;
                 return View(products.OrderByDescending(x => x.CreatedAt).ToPagedList(page, pageSize));
             }
@@ -63,7 +75,7 @@ namespace Store_EF.Controllers
                 page = 1;
             try
             {
-                var products = store.Products.Where(x => x.Stock != 0).ToList().Where(c => c.Title.ToLower().Contains(product.ToLower()));
+                var products = store.Products.Where(x => x.Stock != 0).ToList().Where(c => c.Title.ToLower().Contains(product.ToLower()) || c.Spec.ToLower().Contains(product.ToLower()) || c.Description.ToLower().Contains(product.ToLower()));
                 ViewBag.MaxPage = products.MaxPage(pageSize);
                 return View("Index", products.OrderByDescending(x => x.CreatedAt).ToPagedList(page, pageSize));
             }

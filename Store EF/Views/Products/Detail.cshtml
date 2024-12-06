@@ -118,10 +118,18 @@
                                             <img src="./assets/icons/document.svg"
                                                  alt=""
                                                  class="prod-property__icon icon" />
-
-                                            <h4 class="prod-property__title">
-                                                Còn lại: @Model.Stock chiếc
-                                            </h4>
+                                            @if (Model.Stock > 0)
+                                            {
+                                                <h4 class="prod-property__title">
+                                                    Còn lại: @Model.Stock chiếc
+                                                </h4>
+                                            }
+                                            else
+                                            {
+                                                <h4 class="prod-property__title">
+                                                    Sản phẩm đã hết!
+                                                </h4>
+                                            }
                                         </div>
 
                                         <div class="prod-property">
@@ -153,7 +161,7 @@
 
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
-                                                <span class="prod-info__price">@Model.FormattedPrice(true)</span>
+                                                <span class="prod-info__price" style="text-decoration:line-through;color:dimgrey">@Model.FormattedPrice(true)</span>
                                                 <span class="prod-info__tax">@Model.DiscountPercentage()%</span>
                                             </div>
                                             <span class="prod-info__totle-price">@Model.FormattedPrice()</span>

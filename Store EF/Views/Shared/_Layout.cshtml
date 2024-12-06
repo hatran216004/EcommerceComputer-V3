@@ -31,17 +31,5 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
-    <script>
-        const toggleButton = document.getElementById('toggle-filter');
-        const filterSection = document.getElementById('filter-section');
-
-        toggleButton.addEventListener('click', () => {
-            filterSection.classList.toggle('hidden');
-            toggleButton.textContent = filterSection.classList.contains('hidden')
-                ? 'Bộ Lọc'
-                : 'Ẩn bộ lọc';
-        });
-    </script>
 </body>
 </html>

@@ -28,67 +28,45 @@
             </div>
 
             <!-- Filter -->
-            <div class="filter-container hidden" id="filter-section">
-                <!-- Lọc theo giá -->
-                <div class="filter-group">
-                    <label for="min-price">Giá tối thiểu:</label>
-                    <input type="number" id="min-price" placeholder="Nhập giá thấp nhất">
-                </div>
-                <div class="filter-group">
-                    <label for="max-price">Giá tối đa:</label>
-                    <input type="number" id="max-price" placeholder="Nhập giá cao nhất">
-                </div>
+            <form method="get">
+                <div class="filter-container hidden" id="filter-section">
+                    <!-- Lọc theo giá -->
+                    <div class="filter-group">
+                        <label for="min-price">Giá tối thiểu:</label>
+                        <input type="number" id="min-price" min="0" name="minPrice" value="@ViewBag.MinPrice" placeholder="Nhập giá thấp nhất">
+                    </div>
+                    <div class="filter-group">
+                        <label for="max-price">Giá tối đa:</label>
+                        <input type="number" id="max-price" min="0" name="maxPrice" value="@ViewBag.MaxPrice" placeholder="Nhập giá cao nhất">
+                    </div>
 
-                <!-- Lọc theo brand -->
-                <div class="filter-group">
-                    <label>Thương hiệu:</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" value="Dell"> Dell</label>
-                        <label><input type="checkbox" value="HP"> HP</label>
-                        <label><input type="checkbox" value="Asus"> Asus</label>
-                        <label><input type="checkbox" value="Lenovo"> Lenovo</label>
-                        <label><input type="checkbox" value="Apple"> Apple</label>
+                    <!-- Lọc theo brand -->
+                    <div class="filter-group">
+                        <label>Thương hiệu:</label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" checked name="brand" value="0"> Tất cả</label>
+                            @foreach (Brand b in store.Brands)
+                            {
+                                if (ViewBag.Brand == b.BrandId)
+                                {
+                                    <label><input type="radio" checked name="brand" value="@b.BrandId"> @b.Name</label>
+                                }
+                                else
+                                {
+                                    <label><input type="radio" name="brand" value="@b.BrandId"> @b.Name</label>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="filter-button">
+                        <button type="submit">Áp dụng</button>
                     </div>
                 </div>
-
-                <!-- Submit -->
-                <div class="filter-button">
-                    <button type="button">Áp dụng</button>
-                </div>
-            </div>
+            </form>
         </div>
         <section class="product">
-            @using (Html.BeginForm("Index", "Products", FormMethod.Get))
-            {
-                if (product != null)
-                {
-                    <input type="hidden" name="product" value="@product" />
-                }
-                if (category != null)
-                {
-                    <input type="hidden" name="category" value="@category" />
-                }
-                <label for="brand">Nhãn hiệu</label>
-                <select name="brand">
-                    <option value="">Tất cả</option>
-                    @foreach (Brand b in store.Brands)
-                    {
-                        if (b.Name.Equals(brand, StringComparison.OrdinalIgnoreCase))
-                        {
-                            <option value="@b.Name" selected>
-                                @b.Name
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="@b.Name">
-                                @b.Name
-                            </option>
-                        }
-                    }
-                </select>
-                <button type="submit">Lọc</button>
-            }
             <div class="product__list">
                 @if (Model != null)
                 {
@@ -128,6 +106,18 @@
                 }
             )
         </div>
+        <script>
+
+                const toggleButton = document.getElementById('toggle-filter');
+                const filterSection = document.getElementById('filter-section');
+
+                toggleButton.addEventListener('click', () => {
+                    filterSection.classList.toggle('hidden');
+                    toggleButton.textContent = filterSection.classList.contains('hidden')
+                        ? 'Bộ Lọc'
+                        : 'Ẩn bộ lọc';
+                });
+        </script>
     </main>
 </div>
 
