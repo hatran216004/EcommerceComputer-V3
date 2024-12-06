@@ -3,8 +3,8 @@ GO
 USE Store
 GO
 
-CREATE LOGIN Admin WITH PASSWORD = 'Admin@123';  
-CREATE USER Admin FOR LOGIN Admin;  
+CREATE LOGIN [Admin] WITH PASSWORD = 'Admin@123';  
+CREATE USER [Admin] FOR LOGIN Admin;  
 
 CREATE LOGIN UserManager WITH PASSWORD = '123';  
 CREATE USER UserManager FOR LOGIN UserManager;  
