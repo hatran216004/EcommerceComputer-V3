@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -197,12 +196,12 @@ namespace Store_EF.Controllers
                 page = 1;
             try
             {
-                var products = store.Products.Where(x => x.Stock != 0);
+                var products = store.Products;
                 int maxPage = products.ToList().MaxPage(pageSize);
                 if (page > maxPage)
                     page = maxPage;
                 ViewBag.MaxPage = maxPage;
-                return View(products.OrderBy(x => x.CreatedAt).ToPagedList(page, pageSize));
+                return View(products.OrderBy(x => x.Stock).ToPagedList(page, pageSize));
             }
             catch (Exception ex)
             {

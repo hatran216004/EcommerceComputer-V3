@@ -120,10 +120,20 @@
                                                  class="prod-property__icon icon" />
 
                                             <h4 class="prod-property__title">
-                                                @if(Model.CategoryId != null)
+                                                Còn lại: @Model.Stock chiếc
+                                            </h4>
+                                        </div>
+
+                                        <div class="prod-property">
+                                            <img src="./assets/icons/document.svg"
+                                                 alt=""
+                                                 class="prod-property__icon icon" />
+
+                                            <h4 class="prod-property__title">
+                                                @if (Model.CategoryId != null)
                                                 {
                                                     <span>Loại: @Model.Category.Name</span>
-                                                }                              
+                                                }
                                             </h4>
                                         </div>
 
@@ -140,7 +150,7 @@
                                                 </h4>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
                                                 <span class="prod-info__price">@Model.FormattedPrice(true)</span>

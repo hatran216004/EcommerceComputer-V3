@@ -7,3 +7,4 @@ PublishProfiles
 /Store EF/Web.config
 /Store EF/Public/Imgs/Products
 /Store EF/Web.config
+/Store EF/App_Data/backup.json
