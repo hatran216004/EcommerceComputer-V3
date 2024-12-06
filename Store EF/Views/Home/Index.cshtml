@@ -9,6 +9,42 @@
 <div class="container">
     <main>
         @Html.Partial("_Hero")
+        <div class="filter-wrapper">
+            <!-- Nút toggle -->
+            <div class="toggle-button">
+                <button type="button" id="toggle-filter">Bộ lọc</button>
+            </div>
+
+            <!-- Filter -->
+            <div class="filter-container hidden" id="filter-section">
+                <!-- Lọc theo giá -->
+                <div class="filter-group">
+                    <label for="min-price">Giá tối thiểu:</label>
+                    <input type="number" id="min-price" placeholder="Nhập giá thấp nhất">
+                </div>
+                <div class="filter-group">
+                    <label for="max-price">Giá tối đa:</label>
+                    <input type="number" id="max-price" placeholder="Nhập giá cao nhất">
+                </div>
+
+                <!-- Lọc theo brand -->
+                <div class="filter-group">
+                    <label>Thương hiệu:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" value="Dell"> Dell</label>
+                        <label><input type="checkbox" value="HP"> HP</label>
+                        <label><input type="checkbox" value="Asus"> Asus</label>
+                        <label><input type="checkbox" value="Lenovo"> Lenovo</label>
+                        <label><input type="checkbox" value="Apple"> Apple</label>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="filter-button">
+                    <button type="button">Áp dụng</button>
+                </div>
+            </div>
+        </div>
         <section class="product">
             <div class="product__list">
                 @foreach (Product p in Model)
@@ -34,3 +70,4 @@
         </section>
     </main>
 </div>
+
