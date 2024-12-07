@@ -1,6 +1,7 @@
 ﻿using Store_EF.Models;
 using Store_EF.Models.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ namespace Store_EF.Controllers
     public class OrderController : Controller
     {
         StoreEntities store = new StoreEntities();
+        SupportEntities support = new SupportEntities();
 
         public ActionResult Index()
         {
@@ -31,6 +33,7 @@ namespace Store_EF.Controllers
             User user = store.Users.First(x => x.UserId == userId);
             if (!user.IsConfirm)
                 return RedirectToAction("Verify", "Home");
+            support.UpdatePaymentStatus2();
             return View(store.Orders.OrderByDescending(x => x.CreatedAt));
         }
 

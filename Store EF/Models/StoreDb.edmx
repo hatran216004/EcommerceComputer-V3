@@ -89,11 +89,11 @@
           <Property Name="Price" Type="int" Nullable="false" />
           <Property Name="PromoPrice" Type="int" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Spec" Type="nvarchar(max)" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="BrandId" Type="int" />
           <Property Name="CategoryId" Type="int" />
-          <Property Name="Spec" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
@@ -119,7 +119,7 @@
           <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsConfirm" Type="bit" Nullable="false" />
           <Property Name="UniqueCode" Type="char" MaxLength="64" Nullable="false" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -132,15 +132,7 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="DateOfBirth" Type="date" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="View_Report">
-          <Property Name="Month" Type="int" />
-          <Property Name="Year" Type="int" />
-          <Property Name="TotalIncome" Type="money" />
-          <Property Name="TotalSold" Type="int" />
-        </EntityType>-->
-        <Association Name="FK__Cart__ProductId__59C55456">
+        <Association Name="FK__Cart__ProductId__6FB49575">
           <End Role="Product" Type="Self.Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -154,7 +146,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Cart__UserId__58D1301D">
+        <Association Name="FK__Cart__UserId__6EC0713C">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
@@ -166,7 +158,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Gallery__Product__55009F39">
+        <Association Name="FK__Gallery__Product__70A8B9AE">
           <End Role="Product" Type="Self.Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -180,7 +172,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Order__UserId__607251E5">
+        <Association Name="FK__Order__UserId__719CDDE7">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -192,7 +184,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Order__6442E2C9">
+        <Association Name="FK__OrderDeta__Order__72910220">
           <End Role="Order" Type="Self.Order" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -206,7 +198,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Produ__65370702">
+        <Association Name="FK__OrderDeta__Produ__73852659">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -218,7 +210,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Payment__OrderId__690797E6">
+        <Association Name="FK__Payment__OrderId__74794A92">
           <End Role="Order" Type="Self.Order" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -232,7 +224,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product__BrandId__503BEA1C">
+        <Association Name="FK__Product__BrandId__756D6ECB">
           <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -244,7 +236,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product__Categor__51300E55">
+        <Association Name="FK__Product__Categor__76619304">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -256,7 +248,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__ProductI__756D6ECB">
+        <Association Name="FK__Review__ProductI__7849DB76">
           <End Role="Product" Type="Self.Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -270,7 +262,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Review__UserId__74794A92">
+        <Association Name="FK__Review__UserId__7755B73D">
           <End Role="User" Type="Self.User" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -284,7 +276,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserDetai__UserI__43D61337">
+        <Association Name="FK__UserDetai__UserI__793DFFAF">
           <End Role="User" Type="Self.User" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -318,6 +310,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
         <Function Name="UpdatePaymentStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="int" Mode="In" />
         </Function>
+        
         <Function Name="UpdatePromoPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BrandId" Type="int" Mode="In" />
           <Parameter Name="CategoryId" Type="int" Mode="In" />
@@ -336,51 +329,51 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Cart__ProductId__59C55456" Association="Self.FK__Cart__ProductId__59C55456">
+          <AssociationSet Name="FK__Cart__ProductId__6FB49575" Association="Self.FK__Cart__ProductId__6FB49575">
             <End Role="Product" EntitySet="Product" />
             <End Role="Cart" EntitySet="Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK__Cart__UserId__58D1301D" Association="Self.FK__Cart__UserId__58D1301D">
+          <AssociationSet Name="FK__Cart__UserId__6EC0713C" Association="Self.FK__Cart__UserId__6EC0713C">
             <End Role="User" EntitySet="User" />
             <End Role="Cart" EntitySet="Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK__Gallery__Product__55009F39" Association="Self.FK__Gallery__Product__55009F39">
+          <AssociationSet Name="FK__Gallery__Product__70A8B9AE" Association="Self.FK__Gallery__Product__70A8B9AE">
             <End Role="Product" EntitySet="Product" />
             <End Role="Gallery" EntitySet="Gallery" />
           </AssociationSet>
-          <AssociationSet Name="FK__Order__UserId__607251E5" Association="Self.FK__Order__UserId__607251E5">
+          <AssociationSet Name="FK__Order__UserId__719CDDE7" Association="Self.FK__Order__UserId__719CDDE7">
             <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Order__6442E2C9" Association="Self.FK__OrderDeta__Order__6442E2C9">
+          <AssociationSet Name="FK__OrderDeta__Order__72910220" Association="Self.FK__OrderDeta__Order__72910220">
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Produ__65370702" Association="Self.FK__OrderDeta__Produ__65370702">
+          <AssociationSet Name="FK__OrderDeta__Produ__73852659" Association="Self.FK__OrderDeta__Produ__73852659">
             <End Role="Product" EntitySet="Product" />
             <End Role="OrderDetail" EntitySet="OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Payment__OrderId__690797E6" Association="Self.FK__Payment__OrderId__690797E6">
+          <AssociationSet Name="FK__Payment__OrderId__74794A92" Association="Self.FK__Payment__OrderId__74794A92">
             <End Role="Order" EntitySet="Order" />
             <End Role="Payment" EntitySet="Payment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product__BrandId__503BEA1C" Association="Self.FK__Product__BrandId__503BEA1C">
+          <AssociationSet Name="FK__Product__BrandId__756D6ECB" Association="Self.FK__Product__BrandId__756D6ECB">
             <End Role="Brand" EntitySet="Brand" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product__Categor__51300E55" Association="Self.FK__Product__Categor__51300E55">
+          <AssociationSet Name="FK__Product__Categor__76619304" Association="Self.FK__Product__Categor__76619304">
             <End Role="Category" EntitySet="Category" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__ProductI__756D6ECB" Association="Self.FK__Review__ProductI__756D6ECB">
+          <AssociationSet Name="FK__Review__ProductI__7849DB76" Association="Self.FK__Review__ProductI__7849DB76">
             <End Role="Product" EntitySet="Product" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
-          <AssociationSet Name="FK__Review__UserId__74794A92" Association="Self.FK__Review__UserId__74794A92">
+          <AssociationSet Name="FK__Review__UserId__7755B73D" Association="Self.FK__Review__UserId__7755B73D">
             <End Role="User" EntitySet="User" />
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserDetai__UserI__43D61337" Association="Self.FK__UserDetai__UserI__43D61337">
+          <AssociationSet Name="FK__UserDetai__UserI__793DFFAF" Association="Self.FK__UserDetai__UserI__793DFFAF">
             <End Role="User" EntitySet="User" />
             <End Role="UserDetail" EntitySet="UserDetail" />
           </AssociationSet>
@@ -596,7 +589,7 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
           <NavigationProperty Name="Orders" Relationship="StoreModel.FK__Order__UserId__607251E5" FromRole="User" ToRole="Order" />
           <NavigationProperty Name="Reviews" Relationship="StoreModel.FK__Review__UserId__74794A92" FromRole="User" ToRole="Review" />
           <NavigationProperty Name="UserDetail" Relationship="StoreModel.FK__UserDetai__UserI__43D61337" FromRole="User" ToRole="UserDetail" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -924,8 +917,8 @@ warning 6013: The table/view 'Store.dbo.View_Report' does not have a primary key
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

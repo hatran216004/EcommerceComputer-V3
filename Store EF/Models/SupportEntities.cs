@@ -194,5 +194,22 @@ namespace Store_EF.Models
             }
             return result;
         }
+
+        public void UpdatePaymentStatus2()
+        {
+            SqlCommand cmd = new SqlCommand("EXEC UpdatePaymentStatus2", conn);
+            cmd.CommandType = System.Data.CommandType.Text;
+            try
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                    conn.Open();
+                cmd.ExecuteNonQuery();
+                if (conn.State == System.Data.ConnectionState.Open)
+                    conn.Close();
+            }
+            catch (Exception ex) { 
+                Debug.WriteLine(ex);
+            }
+        }
     }
 }
