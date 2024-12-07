@@ -13,20 +13,18 @@
             <div class="product__list">
                 @foreach (Product p in Model)
                 {
+                    double result = p.DiscountPercentage();
                     <a class="product__item" href="@Url.Action("Detail", "Products", new { Id = p.ProductId })">
                         <div class="product__img">
                             <img src="~/Public/Imgs/Products/@p.Thumbnail()" alt="" />
-                            @{
-                                double result = p.DiscountPercentage();
-                                if (result != 0)
-                                {
-                                    <div class="product__sale">-@result%</div>
-                                }
+                            @if (result != 0)
+                            {
+                                <div class="product__sale">-@result%</div>
                             }
                         </div>
                         <div class="product__info">
                             <h3 class="product__name">@p.Title</h3>
-                            <div class="products__price">Giá: @p.FormattedPrice()</div>
+                            <div class="products__price" style="font-weight:bold">@p.FormattedPrice() @if (result != 0) { <span style="color:dimgray;font-size:small;text-decoration:line-through"> @Helpers.FormattedPrice(p.Price)</span> }</div>
                         </div>
                     </a>
                 }
