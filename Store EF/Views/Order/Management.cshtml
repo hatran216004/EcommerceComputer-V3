@@ -28,7 +28,7 @@
                     <td>@Helpers.FormattedPrice(o.TotalPrice)</td>
                     <td>@o.Status</td>
                     <td>@o.CreatedAt.ToString("dd-MM-yyyy HH:mm")</td>
-                    <td><a class="btn-detail" href="@Url.Action("Detail", "Order", new { id = o.OrderId })">Xem chi tiết</a></td>
+                    <td style="padding-left:0;padding-right:0"><a class="btn-detail" href="@Url.Action("Detail", "Order", new { id = o.OrderId })">Xem chi tiết</a></td>
                 </tr>
             }
         </tbody>

@@ -356,7 +356,6 @@
     <Content Include="Public\imgs\hero.png" />
     <Content Include="Public\imgs\Icon-Google.png" />
     <Content Include="Public\imgs\instagram.svg" />
-    <Content Include="Public\imgs\logo.png" />
     <Content Include="Public\imgs\logo.svg" />
     <Content Include="Public\imgs\logout.svg" />
     <Content Include="Public\imgs\MB.png" />
@@ -401,6 +400,7 @@
       <DependentUpon>StoreDb.edmx</DependentUpon>
     </Content>
     <Content Include="Public\provinces.json" />
+    <Content Include="Public\imgs\logo.png" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
